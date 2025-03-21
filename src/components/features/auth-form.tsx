@@ -15,6 +15,7 @@ const AuthForm = ({ mode }: { mode: string }) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
   return (
     <>
       <form className='space-y-4'>
