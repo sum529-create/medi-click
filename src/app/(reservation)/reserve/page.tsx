@@ -7,10 +7,15 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 
+/**
+ * 예약 페이지
+ *
+ */
+
 const ReservationPage = () => {
   return (
-    <div className='flex h-screen items-center justify-center bg-gray01'>
-      <Carousel className='w-1/3'>
+    <div className='flex h-screen w-screen items-center justify-center bg-gray01'>
+      <Carousel className='w-3/5'>
         <CarouselContent>
           <CarouselItem>
             <Card>
