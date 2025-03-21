@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import AuthForm from '@/components/features/auth-form';
+import AuthForm from '@/components/features/auth/AuthForm';
 import { PATH } from '@/constants/routerPath';
 
 const SignUpPage = () => {
