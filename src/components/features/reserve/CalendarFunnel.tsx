@@ -33,7 +33,7 @@ const CalendarFunnel = ({ onNext }: Props) => {
         <CardTitle className='text-xl'>
           원하는 예약 날짜를 선택해주세요.
         </CardTitle>
-        <p className=''>{getCalendarDate(date)}</p>
+        <p className='h-5 text-gray03'>{getCalendarDate(date)}</p>
       </CardHeader>
       <CardContent className='my-5 flex flex-col items-center justify-center'>
         <Calendar
