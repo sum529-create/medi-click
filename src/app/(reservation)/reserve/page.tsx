@@ -16,7 +16,7 @@ import {
 const ReservationPage = () => {
   return (
     <div className='flex h-screen w-screen items-center justify-center bg-gray01'>
-      <Carousel className='w-3/5'>
+      <Carousel className='w-1/2'>
         <CarouselContent>
           <CardContainer>
             <CalendarCard />
