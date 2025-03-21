@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang='ko'>
       <body>
         <Header />
-        <div className='flex min-h-[cal(100vh-60px)] flex-col items-center px-6 py-6 md:px-8'>
+        <div className='flex min-h-[cal(100vh-60px)] flex-col items-center'>
           {children}
         </div>
       </body>

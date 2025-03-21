@@ -9,7 +9,12 @@
   ],
   "plugins": ["@typescript-eslint", "import", "unused-imports"],
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
     "import/order": [
       "error",
       {
