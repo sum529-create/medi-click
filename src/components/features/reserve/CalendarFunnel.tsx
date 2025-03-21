@@ -16,7 +16,7 @@ interface Props {
 }
 
 const CalendarFunnel = ({ onNext }: Props) => {
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [date, setDate] = useState<Date | undefined>();
 
   const handleClick = () => {
     if (date) {
@@ -33,12 +33,14 @@ const CalendarFunnel = ({ onNext }: Props) => {
           원하는 예약 날짜를 선택해주세요.
         </CardTitle>
       </CardHeader>
+      <p>{date?.toISOString()}</p>
       <CardContent className='my-5 flex items-center justify-center'>
         <Calendar
           mode='single'
           selected={date}
           onSelect={setDate}
           className='rounded-md border shadow'
+          disabled={(date) => date < new Date()}
         />
       </CardContent>
       <CardFooter className='mt-auto flex justify-evenly'>
