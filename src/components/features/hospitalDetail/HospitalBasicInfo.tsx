@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button } from '../../ui/button';
 
 const HospitalBasicInfo = () => {
@@ -16,9 +15,6 @@ const HospitalBasicInfo = () => {
       <div className='flex flex-col gap-6'>
         <p className={textStyles.subInfo}>소아청소년과</p>
         <h3 className={textStyles.title}>오지현소아청소년과의원</h3>
-        <p className={textStyles.title}>
-          주소: 서울특별시 서대문구 통이로 413 연세스포트센터
-        </p>
         {hospitalDetails.map((info) => (
           <p key={info.label} className={textStyles.subInfo}>
             {info.label}: {info.value}
