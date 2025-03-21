@@ -10,7 +10,7 @@ import {
 const ReservationPage = () => {
   return (
     <div className='flex h-screen items-center justify-center bg-gray01'>
-      <Carousel>
+      <Carousel className='w-1/3'>
         <CarouselContent>
           <CarouselItem>
             <Card>
@@ -22,14 +22,14 @@ const ReservationPage = () => {
           <CarouselItem>
             <Card>
               <CardContent className='flex aspect-square items-center justify-center p-6'>
-                <span className='text-4xl font-semibold'>1</span>
+                <span className='text-4xl font-semibold'>2</span>
               </CardContent>
             </Card>
           </CarouselItem>
           <CarouselItem>
             <Card>
               <CardContent className='flex aspect-square items-center justify-center p-6'>
-                <span className='text-4xl font-semibold'>1</span>
+                <span className='text-4xl font-semibold'>3</span>
               </CardContent>
             </Card>
           </CarouselItem>
