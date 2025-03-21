@@ -1,40 +1,40 @@
 'use client';
 
 import { useFunnel } from '@use-funnel/browser';
-import CalendarFunnel from '@/components/features/reserve/CalendarCard';
-import FormCard from '@/components/features/reserve/FormCard';
-import ReserveTimeCard from '@/components/features/reserve/ReserveTimeCard';
+import CalendarFunnel from '@/components/features/reserve/CalendarFunnel';
+import FormFunnel from '@/components/features/reserve/FormFunnel';
+import TimeFunnel from '@/components/features/reserve/TimeFunnel';
 import { date, other, time } from '@/types/context';
 
 const ReservePage = () => {
   const funnel = useFunnel<{
-    날짜입력: date;
-    시간입력: time;
-    그외정보입력: other;
+    datePage: date;
+    timePage: time;
+    submitPage: other;
   }>({
-    id: 'my-funnel-app',
+    id: 'my-reservation',
     initial: {
-      step: '날짜입력',
+      step: 'datePage',
       context: {},
     },
   });
 
   switch (funnel.step) {
-    case '날짜입력':
+    case 'datePage':
       return (
         <CalendarFunnel
-          onNext={(date) => funnel.history.push('시간입력', { date })}
+          onNext={(date) => funnel.history.push('timePage', { date })}
         />
       );
-    case '시간입력':
+    case 'timePage':
       return (
-        <ReserveTimeCard
-          onNext={(time) => funnel.history.push('그외정보입력', { time })}
-          onPrev={() => funnel.history.replace('날짜입력')}
+        <TimeFunnel
+          onNext={(time) => funnel.history.push('submitPage', { time })}
+          onPrev={() => funnel.history.replace('datePage')}
         />
       );
-    case '그외정보입력':
-      return <FormCard onPrev={() => funnel.history.replace('시간입력')} />;
+    case 'submitPage':
+      return <FormFunnel onPrev={() => funnel.history.replace('timePage')} />;
     default:
       return <div>ReservePage</div>;
   }
