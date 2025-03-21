@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { PATH } from '@/constants/routerPath';
 import { Button } from '../ui/button';
@@ -13,9 +15,9 @@ const HospitalCard = () => {
         <h1 className='text-sm'>이비인후과</h1>
       </div>
       <div className='flex justify-end'>
-        <Link href={`${PATH.RESERVE}/${hospitalId}`}>
-          <Button>예약하기</Button>
-        </Link>
+        <Button asChild>
+          <Link href={`${PATH.RESERVE}/${hospitalId}`}>예약하기</Link>
+        </Button>
       </div>
     </div>
   );
