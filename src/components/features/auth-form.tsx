@@ -48,6 +48,7 @@ const AuthForm = ({ mode }: { mode: string }) => {
       </form>
       <div className='mt-4 text-center text-sm'>
         <span>아직 계정이 없으신가요? </span>
+
         <Link href='/signup' className='text-[#71C4EF] hover:text-[#1399DF]'>
           회원가입하러가기
         </Link>
