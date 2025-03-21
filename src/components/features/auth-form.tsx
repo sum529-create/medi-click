@@ -28,7 +28,7 @@ const AuthForm = ({ mode }: Props) => {
           placeholder='아이디'
           value={formData.id}
           onChange={handleChange}
-          className='bg-[#F1F3F5]'
+          className='bg-gray02'
           required
         />
       </div>
@@ -40,12 +40,12 @@ const AuthForm = ({ mode }: Props) => {
           placeholder='비밀번호'
           value={formData.password}
           onChange={handleChange}
-          className='bg-[#F1F3F5]'
+          className='bg-gray02'
           required
         />
       </div>
 
-      <Button className='w-full bg-[#71C4EF] text-white hover:bg-[#1399DF]'>
+      <Button className='w-full bg-main text-white hover:bg-main-hover'>
         로그인
       </Button>
     </form>
