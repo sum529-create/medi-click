@@ -25,72 +25,60 @@ const AuthForm = ({ mode }: Props) => {
 
   return (
     <form className='space-y-4'>
-      <div>
-        <Input
-          name='id'
-          type='text'
-          placeholder='이메일 주소'
-          value={formData.id}
-          onChange={handleChange}
-          className='bg-gray02'
-          required
-        />
-      </div>
+      <Input
+        name='id'
+        type='text'
+        placeholder={mode === 'login' ? '아이디' : '이메일 주소'}
+        value={formData.id}
+        onChange={handleChange}
+        className='bg-gray02'
+        required
+      />
 
-      <div>
-        <Input
-          name='password'
-          type='password'
-          placeholder='비밀번호'
-          value={formData.password}
-          onChange={handleChange}
-          className='bg-gray02'
-          required
-        />
-      </div>
+      <Input
+        name='password'
+        type='password'
+        placeholder='비밀번호'
+        value={formData.password}
+        onChange={handleChange}
+        className='bg-gray02'
+        required
+      />
 
       {mode === 'signup' && (
         <>
-          <div>
-            <Input
-              name='name'
-              type='text'
-              placeholder='닉네임'
-              value={formData.name}
-              onChange={handleChange}
-              className='bg-gray02'
-              required
-            />
-          </div>
+          <Input
+            name='name'
+            type='text'
+            placeholder='닉네임'
+            value={formData.name}
+            onChange={handleChange}
+            className='bg-gray02'
+            required
+          />
 
-          <div>
-            <Input
-              name='phone'
-              type='tel'
-              placeholder='전화번호'
-              pattern='[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}'
-              value={formData.phone}
-              onChange={handleChange}
-              className='bg-gray02'
-              required
-            />
-          </div>
+          <Input
+            name='phone'
+            type='tel'
+            placeholder='전화번호'
+            pattern='[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}'
+            value={formData.phone}
+            onChange={handleChange}
+            className='bg-gray02'
+            required
+          />
 
-          <div>
-            <Input
-              name='birthdate'
-              type='date'
-              placeholder='생년월일'
-              value={formData.birthday}
-              onChange={handleChange}
-              className='bg-gray02'
-              required
-            />
-          </div>
+          <Input
+            name='birthdate'
+            type='date'
+            placeholder='생년월일'
+            value={formData.birthday}
+            onChange={handleChange}
+            className='bg-gray02'
+            required
+          />
 
-          <div>
-            <Input placeholder='역할 선택' className='bg-gray02'></Input>
-          </div>
+          <Input placeholder='역할 선택' className='bg-gray02'></Input>
         </>
       )}
 
