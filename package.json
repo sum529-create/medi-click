@@ -48,6 +48,7 @@
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-unused-imports": "^4.1.4",
     "husky": "^8.0.0",
+    "kakao.maps.d.ts": "^0.1.40",
     "lint-staged": "^15.5.0",
     "postcss": "^8",
     "prettier": "^3.5.3",
