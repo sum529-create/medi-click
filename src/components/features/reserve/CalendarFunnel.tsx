@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { getCalendarDate } from '@/utils/func/getCalendarDate';
 
 interface Props {
   onNext: (date: string) => void;
@@ -28,13 +29,13 @@ const CalendarFunnel = ({ onNext }: Props) => {
 
   return (
     <CardContainer>
-      <CardHeader className='flex items-center justify-center pb-4'>
+      <CardHeader className='flex items-center justify-center'>
         <CardTitle className='text-xl'>
           원하는 예약 날짜를 선택해주세요.
         </CardTitle>
+        <p className=''>{getCalendarDate(date)}</p>
       </CardHeader>
-      <p>{date?.toISOString()}</p>
-      <CardContent className='my-5 flex items-center justify-center'>
+      <CardContent className='my-5 flex flex-col items-center justify-center'>
         <Calendar
           mode='single'
           selected={date}
