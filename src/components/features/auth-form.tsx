@@ -5,7 +5,11 @@ import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 
-const AuthForm = ({ mode }: { mode: string }) => {
+interface Props {
+  mode: string;
+}
+
+const AuthForm = ({ mode }: Props) => {
   const [formData, setFormData] = useState({
     id: '',
     password: '',
