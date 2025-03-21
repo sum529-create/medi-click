@@ -12,6 +12,10 @@ const AuthForm = ({ mode }: Props) => {
   const [formData, setFormData] = useState({
     id: '',
     password: '',
+    name: '',
+    phone: '',
+    birthday: '',
+    role: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +29,7 @@ const AuthForm = ({ mode }: Props) => {
         <Input
           name='id'
           type='text'
-          placeholder='아이디'
+          placeholder='이메일 주소'
           value={formData.id}
           onChange={handleChange}
           className='bg-gray02'
@@ -45,8 +49,53 @@ const AuthForm = ({ mode }: Props) => {
         />
       </div>
 
+      {mode === 'signup' && (
+        <>
+          <div>
+            <Input
+              name='name'
+              type='text'
+              placeholder='닉네임'
+              value={formData.name}
+              onChange={handleChange}
+              className='bg-gray02'
+              required
+            />
+          </div>
+
+          <div>
+            <Input
+              name='phone'
+              type='tel'
+              placeholder='전화번호'
+              pattern='[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}'
+              value={formData.phone}
+              onChange={handleChange}
+              className='bg-gray02'
+              required
+            />
+          </div>
+
+          <div>
+            <Input
+              name='birthdate'
+              type='date'
+              placeholder='생년월일'
+              value={formData.birthday}
+              onChange={handleChange}
+              className='bg-gray02'
+              required
+            />
+          </div>
+
+          <div>
+            <Input placeholder='역할 선택' className='bg-gray02'></Input>
+          </div>
+        </>
+      )}
+
       <Button className='w-full bg-main text-white hover:bg-main-hover'>
-        로그인
+        {mode === 'login' ? '로그인' : '회원가입'}
       </Button>
     </form>
   );
