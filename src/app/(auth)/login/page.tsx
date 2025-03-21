@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import AuthForm from '@/components/features/auth-form';
+import { PATH } from '@/constants/routerPath';
 
 const LoginPage = () => {
   return (
@@ -12,7 +13,7 @@ const LoginPage = () => {
         <div className='mt-4 text-center text-sm'>
           <span>아직 계정이 없으신가요? </span>
 
-          <Link href='/signup' className='text-main'>
+          <Link href={PATH.SIGNUP} className='text-main'>
             회원가입하러가기
           </Link>
         </div>
