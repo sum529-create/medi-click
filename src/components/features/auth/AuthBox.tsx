@@ -5,7 +5,7 @@ interface Props {
   title: string;
 }
 
-const AuthTitle = ({ children, title }: Props) => {
+const AuthBox = ({ children, title }: Props) => {
   return (
     <div className='flex h-[calc(100vh-80px)] items-center justify-center bg-gray01'>
       <div className='w-full max-w-xl rounded-2xl bg-white p-12 shadow-sm'>
@@ -16,4 +16,4 @@ const AuthTitle = ({ children, title }: Props) => {
   );
 };
 
-export default AuthTitle;
+export default AuthBox;
