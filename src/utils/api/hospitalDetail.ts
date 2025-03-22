@@ -30,8 +30,8 @@ const hospitalDetail = async (id: string, options?: { isServer?: boolean }) => {
       throw new Error('Failed to fetch hospital detail');
     }
     const data = await res.json();
-
-    return data.data[0];
+    const detailData = data.data[0];
+    return detailData;
   } catch (error) {
     console.error('Error fetching hospital details:', error);
     throw error;

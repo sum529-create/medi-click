@@ -1,1 +1,1 @@
-export const HOSPITAL_DETAIL_QUERY = 'hospitalDeatil';
+export const QUERY_KEY = { HOSPITAL_DETAIL: 'hospitalDetail' };

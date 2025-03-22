@@ -2,10 +2,11 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
+import Loading from '@/components/common/Loading';
 import HospitalBasicInfo from '@/components/features/hospitalDetail/HospitalBasicInfo';
 import InfoSection from '@/components/features/hospitalDetail/InfoSection';
 import ReviewSection from '@/components/features/hospitalDetail/ReviewSection';
-import { HOSPITAL_DETAIL_QUERY } from '@/constants/queryKey';
+import { QUERY_KEY } from '@/constants/queryKey';
 import hospitalDetail from '@/utils/api/hospitalDetail';
 import { convertToTimeFormat } from '@/utils/func/convertToTimeFormat';
 interface HospitalSectionType {
@@ -14,13 +15,15 @@ interface HospitalSectionType {
 
 const HospitalSection = ({ hpid }: HospitalSectionType) => {
   const WEEKS = useMemo(() => ['월', '화', '수', '목', '금', '토', '일'], []);
+  const STATE_WRAPPER_STYLE =
+    'flex h-[calc(100vh_-_80px)] w-full items-center justify-center';
   const {
     data: hospitalData,
     isPending,
     isError,
     error,
   } = useQuery({
-    queryKey: [HOSPITAL_DETAIL_QUERY, hpid],
+    queryKey: [QUERY_KEY.HOSPITAL_DETAIL, hpid],
     queryFn: () => hospitalDetail(hpid, { isServer: false }),
     enabled: !!hpid,
   });
@@ -70,11 +73,8 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
   // 로딩 상태 UI 개선
   if (isPending) {
     return (
-      <div className='flex min-h-[50vh] items-center justify-center p-8'>
-        <div className='h-12 w-12 animate-spin rounded-full border-b-2 border-blue-500'></div>
-        <span className='ml-3 text-gray-600'>
-          병원 정보를 불러오는 중입니다...
-        </span>
+      <div className={STATE_WRAPPER_STYLE}>
+        <Loading size={100} />
       </div>
     );
   }
@@ -82,21 +82,23 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
   // 에러 상태 UI 개선
   if (isError) {
     return (
-      <div className='bg-red-50 border-red-200 rounded-lg border p-6 text-center'>
-        <h3 className='text-red-800 mb-2 text-lg font-medium'>
-          데이터를 불러오는 중 오류가 발생했습니다
-        </h3>
-        <p className='text-red-700 mb-4 text-sm'>
-          {error instanceof Error
-            ? error.message
-            : '알 수 없는 오류가 발생했습니다.'}
-        </p>
-        <button
-          className='bg-red-100 text-red-700 hover:bg-red-200 rounded px-4 py-2 transition-colors'
-          onClick={() => window.location.reload()}
-        >
-          새로고침
-        </button>
+      <div className={STATE_WRAPPER_STYLE}>
+        <div className='border-gray mb-[130px] rounded-lg border p-6 text-center'>
+          <h3 className='mb-2 text-lg font-medium'>
+            데이터를 불러오는 중 오류가 발생했습니다
+          </h3>
+          <p className='mb-4 text-sm'>
+            {error instanceof Error
+              ? error.message
+              : '알 수 없는 오류가 발생했습니다.'}
+          </p>
+          <button
+            className='rounded px-4 py-2'
+            onClick={() => window.location.reload()}
+          >
+            새로고침
+          </button>
+        </div>
       </div>
     );
   }
