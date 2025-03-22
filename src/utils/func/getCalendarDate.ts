@@ -25,3 +25,23 @@ export const getSplitDate = (date: Date) => {
 
   return dateArr.join('-');
 };
+
+export const getReservationTime = (time: string) => {
+  const [hour, minute] = time.split(':').map(Number);
+
+  if (hour === 0) {
+    return `오전 12시 ${minute}분`;
+  }
+
+  if (1 <= hour && hour <= 11) {
+    return `오전 ${hour}시 ${minute}분`;
+  }
+
+  if (hour === 12) {
+    return `오후 12시 ${minute}분`;
+  }
+
+  if (12 <= hour && hour <= 23) {
+    return `오후 ${hour - 12}시 ${minute}분`;
+  }
+};

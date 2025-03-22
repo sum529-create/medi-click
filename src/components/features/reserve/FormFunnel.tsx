@@ -12,6 +12,10 @@ import {
 } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
+import {
+  getCalendarDate,
+  getReservationTime,
+} from '@/utils/func/getCalendarDate';
 
 interface Props {
   date: string;
@@ -28,7 +32,10 @@ const FormFunnel = ({ date, time, onPrev }: Props) => {
     { title: '성함', value: '김수임' },
     { title: '생년월일', value: '1900년 3월 20일' },
     { title: '예약 병원', value: '서울이비인후과' },
-    { title: '예약 날짜', value: '2025년 3월 30일 오후 2:00' },
+    {
+      title: '예약 날짜',
+      value: `${getCalendarDate(new Date(date))} ${getReservationTime(time)}`,
+    },
   ];
 
   return (
