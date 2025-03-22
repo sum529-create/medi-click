@@ -1,3 +1,10 @@
+/**
+ * convertToTimeFormat
+ * 시간 양식으로 변환하는 유틸 함수
+ * ex) 1400 -> 오전 14:00
+ * @param timeStr string
+ * @returns
+ */
 export const convertToTimeFormat = (timeStr: string) => {
   const hour = timeStr.slice(0, 2);
   const numHour = Number(hour);
