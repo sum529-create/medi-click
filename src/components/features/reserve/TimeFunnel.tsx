@@ -20,7 +20,7 @@ interface Props {
 }
 
 const TimeFunnel = ({ date, time, onNext, onPrev }: Props) => {
-  const [selectedTime, setSelectedTime] = useState('');
+  const [selectedTime, setSelectedTime] = useState(time);
 
   const handleClick = () => {
     if (selectedTime) {

@@ -30,12 +30,17 @@ const ReservePage = () => {
       timePage={({ context, history }) => (
         <TimeFunnel
           date={context.date}
+          time={context.time as string}
           onNext={(time) => history.push('submitPage', { time })}
           onPrev={(date) => history.replace('datePage', { date })}
         />
       )}
       submitPage={({ context, history }) => (
-        <FormFunnel onPrev={() => history.replace('timePage')} />
+        <FormFunnel
+          date={context.date as string}
+          time={context.time as string}
+          onPrev={() => history.replace('timePage')}
+        />
       )}
     />
   );

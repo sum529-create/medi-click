@@ -14,11 +14,14 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 
 interface Props {
+  date: string;
+  time: string;
   onPrev: () => void;
 }
 
-const FormFunnel = ({ onPrev }: Props) => {
+const FormFunnel = ({ date, time, onPrev }: Props) => {
   const [value, setValue] = useState('');
+  console.log(date, time);
 
   // 임시 데이터
   const reservationInfo = [
