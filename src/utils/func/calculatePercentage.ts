@@ -9,7 +9,9 @@ interface CalculateType {
   score: number;
   total: number;
 }
-export const calculatePercentage = ({ score, total }: CalculateType) => {
+const calculatePercentage = ({ score, total }: CalculateType) => {
   const percentage = (score / total) * 100;
   return percentage;
 };
+
+export default calculatePercentage;

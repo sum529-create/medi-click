@@ -1,31 +1,37 @@
-import React from 'react';
-import HospitalBasicInfo from '@/components/features/hospitalDetail/HospitalBasicInfo';
-import InfoSection from '@/components/features/hospitalDetail/InfoSection';
-import ReviewSection from '@/components/features/hospitalDetail/ReviewSection';
+import { Metadata } from 'next';
+import HospitalSection from '@/components/features/hospitalDetail/HospitalSection';
+import hospitalDetail from '@/utils/api/hospitalDetail';
 
-const hospitalDetailPage = () => {
-  return (
-    <div className='relative my-20 flex h-[100vh-80px] items-end'>
-      <div className='mx-auto my-0 flex max-w-screen-xl flex-1 flex-col justify-center'>
-        <HospitalBasicInfo />
-        <InfoSection title='진료 정보'>
-          <p>
-            <b>진료 시간</b>: 오전 07:55 ~ 오후 06:00
-          </p>
-          <p>
-            <b>점심 시간</b>: 오후 12:00 ~ 오후 01:00
-          </p>
-          <p>
-            <span className='text-red'>휴무</span>: 일요일
-          </p>
-        </InfoSection>
-        <InfoSection title='병원 정보'>
-          <p>아토피, 천식 등의 소아 전문 치료</p>
-        </InfoSection>
-        <ReviewSection />
-      </div>
-    </div>
-  );
+interface PageProps {
+  params: { id: string[] };
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const id = params?.id[0];
+
+  if (!id) {
+    return { title: '병원 정보' };
+  }
+
+  try {
+    // isServer 옵션을 true로 설정
+    const hospitalData = await hospitalDetail(id, { isServer: true });
+
+    return {
+      title: hospitalData?.dutyName || '병원 정보',
+      description: hospitalData?.dutyAddr || '병원 상세 정보',
+    };
+  } catch (error) {
+    console.error('Error generating metadata:', error);
+    return { title: '병원 정보' };
+  }
+}
+
+const HospitalDetailPage = ({ params }: PageProps) => {
+  const hospitalId = params?.id[0];
+  return <HospitalSection hpid={hospitalId} />;
 };
 
-export default hospitalDetailPage;
+export default HospitalDetailPage;
