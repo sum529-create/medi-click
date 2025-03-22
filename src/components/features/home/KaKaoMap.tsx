@@ -1,14 +1,36 @@
 'use client';
 
-import { Map } from 'react-kakao-maps-sdk';
+import { useEffect, useState } from 'react';
+import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import Loading from '@/components/common/Loading';
 import { useCurrentLocation } from '@/hooks/map/useCurrentLocation';
 import { useKakaoLoad } from '@/hooks/map/useKakaoLoad';
+import { Location } from '@/types/map';
+import { getAllHospitalLocation } from '@/utils/api/hospitals';
 
 const KaKaoMap = () => {
   const currentLocation = useCurrentLocation();
 
   const [loading, error] = useKakaoLoad();
+
+  const [hospitalLocationList, setHospitalLocationList] = useState<Location[]>(
+    [],
+  );
+
+  useEffect(() => {
+    const fetchAllHospitalLocation = async () => {
+      try {
+        const allHospitalLocation = await getAllHospitalLocation();
+        if (allHospitalLocation) {
+          setHospitalLocationList(allHospitalLocation);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchAllHospitalLocation();
+  }, []);
 
   if (loading)
     return (
@@ -26,7 +48,11 @@ const KaKaoMap = () => {
 
   return (
     <div className='relative w-full flex-[2]'>
-      <Map center={currentLocation} level={3} className='h-full w-full' />
+      <Map center={currentLocation} level={3} className='h-full w-full'>
+        {hospitalLocationList.map((position, idx) => {
+          return <MapMarker key={idx} position={position} />;
+        })}
+      </Map>
     </div>
   );
 };
