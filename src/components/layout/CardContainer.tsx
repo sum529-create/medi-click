@@ -1,16 +1,12 @@
-import React from 'react';
-import { Card, CardContent } from '../ui/card';
-import { CarouselItem } from '../ui/carousel';
+import { Card } from '../ui/card';
 
 const CardContainer = ({ children }: { children: React.ReactNode }) => {
   return (
-    <CarouselItem>
-      <Card>
-        <CardContent className='flex aspect-square items-center justify-center p-6'>
-          {children}
-        </CardContent>
+    <div className='flex h-screen w-full justify-center bg-gray02 pt-10'>
+      <Card className='h-[600px] w-[650px] rounded-lg p-6 shadow-lg'>
+        {children}
       </Card>
-    </CarouselItem>
+    </div>
   );
 };
 
