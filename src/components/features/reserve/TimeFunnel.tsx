@@ -41,7 +41,6 @@ const afternoon = [
 
 const TimeFunnel = ({ date, time, onNext, onPrev }: Props) => {
   const [selectedTime, setSelectedTime] = useState(time);
-  console.log(selectedTime);
 
   return (
     <CardContainer>
