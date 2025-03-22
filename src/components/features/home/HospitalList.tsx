@@ -1,4 +1,5 @@
 import HospitalCard from '@/components/common/HospitalCard';
+import Title from '@/components/ui/Title';
 import { getAllHospitalData } from '@/utils/api/hospitals';
 
 const HospitalList = async () => {
@@ -7,7 +8,7 @@ const HospitalList = async () => {
 
   return (
     <div className='border-gray-03 flex flex-[1] flex-col gap-4 border-2 bg-white p-6'>
-      <h1 className='text-xl font-bold'>병원 목록</h1>
+      <Title>병원 목록</Title>
       {hospitalList?.map((hospital) => {
         return <HospitalCard key={hospital.id} hospital={hospital} />;
       })}
