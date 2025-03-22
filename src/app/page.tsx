@@ -5,7 +5,7 @@ import SearchBar from '@/components/features/home/SearchBar';
 
 export default function Home() {
   return (
-    <div className='relative flex w-full flex-col items-center gap-5 px-20 pb-10 pt-5 text-xl'>
+    <div className='flex w-full flex-col items-center gap-5 px-20 pb-10 pt-5 text-xl'>
       <Banner />
       <SearchBar />
       <div className='flex w-full gap-5'>
