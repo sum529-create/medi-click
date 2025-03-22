@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Select,
   SelectContent,
@@ -30,15 +30,19 @@ const AuthForm = ({ mode }: Props) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const AuthInputClassName = 'h-14 w-full rounded-lg bg-gray02 px-5 text-lg';
+
   return (
-    <form className='space-y-4'>
+    <form
+      className={`flex flex-col space-y-5 ${mode === 'login' ? 'mb-10' : 'mb-8'}`}
+    >
       <Input
         name='id'
         type='text'
         placeholder={mode === 'login' ? '아이디' : '이메일 주소'}
         value={formData.id}
         onChange={handleChange}
-        className='bg-gray02'
+        className={AuthInputClassName}
         required
       />
 
@@ -48,7 +52,7 @@ const AuthForm = ({ mode }: Props) => {
         placeholder='비밀번호'
         value={formData.password}
         onChange={handleChange}
-        className='bg-gray02'
+        className={AuthInputClassName}
         required
       />
 
@@ -57,10 +61,10 @@ const AuthForm = ({ mode }: Props) => {
           <Input
             name='name'
             type='text'
-            placeholder='닉네임'
+            placeholder='이름'
             value={formData.name}
             onChange={handleChange}
-            className='bg-gray02'
+            className={AuthInputClassName}
             required
           />
 
@@ -71,7 +75,7 @@ const AuthForm = ({ mode }: Props) => {
             pattern='[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}'
             value={formData.phone}
             onChange={handleChange}
-            className='bg-gray02'
+            className={AuthInputClassName}
             required
           />
 
@@ -81,12 +85,12 @@ const AuthForm = ({ mode }: Props) => {
             placeholder='생년월일'
             value={formData.birthday}
             onChange={handleChange}
-            className='bg-gray02'
+            className={AuthInputClassName}
             required
           />
 
           <Select>
-            <SelectTrigger className='bg-gray02'>
+            <SelectTrigger className='h-14 w-full rounded-lg bg-gray02 px-5 text-lg'>
               <SelectValue placeholder='역할 선택' />
             </SelectTrigger>
             <SelectContent>
@@ -98,7 +102,7 @@ const AuthForm = ({ mode }: Props) => {
         </>
       )}
 
-      <Button className='w-full bg-main text-white hover:bg-main-hover'>
+      <Button className='h-12 w-full rounded-lg text-base font-medium'>
         {mode === 'login' ? '로그인' : '회원가입'}
       </Button>
     </form>
