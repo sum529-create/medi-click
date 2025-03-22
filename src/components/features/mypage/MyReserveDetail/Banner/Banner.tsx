@@ -22,7 +22,7 @@ const Banner = () => {
         <Button className='h-[44px] w-[146px] rounded-[10px] font-bold'>
           예약 취소
         </Button>
-        <Button className='h-[44px] w-[146px] rounded-[10px] border-2 border-deep-blue bg-white font-bold text-deep-blue'>
+        <Button className='h-[44px] w-[146px] rounded-[10px] border-2 border-deep-blue bg-white font-bold text-deep-blue hover:bg-gray02'>
           병원 상세
         </Button>
       </div>
