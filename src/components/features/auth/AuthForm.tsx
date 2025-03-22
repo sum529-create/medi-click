@@ -57,7 +57,7 @@ const AuthForm = ({ mode }: Props) => {
           <Input
             name='name'
             type='text'
-            placeholder='닉네임'
+            placeholder='이름'
             value={formData.name}
             onChange={handleChange}
             className='bg-gray02'
