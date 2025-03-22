@@ -1,6 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 
@@ -78,7 +85,16 @@ const AuthForm = ({ mode }: Props) => {
             required
           />
 
-          <Input placeholder='역할 선택' className='bg-gray02'></Input>
+          <Select>
+            <SelectTrigger className='bg-gray02'>
+              <SelectValue placeholder='역할 선택' />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value='doctor'>의사</SelectItem>
+              <SelectItem value='nurse'>간호사</SelectItem>
+              <SelectItem value='patient'>환자</SelectItem>
+            </SelectContent>
+          </Select>
         </>
       )}
 
