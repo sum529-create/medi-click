@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import CardContainer from '@/components/layout/CardContainer';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -26,7 +27,7 @@ const CalendarFunnel = ({ date, onNext }: Props) => {
     if (selectedDate) {
       onNext(getSplitDate(selectedDate));
     } else {
-      alert('날짜를 선택해주세요');
+      toast.error('예약 날짜를 선택해주세요.');
     }
   };
 
