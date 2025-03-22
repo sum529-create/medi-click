@@ -43,7 +43,19 @@ const CalendarFunnel = ({ date, onNext }: Props) => {
           mode='single'
           selected={selectedDate}
           onSelect={setSelectedDate}
-          className='rounded-md border shadow'
+          className='w-full rounded-md border p-3 shadow'
+          classNames={{
+            caption: 'flex justify-center pt-1 relative items-center mb-3',
+            caption_label: 'text-lg',
+            months: 'flex w-full justify-center',
+            month: 'w-full',
+            table: 'w-full table-fixed border-collapse',
+            head_row: '',
+            head_cell: 'text-muted-foreground text-center w-[40px] h-[40px]',
+            row: '',
+            cell: 'p-0 text-center align-middle',
+            day: 'w-[40px] h-[40px] rounded hover:bg-accent hover:text-accent-foreground focus:outline-none mb-2',
+          }}
           disabled={(date) => date < new Date()}
         />
       </CardContent>
