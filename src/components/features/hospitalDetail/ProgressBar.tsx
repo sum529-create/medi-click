@@ -1,4 +1,4 @@
-import { calculatePercentage } from '@/utils/func/calculatePercentage';
+import calculatePercentage from '@/utils/func/calculatePercentage';
 
 interface ProgressBarType {
   reviewText: string;
