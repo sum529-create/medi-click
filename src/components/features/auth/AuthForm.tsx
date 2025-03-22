@@ -98,7 +98,7 @@ const AuthForm = ({ mode }: Props) => {
         </>
       )}
 
-      <Button className='w-full bg-main text-white hover:bg-main-hover'>
+      <Button className='w-full'>
         {mode === 'login' ? '로그인' : '회원가입'}
       </Button>
     </form>
