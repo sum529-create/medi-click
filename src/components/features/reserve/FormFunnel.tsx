@@ -46,6 +46,7 @@ const FormFunnel = ({ onPrev }: Props) => {
           <label htmlFor='reason' className='font-bold'>
             방문 사유
           </label>
+          {/* onChange 이벤트 핸들러는 아직 만들지 않은 상태입니다 */}
           <Textarea
             id='reason'
             value={value}
