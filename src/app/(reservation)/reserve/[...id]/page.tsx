@@ -6,7 +6,13 @@ import FormFunnel from '@/components/features/reserve/FormFunnel';
 import TimeFunnel from '@/components/features/reserve/TimeFunnel';
 import { date, other, time } from '@/types/context';
 
-const ReservePage = () => {
+interface Params {
+  params: {
+    id: string;
+  };
+}
+
+const ReservePage = ({ params }: Params) => {
   const funnel = useFunnel<{
     datePage: date;
     timePage: time;
@@ -39,6 +45,8 @@ const ReservePage = () => {
         <FormFunnel
           date={context.date as string}
           time={context.time as string}
+          other={context.other as unknown}
+          id={params.id}
           onPrev={() => history.replace('timePage')}
         />
       )}

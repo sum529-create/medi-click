@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Loading from '@/components/common/Loading';
 import CardContainer from '@/components/layout/CardContainer';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,6 +13,7 @@ import {
 } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
+import { useHospitalName } from '@/hooks/map/useHospitalName';
 import {
   getCalendarDate,
   getReservationTime,
@@ -20,18 +22,23 @@ import {
 interface Props {
   date: string;
   time: string;
+  id: string;
+  other: unknown;
   onPrev: () => void;
 }
 
-const FormFunnel = ({ date, time, onPrev }: Props) => {
+const FormFunnel = ({ date, time, id, onPrev }: Props) => {
   const [value, setValue] = useState('');
-  console.log(date, time);
+
+  const { data: name, isPending } = useHospitalName(id);
+
+  if (isPending) return <Loading size={100} />;
 
   // 임시 데이터
   const reservationInfo = [
     { title: '성함', value: '김수임' },
     { title: '생년월일', value: '1900년 3월 20일' },
-    { title: '예약 병원', value: '서울이비인후과' },
+    { title: '예약 병원', value: `${name}` },
     {
       title: '예약 날짜',
       value: `${getCalendarDate(new Date(date))} ${getReservationTime(time)}`,
