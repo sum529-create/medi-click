@@ -1,29 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
 import Loading from '@/components/common/Loading';
+import { useCurrentLocation } from '@/hooks/map/useCurrentLocation';
 import { useKakaoLoad } from '@/hooks/map/useKakaoLoad';
-import { Location } from '@/types/map';
 
 const KaKaoMap = () => {
-  const [currentLocation, setCurrentLocation] = useState<Location>({
-    lat: 33.450701,
-    lng: 126.570667,
-  });
-
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setCurrentLocation({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
-      });
-    } else {
-      setCurrentLocation((prev) => ({ ...prev }));
-    }
-  }, []);
+  const currentLocation = useCurrentLocation();
 
   const [loading, error] = useKakaoLoad();
 
