@@ -2,7 +2,7 @@
  * 제목 컴포넌트입니다. font-bold 속성이 기본 설정되어 있습니다.
  *
  * @example
- * <Title tag='h1' size='xl' margin='md' align='center' color='main'>
+ * <Title tag='h1' size='xl' align='center' color='main'>
  *   제목 컴포넌트입니다.
  * </Title>
  *
@@ -10,7 +10,6 @@
  *
  * @prop {tag} tag - 태그 종류  ('h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6')
  * @prop {size} [size] - 글자 크기 ('xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl')
- * @prop {margin} [margin] - 마진 크기 ('sm' | 'md' | 'lg')
  * @prop {align} [align] - 정렬 위치 ('left' | 'center' | 'right')
  * @prop {color} [color] - 색상 ('main' | 'main-hover' | 'sub' | 'sub-hover' | 'black01' | 'black02' | 'gray01' | 'gray02' | 'gray03' | 'red' | 'deep-blue')
  */
@@ -19,7 +18,6 @@ export interface TitleProps {
   children: React.ReactNode;
   tag: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
-  margin?: 'sm' | 'md' | 'lg';
   align: 'left' | 'center' | 'right';
   color:
     | 'main'
@@ -35,7 +33,7 @@ export interface TitleProps {
     | 'deep-blue';
 }
 
-const Title = ({ tag, size, margin, align, color, children }: TitleProps) => {
+const Title = ({ tag, size, align, color, children }: TitleProps) => {
   const Tag = tag;
 
   const sizeStyles: Record<TitleProps['size'], string> = {
@@ -47,12 +45,6 @@ const Title = ({ tag, size, margin, align, color, children }: TitleProps) => {
     '2xl': 'text-3xl md:text-4xl lg:text-5xl',
     '3xl': 'text-4xl md:text-5xl lg:text-6xl',
     '4xl': 'text-5xl md:6xl lg:text-7xl',
-  };
-
-  const marginStyles: Record<NonNullable<TitleProps['margin']>, string> = {
-    sm: 'm-1 lg:m-2',
-    md: 'm-2 md:m-3 lg:m-4',
-    lg: 'm-4 md:m-5 lg:m-6',
   };
 
   const colorStyles: Record<TitleProps['color'], string> = {
@@ -73,7 +65,7 @@ const Title = ({ tag, size, margin, align, color, children }: TitleProps) => {
 
   const baseStyles: string = 'font-bold';
 
-  const styles: string = `${baseStyles} ${sizeStyles[size]} ${margin ? marginStyles[margin] : ''} ${colorStyles[color]} ${alignStyles}`;
+  const styles: string = `${baseStyles} ${sizeStyles[size]} ${colorStyles[color]} ${alignStyles}`;
 
   return <Tag className={styles}>{children}</Tag>;
 };
