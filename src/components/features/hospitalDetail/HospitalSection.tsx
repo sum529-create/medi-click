@@ -1,7 +1,6 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import HospitalBasicInfo from '@/components/features/hospitalDetail/HospitalBasicInfo';
 import InfoSection from '@/components/features/hospitalDetail/InfoSection';
@@ -9,12 +8,14 @@ import ReviewSection from '@/components/features/hospitalDetail/ReviewSection';
 import { HOSPITAL_DETAIL_QUERY } from '@/constants/queryKey';
 import hospitalDetail from '@/utils/api/hospitalDetail';
 import { convertToTimeFormat } from '@/utils/func/convertToTimeFormat';
+interface HospitalSectionType {
+  hpid: string;
+}
 
-const HospitalSection = () => {
+const HospitalSection = ({ hpid }: HospitalSectionType) => {
   const [dutyTimes, setDutyTimes] = useState<string[][]>([]);
   const [restWeeks, setRestWeeks] = useState<string[]>([]);
-  const { id } = useParams();
-  const hpid = id[0];
+
   const WEEKS = useMemo(() => ['월', '화', '수', '목', '금', '토', '일'], []);
   const {
     data: hospitalData,
@@ -22,7 +23,7 @@ const HospitalSection = () => {
     isError,
   } = useQuery({
     queryKey: [HOSPITAL_DETAIL_QUERY, hpid],
-    queryFn: () => hospitalDetail(hpid),
+    queryFn: () => hospitalDetail(hpid, { isServer: false }),
   });
 
   const {
