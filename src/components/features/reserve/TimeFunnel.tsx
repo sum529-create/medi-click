@@ -42,7 +42,7 @@ const TimeFunnel = ({ date, time, onNext, onPrev }: Props) => {
         <Input
           id='time'
           type='time'
-          value={time}
+          value={selectedTime}
           onChange={(e) => setSelectedTime(e.target.value)}
         />
       </CardContent>
