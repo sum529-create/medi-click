@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/button';
-import ScheduleDetailContainer from '../ScheduleDetailContainer';
-import ScheduleDetailContents from '../ScheduleDetailContents';
-import ScheduleContainer from './ScheduleBox/ScheduleContainer';
-import ScheduleTitleBox from './ScheduleBox/ScheduleTitleBox';
+import ScheduleDetailContainer from '../../ScheduleDetailContainer';
+import ScheduleDetailContents from '../../ScheduleDetailContents';
+import ScheduleContainer from './ScheduleContainer';
+import ScheduleTitleBox from './ScheduleTitleBox';
 
 const ScheduleBox = () => {
   return (
