@@ -13,7 +13,7 @@ const InfoDetailContents = ({ title, text }: DetailContents) => {
         {title}
       </Title>
       <Text size='lg' align='left' color='black02'>
-        {text}님
+        {text}
       </Text>
     </div>
   );
