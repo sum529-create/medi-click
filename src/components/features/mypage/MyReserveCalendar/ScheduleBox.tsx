@@ -7,11 +7,7 @@ import ScheduleTitleBox from './ScheduleBox/ScheduleTitleBox';
 const ScheduleBox = () => {
   return (
     <ScheduleContainer>
-      <ScheduleTitleBox>
-        <h2 className='my-auto ml-10 text-3xl font-bold text-white'>
-          예정된 예약
-        </h2>
-      </ScheduleTitleBox>
+      <ScheduleTitleBox />
       <ScheduleDetailContainer>
         <ScheduleDetailContents>
           <div>
