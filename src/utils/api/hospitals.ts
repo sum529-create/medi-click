@@ -83,9 +83,9 @@ export const getHospitalName = async (id: string) => {
       .single();
 
     if (error) throw error;
-    console.log(data);
+    const name = data.name;
 
-    return data.name;
+    return name;
   } catch (error) {
     console.error(error);
   }
