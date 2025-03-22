@@ -2,8 +2,8 @@
 import { buttonVariants } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
-import MyCalendarContainer from './MyCalendarContainer';
-import MyCalendarTitleBox from './MyCalendarTitleBox';
+import MyCalendarContainer from '../../MyCalendarContainer';
+import MyCalendarTitleBox from '../../MyCalendarTitleBox';
 
 const MyCalendar = () => {
   return (
