@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import HospitalBasicInfo from '@/components/features/hospitalDetail/HospitalBasicInfo';
 import InfoSection from '@/components/features/hospitalDetail/InfoSection';
 import ReviewSection from '@/components/features/hospitalDetail/ReviewSection';
@@ -13,17 +13,16 @@ interface HospitalSectionType {
 }
 
 const HospitalSection = ({ hpid }: HospitalSectionType) => {
-  const [dutyTimes, setDutyTimes] = useState<string[][]>([]);
-  const [restWeeks, setRestWeeks] = useState<string[]>([]);
-
   const WEEKS = useMemo(() => ['월', '화', '수', '목', '금', '토', '일'], []);
   const {
     data: hospitalData,
     isPending,
     isError,
+    error,
   } = useQuery({
     queryKey: [HOSPITAL_DETAIL_QUERY, hpid],
     queryFn: () => hospitalDetail(hpid, { isServer: false }),
+    enabled: !!hpid,
   });
 
   const {
@@ -33,31 +32,73 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
     dgidIdName = '',
   } = hospitalData || {};
 
-  useEffect(() => {
-    if (hospitalData) {
-      const dutyTimekeys = Object.keys(hospitalData).filter((e) =>
-        e.includes('dutyTime'),
-      );
-      const dutyTimeArr = dutyTimekeys.reduce<string[][]>((a, _, i, arr) => {
-        if (i % 2 === 0) a.push([arr[i], arr[i + 1]]);
-        return a;
-      }, []);
-
-      const operationWeek = dutyTimeArr.map(
-        (e) => Number(e[0].slice(-2, -1)) - 1,
-      );
-      const restWeeksArr = WEEKS.filter((_, i) => !operationWeek.includes(i));
-
-      setRestWeeks(restWeeksArr);
-      setDutyTimes(dutyTimeArr);
+  // 진료 시간 및 휴무일 계산 - useMemo로 변경하여 성능 최적화
+  const { dutyTimes, restWeeks } = useMemo(() => {
+    if (!hospitalData) {
+      return { dutyTimes: [], restWeeks: [] };
     }
+
+    // 진료 시간 키 필터링
+    const dutyTimekeys = Object.keys(hospitalData).filter((key) =>
+      key.includes('dutyTime'),
+    );
+
+    // 쌍으로 그룹화
+    const dutyTimeArr = dutyTimekeys.reduce<string[][]>(
+      (acc, _, index, arr) => {
+        if (index % 2 === 0) {
+          acc.push([arr[index], arr[index + 1]]);
+        }
+        return acc;
+      },
+      [],
+    );
+
+    // 운영 요일 계산
+    const operationWeek = dutyTimeArr.map(
+      (pair) => Number(pair[0].slice(-2, -1)) - 1,
+    );
+
+    // 휴무일 계산
+    const restWeeksArr = WEEKS.filter(
+      (_, index) => !operationWeek.includes(index),
+    );
+
+    return { dutyTimes: dutyTimeArr, restWeeks: restWeeksArr };
   }, [hospitalData, WEEKS]);
 
+  // 로딩 상태 UI 개선
   if (isPending) {
-    return <div>로딩중</div>;
+    return (
+      <div className='flex min-h-[50vh] items-center justify-center p-8'>
+        <div className='h-12 w-12 animate-spin rounded-full border-b-2 border-blue-500'></div>
+        <span className='ml-3 text-gray-600'>
+          병원 정보를 불러오는 중입니다...
+        </span>
+      </div>
+    );
   }
+
+  // 에러 상태 UI 개선
   if (isError) {
-    return <div>에러 발생</div>;
+    return (
+      <div className='bg-red-50 border-red-200 rounded-lg border p-6 text-center'>
+        <h3 className='text-red-800 mb-2 text-lg font-medium'>
+          데이터를 불러오는 중 오류가 발생했습니다
+        </h3>
+        <p className='text-red-700 mb-4 text-sm'>
+          {error instanceof Error
+            ? error.message
+            : '알 수 없는 오류가 발생했습니다.'}
+        </p>
+        <button
+          className='bg-red-100 text-red-700 hover:bg-red-200 rounded px-4 py-2 transition-colors'
+          onClick={() => window.location.reload()}
+        >
+          새로고침
+        </button>
+      </div>
+    );
   }
 
   return (
