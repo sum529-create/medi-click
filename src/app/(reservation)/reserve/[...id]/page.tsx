@@ -23,14 +23,16 @@ const ReservePage = () => {
     case 'datePage':
       return (
         <CalendarFunnel
+          date={funnel.context.date as string}
           onNext={(date) => funnel.history.push('timePage', { date })}
         />
       );
     case 'timePage':
       return (
         <TimeFunnel
+          date={funnel.context.date}
           onNext={(time) => funnel.history.push('submitPage', { time })}
-          onPrev={() => funnel.history.replace('datePage')}
+          onPrev={(date) => funnel.history.replace('datePage', { date })}
         />
       );
     case 'submitPage':

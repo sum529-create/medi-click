@@ -10,18 +10,21 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { getCalendarDate } from '@/utils/func/getCalendarDate';
+import { getCalendarDate, getSplitDate } from '@/utils/func/getCalendarDate';
 
 interface Props {
+  date: string;
   onNext: (date: string) => void;
 }
 
-const CalendarFunnel = ({ onNext }: Props) => {
-  const [date, setDate] = useState<Date | undefined>();
+const CalendarFunnel = ({ date, onNext }: Props) => {
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
+    date ? new Date(date) : undefined,
+  );
 
   const handleClick = () => {
-    if (date) {
-      onNext(date.toISOString());
+    if (selectedDate) {
+      onNext(getSplitDate(selectedDate));
     } else {
       alert('날짜를 선택해주세요');
     }
@@ -33,13 +36,13 @@ const CalendarFunnel = ({ onNext }: Props) => {
         <CardTitle className='text-xl'>
           원하는 예약 날짜를 선택해주세요.
         </CardTitle>
-        <p className='h-5 text-gray03'>{getCalendarDate(date)}</p>
+        <p className='h-5 text-gray03'>{getCalendarDate(selectedDate)}</p>
       </CardHeader>
       <CardContent className='my-5 flex flex-col items-center justify-center'>
         <Calendar
           mode='single'
-          selected={date}
-          onSelect={setDate}
+          selected={selectedDate}
+          onSelect={setSelectedDate}
           className='rounded-md border shadow'
           disabled={(date) => date < new Date()}
         />
