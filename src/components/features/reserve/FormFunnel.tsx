@@ -4,12 +4,14 @@ import { useState } from 'react';
 import CardContainer from '@/components/layout/CardContainer';
 import { Button } from '@/components/ui/button';
 import {
+  Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Textarea } from '@/components/ui/textarea';
 
 interface Props {
   onPrev: () => void;
@@ -17,20 +19,51 @@ interface Props {
 
 const FormFunnel = ({ onPrev }: Props) => {
   const [value, setValue] = useState('');
+
+  // 임시 데이터
+  const reservationInfo = [
+    { title: '성함', value: '김수임' },
+    { title: '생년월일', value: '1900년 3월 20일' },
+    { title: '예약 병원', value: '서울이비인후과' },
+    { title: '예약 날짜', value: '2025년 3월 30일 오후 2:00' },
+  ];
+
   return (
     <CardContainer>
-      <CardHeader className='flex items-center justify-center pb-4'>
+      <CardHeader className='mb-10 flex items-center justify-center pb-4'>
         <CardTitle className='text-xl'>방문 사유를 입력해주세요.</CardTitle>
       </CardHeader>
-      {/* CardContent는 임시 데이터입니다. */}
-      <CardContent className='my-5 flex h-3/5 items-center justify-center'>
-        <Input
-          id='text'
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-        />
+      <CardContent className='my-5 flex h-3/5 flex-col items-start justify-center gap-5'>
+        <Card className='flex w-full flex-col gap-3 px-10 py-7 shadow-none'>
+          {reservationInfo.map((info) => (
+            <div className='flex flex-col gap-2' key={crypto.randomUUID()}>
+              <p className='font-bold text-gray04'>{info.title}</p>
+              <p className='text-gray04'>{info.value}</p>
+            </div>
+          ))}
+        </Card>
+        <div className='flex w-full flex-col gap-2'>
+          <label htmlFor='reason' className='font-bold'>
+            방문 사유
+          </label>
+          <Textarea
+            id='reason'
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            placeholder='방문 사유를 간단하게 적어주세요...'
+          />
+        </div>
+        <div className='flex items-center space-x-2'>
+          <Checkbox id='terms' />
+          <label
+            htmlFor='terms'
+            className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+          >
+            개인정보 제 3자 제공 동의
+          </label>
+        </div>
       </CardContent>
-      <CardFooter className='flex justify-evenly'>
+      <CardFooter className='mt-10 flex justify-evenly'>
         <Button onClick={() => onPrev()}>이전으로</Button>
         <Button>제출하기</Button>
       </CardFooter>
