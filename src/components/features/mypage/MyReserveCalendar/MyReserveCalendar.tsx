@@ -1,4 +1,4 @@
-import MyCalendar from './MyCalendar';
+import MyCalendar from './MyCalendar/MyCalendar';
 import ScheduleBox from './ScheduleBox';
 
 const MyReserveCalendar = () => {
