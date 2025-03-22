@@ -19,27 +19,26 @@ const ReservePage = () => {
     },
   });
 
-  switch (funnel.step) {
-    case 'datePage':
-      return (
+  return (
+    <funnel.Render
+      datePage={({ history }) => (
         <CalendarFunnel
           date={funnel.context.date as string}
-          onNext={(date) => funnel.history.push('timePage', { date })}
+          onNext={(date) => history.push('timePage', { date })}
         />
-      );
-    case 'timePage':
-      return (
+      )}
+      timePage={({ context, history }) => (
         <TimeFunnel
-          date={funnel.context.date}
-          onNext={(time) => funnel.history.push('submitPage', { time })}
-          onPrev={(date) => funnel.history.replace('datePage', { date })}
+          date={context.date}
+          onNext={(time) => history.push('submitPage', { time })}
+          onPrev={(date) => history.replace('datePage', { date })}
         />
-      );
-    case 'submitPage':
-      return <FormFunnel onPrev={() => funnel.history.replace('timePage')} />;
-    default:
-      return <div>ReservePage</div>;
-  }
+      )}
+      submitPage={({ context, history }) => (
+        <FormFunnel onPrev={() => history.replace('timePage')} />
+      )}
+    />
+  );
 };
 
 export default ReservePage;
