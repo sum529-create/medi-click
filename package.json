@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "gen-types": "supabase gen types typescript --project-id oclpecimivqqcdeaslod --schema public > src/types/supabase.d.ts"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": "eslint --fix"
@@ -31,8 +32,10 @@
     "react": "^18",
     "react-day-picker": "8.10.1",
     "react-dom": "^18",
+    "react-icons": "^5.5.0",
     "react-kakao-maps-sdk": "^1.1.27",
     "react-spinners": "^0.15.0",
+    "react-toastify": "^11.0.5",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
     "zustand": "^5.0.3"
@@ -50,6 +53,7 @@
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-unused-imports": "^4.1.4",
     "husky": "^8.0.0",
+    "kakao.maps.d.ts": "^0.1.40",
     "lint-staged": "^15.5.0",
     "postcss": "^8",
     "prettier": "^3.5.3",
