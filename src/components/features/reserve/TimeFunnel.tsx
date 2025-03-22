@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import CardContainer from '@/components/layout/CardContainer';
+import TimeButtonContainer from '@/components/layout/TimeButtonContainer';
 import { Button } from '@/components/ui/button';
 import {
   CardContent,
@@ -9,7 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-// import { Input } from '@/components/ui/input';
 
 interface Props {
   date: string;
@@ -18,25 +18,34 @@ interface Props {
   onPrev: (date: string) => void;
 }
 
+// 임시 데이터
 const morning = [
   '09:00',
-  '09:30',
+  '09:20',
+  '09:40',
   '10:00',
-  '10:30',
+  '10:20',
+  '10:40',
   '11:00',
-  '11:30',
+  '11:20',
+  '11:40',
   '12:00',
-  '12:30',
+  '12:20',
+  '12:40',
 ];
 const afternoon = [
   '14:00',
-  '14:30',
+  '14:20',
+  '14:40',
   '15:00',
-  '15:30',
+  '15:20',
+  '15:40',
   '16:00',
-  '16:30',
+  '16:20',
+  '16:40',
   '17:00',
-  '17:30',
+  '17:20',
+  '17:40',
 ];
 
 const TimeFunnel = ({ date, time, onNext, onPrev }: Props) => {
@@ -50,36 +59,30 @@ const TimeFunnel = ({ date, time, onNext, onPrev }: Props) => {
         </CardTitle>
       </CardHeader>
       <CardContent className='my-5 flex h-fit flex-col items-center justify-center gap-5'>
-        <div className='flex flex-col items-start gap-2'>
-          <p className='font-bold'>오전</p>
-          <div className='mx-auto grid w-full max-w-md grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4'>
-            {morning.map((m) => (
-              <Button
-                key={crypto.randomUUID()}
-                variant={selectedTime === m ? 'default' : 'time'}
-                size='time'
-                onClick={() => setSelectedTime(m)}
-              >
-                {m}
-              </Button>
-            ))}
-          </div>
-        </div>
-        <div className='flex flex-col items-start gap-2'>
-          <p className='font-bold'>오후</p>
-          <div className='mx-auto grid w-full max-w-md grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4'>
-            {afternoon.map((a) => (
-              <Button
-                key={crypto.randomUUID()}
-                variant={selectedTime == a ? 'default' : 'time'}
-                size='time'
-                onClick={() => setSelectedTime(a)}
-              >
-                {a}
-              </Button>
-            ))}
-          </div>
-        </div>
+        <TimeButtonContainer timeZone='오전'>
+          {morning.map((m) => (
+            <Button
+              key={crypto.randomUUID()}
+              variant={selectedTime === m ? 'default' : 'time'}
+              size='time'
+              onClick={() => setSelectedTime(m)}
+            >
+              {m}
+            </Button>
+          ))}
+        </TimeButtonContainer>
+        <TimeButtonContainer timeZone='오후'>
+          {afternoon.map((a) => (
+            <Button
+              key={crypto.randomUUID()}
+              variant={selectedTime == a ? 'default' : 'time'}
+              size='time'
+              onClick={() => setSelectedTime(a)}
+            >
+              {a}
+            </Button>
+          ))}
+        </TimeButtonContainer>
       </CardContent>
       <CardFooter className='mt-24 flex justify-evenly'>
         <Button onClick={() => onPrev(date)}>이전으로</Button>
