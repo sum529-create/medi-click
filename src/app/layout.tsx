@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 
 import './globals.css';
 import Header from '@/components/layout/Header';
+import TQProvider from '@/provider/TQProvider';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -16,10 +17,12 @@ export default function RootLayout({
   return (
     <html lang='ko'>
       <body>
-        <Header />
-        <div className='flex min-h-[cal(100vh-60px)] flex-col items-center'>
-          {children}
-        </div>
+        <TQProvider>
+          <Header />
+          <div className='flex min-h-[cal(100vh-60px)] flex-col items-center'>
+            {children}
+          </div>
+        </TQProvider>
       </body>
     </html>
   );
