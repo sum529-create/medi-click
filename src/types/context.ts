@@ -1,3 +1,17 @@
-export type date = { date?: string; time?: string; other?: unknown };
-export type time = { date: string; time?: string; other?: unknown };
-export type other = { date: string; time: string; other?: unknown };
+export interface date {
+  date?: string;
+  time?: string;
+  other?: unknown;
+}
+
+export interface time {
+  date: string;
+  time?: string;
+  other?: unknown;
+}
+
+export interface other {
+  date: string;
+  time: string;
+  other?: unknown;
+}
