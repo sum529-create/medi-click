@@ -8,7 +8,7 @@ import MainContentsTitleBox from '../../MainContentsTitleBox';
 const MyCalendar = () => {
   return (
     <MainContentsContainer>
-      <MainContentsTitleBox />
+      <MainContentsTitleBox title='내 예약 캘린더' />
       <Calendar
         classNames={{
           month: 'space-y-4 w-full',

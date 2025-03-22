@@ -12,7 +12,7 @@ const MyReserveList = () => {
   };
   return (
     <MainContentsContainer>
-      <MainContentsTitleBox />
+      <MainContentsTitleBox title='내 예약 목록' />
       <ScheduleDetail scheduleData={testData} />
       <ScheduleDetail scheduleData={testData} />
       <ScheduleDetail scheduleData={testData} />
