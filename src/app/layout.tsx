@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 
+import { ToastContainer, Bounce } from 'react-toastify';
 import './globals.css';
 import Header from '@/components/layout/Header';
 
@@ -20,6 +21,19 @@ export default function RootLayout({
         <div className='flex min-h-[cal(100vh-60px)] flex-col items-center'>
           {children}
         </div>
+        <ToastContainer
+          position='top-right'
+          autoClose={1000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme='light'
+          transition={Bounce}
+        />
       </body>
     </html>
   );
