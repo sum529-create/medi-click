@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
@@ -7,10 +7,10 @@ interface Props {
 
 const AuthTitle = ({ children, title }: Props) => {
   return (
-    <div className='w-full max-w-md'>
-      <div className='rounded-lg bg-white p-8'>
-        <h2 className='mb-8 text-center text-xl font-medium'>로그인</h2>
-        {children}
+    <div className='flex h-[calc(100vh-80px)] items-center justify-center bg-gray01'>
+      <div className='w-full max-w-xl rounded-2xl bg-white p-12 shadow-sm'>
+        <h2 className='text-center text-3xl font-normal'>{title}</h2>
+        <div className='p-10'>{children}</div>
       </div>
     </div>
   );
