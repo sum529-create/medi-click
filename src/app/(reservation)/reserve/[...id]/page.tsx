@@ -1,9 +1,11 @@
 'use client';
 
 import { useFunnel } from '@use-funnel/browser';
+import Loading from '@/components/common/Loading';
 import CalendarFunnel from '@/components/features/reserve/CalendarFunnel';
 import FormFunnel from '@/components/features/reserve/FormFunnel';
 import TimeFunnel from '@/components/features/reserve/TimeFunnel';
+import { useHospitalName } from '@/hooks/map/useHospitalName';
 import { date, other, time } from '@/types/context';
 
 interface Params {
@@ -24,6 +26,10 @@ const ReservePage = ({ params }: Params) => {
       context: {},
     },
   });
+
+  const { data: name, isPending } = useHospitalName(params.id);
+
+  if (isPending) return <Loading size={100} />;
 
   return (
     <funnel.Render
@@ -46,7 +52,7 @@ const ReservePage = ({ params }: Params) => {
           date={context.date as string}
           time={context.time as string}
           other={context.other as unknown}
-          id={params.id}
+          name={name as string}
           onPrev={() => history.replace('timePage')}
         />
       )}
