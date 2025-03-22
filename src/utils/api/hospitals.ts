@@ -1,3 +1,4 @@
+import { TABLE } from '@/constants/supabaseTables';
 import { Location } from '@/types/map';
 import { Tables } from '@/types/supabase';
 import { supabase } from '../supabase/supabase';
@@ -17,7 +18,7 @@ export const getAllHospitalLocation = async () => {
       const end = start + pageSize - 1;
 
       const { data, error } = await supabase
-        .from('hospitals')
+        .from(TABLE.HOSPITALS)
         .select('lat, lng')
         .range(start, end);
 
@@ -49,7 +50,7 @@ export const getAllHospitalData = async () => {
       const end = start + pageSize - 1;
 
       const { data, error } = await supabase
-        .from('hospitals')
+        .from(TABLE.HOSPITALS)
         .select('*')
         .range(start, end);
 
