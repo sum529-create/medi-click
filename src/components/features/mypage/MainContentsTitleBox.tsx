@@ -1,4 +1,4 @@
-const MyCalendarTitleBox = () => {
+const MainContentsTitleBox = () => {
   return (
     <div className='flex h-[90px] rounded-[13px] bg-deep-blue'>
       <h2 className='my-auto ml-10 text-3xl font-bold text-white'>
@@ -8,4 +8,4 @@ const MyCalendarTitleBox = () => {
   );
 };
 
-export default MyCalendarTitleBox;
+export default MainContentsTitleBox;
