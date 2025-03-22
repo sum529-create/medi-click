@@ -61,7 +61,7 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
   }
 
   return (
-    <div className='relative my-20 flex h-[100vh-80px] items-end'>
+    <div className='md:p-8" relative my-10 flex h-[100vh-80px] items-end break-words p-6 lg:my-20'>
       <div className='mx-auto my-0 flex max-w-screen-xl flex-1 flex-col justify-center'>
         <HospitalBasicInfo
           dutyAddr={dutyAddr}
@@ -80,9 +80,11 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
               );
             })}
           </div>
-          <p>
-            <span className='text-red'>휴무</span>:{restWeeks.join(', ')}
-          </p>
+          {restWeeks.length > 0 && (
+            <p>
+              <span className='text-red'>휴무</span>:{restWeeks.join(', ')}
+            </p>
+          )}
         </InfoSection>
         <InfoSection title='병원 정보'>
           <p>아토피, 천식 등의 소아 전문 치료</p>

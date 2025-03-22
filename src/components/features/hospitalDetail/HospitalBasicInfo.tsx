@@ -33,7 +33,7 @@ const HospitalBasicInfo = ({
     button: 'max-w-[136px] mt-auto',
   };
   return (
-    <div className='mb-[100px] flex flex-row justify-between gap-12'>
+    <div className='mb-[100px] flex flex-col justify-between gap-12 lg:flex-row'>
       <div className='flex flex-col gap-6'>
         <p className={textStyles.subInfo}>{dgidIdName || ''}</p>
         <h3 className={textStyles.title}>{dutyName || ''}</h3>
@@ -48,7 +48,7 @@ const HospitalBasicInfo = ({
           </Button>
         </div>
       </div>
-      <div className='h-[350px] w-[350px] bg-black'>kakao map</div>
+      <div className='h-[350px] w-full bg-black lg:w-[350px]'>kakao map</div>
     </div>
   );
 };
