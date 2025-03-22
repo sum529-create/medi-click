@@ -50,9 +50,7 @@ const Text = ({ size, margin, align, color, children }: TextProps) => {
 
   const alignStyles: string = `text-${align}`;
 
-  const baseStyles: string = 'justify-items-center';
-
-  const styles = `${baseStyles} ${sizeStyles[size]} ${margin ? marginStyles[margin] : ''} ${colorStyles[color]} ${alignStyles}`;
+  const styles = `${sizeStyles[size]} ${margin ? marginStyles[margin] : ''} ${colorStyles[color]} ${alignStyles}`;
   return <p className={styles}>{children}</p>;
 };
 

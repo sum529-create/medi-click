@@ -71,7 +71,7 @@ const Title = ({ tag, size, margin, align, color, children }: TitleProps) => {
 
   const alignStyles: string = `text-${align}`;
 
-  const baseStyles: string = 'font-bold justify-items-center';
+  const baseStyles: string = 'font-bold';
 
   const styles: string = `${baseStyles} ${sizeStyles[size]} ${margin ? marginStyles[margin] : ''} ${colorStyles[color]} ${alignStyles}`;
 
