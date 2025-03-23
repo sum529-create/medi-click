@@ -2,14 +2,9 @@
 
 import { useState } from 'react';
 import CardContainer from '@/components/layout/CardContainer';
+import CardHeaderContainer from '@/components/layout/CardHeaderContainer';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import {
@@ -41,9 +36,7 @@ const FormFunnel = ({ date, time, name, onPrev }: Props) => {
 
   return (
     <CardContainer>
-      <CardHeader className='mb-10 flex items-center justify-center pb-4'>
-        <CardTitle className='text-xl'>방문 사유를 입력해주세요.</CardTitle>
-      </CardHeader>
+      <CardHeaderContainer>방문 사유를 입력해주세요.</CardHeaderContainer>
       <CardContent className='my-5 flex h-3/5 flex-col items-start justify-center gap-5'>
         <Card className='flex w-full flex-col gap-3 px-10 py-7 shadow-none'>
           {reservationInfo.map((info) => (
