@@ -14,4 +14,5 @@ export const PATH = {
   POST: '/post',
   RESERVATIONS: '/mypage/reservations',
   PROFILE: '/mypage/profile',
+  RESERVATION: '/mypage/reservation',
 };
