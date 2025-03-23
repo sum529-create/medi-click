@@ -61,4 +61,24 @@ export const hospitalDetailInfoSection = async (id: string) => {
   }
 };
 
+/**
+ * 병원 리뷰 조회
+ */
+export const hospitalDetailReviews = async (id: string) => {
+  try {
+    const { data, error } = await supabase
+      .from(TABLE.REVIEWS)
+      .select('review')
+      .eq('hospital_id', id);
+
+    if (error) throw error;
+    if (!data || data.length === 0) return false;
+
+    return data.map((e) => e.review);
+  } catch (error) {
+    console.error('Error fetching hospital reviews data', error);
+    throw error;
+  }
+};
+
 export default hospitalDetail;
