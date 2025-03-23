@@ -1,3 +1,6 @@
+import { TABLE } from '@/constants/supabaseTables';
+import { supabase } from '../supabase/supabase';
+
 /**
  * 병원 상세 정보 조회를 위한 기본 URL 생성 함수
  */
@@ -34,6 +37,26 @@ const hospitalDetail = async (id: string, options?: { isServer?: boolean }) => {
     return detailData;
   } catch (error) {
     console.error('Error fetching hospital details:', error);
+    throw error;
+  }
+};
+
+/**
+ * 병원 정보 섹션 조회
+ */
+export const hospitalDetailInfoSection = async (id: string) => {
+  try {
+    const { data, error } = await supabase
+      .from(TABLE.HOSPITALS)
+      .select('department, info, etc')
+      .eq('id', id);
+    if (error) throw error;
+    if (!data || data.length === 0) return false;
+
+    const infoData = data[0];
+    return infoData;
+  } catch (error) {
+    console.error('Error fetching hospital info section data', error);
     throw error;
   }
 };

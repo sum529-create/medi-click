@@ -2,13 +2,13 @@
 import { buttonVariants } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
-import MyCalendarContainer from './MyCalendarContainer';
-import MyCalendarTitleBox from './MyCalendarTitleBox';
+import MainContentsContainer from '../../MainContentsContainer';
+import MainContentsTitleBox from '../../MainContentsTitleBox';
 
 const MyCalendar = () => {
   return (
-    <MyCalendarContainer>
-      <MyCalendarTitleBox />
+    <MainContentsContainer>
+      <MainContentsTitleBox title='내 예약 캘린더' />
       <Calendar
         classNames={{
           month: 'space-y-4 w-full',
@@ -31,7 +31,7 @@ const MyCalendar = () => {
           day_today: 'bg-sub text-black02',
         }}
       />
-    </MyCalendarContainer>
+    </MainContentsContainer>
   );
 };
 

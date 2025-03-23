@@ -7,14 +7,19 @@ import HospitalBasicInfo from '@/components/features/hospitalDetail/HospitalBasi
 import InfoSection from '@/components/features/hospitalDetail/InfoSection';
 import ReviewSection from '@/components/features/hospitalDetail/ReviewSection';
 import { QUERY_KEY } from '@/constants/queryKey';
-import hospitalDetail from '@/utils/api/hospitalDetail';
+import hospitalDetail, {
+  hospitalDetailInfoSection,
+} from '@/utils/api/hospitalDetail';
 import { convertToTimeFormat } from '@/utils/func/convertToTimeFormat';
 interface HospitalSectionType {
   hpid: string;
 }
 
 const HospitalSection = ({ hpid }: HospitalSectionType) => {
-  const WEEKS = useMemo(() => ['월', '화', '수', '목', '금', '토', '일'], []);
+  const WEEKS = useMemo(
+    () => ['월', '화', '수', '목', '금', '토', '일', '공휴일'],
+    [],
+  );
   const STATE_WRAPPER_STYLE =
     'flex h-[calc(100vh_-_80px)] w-full items-center justify-center';
   const {
@@ -29,11 +34,24 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
   });
 
   const {
+    data: infoData,
+    isPending: isInfoPending,
+    isError: isInfoError,
+    error: infoError,
+  } = useQuery({
+    queryKey: [QUERY_KEY.HOSPITAL_DETAIL_INFO, hpid],
+    queryFn: () => hospitalDetailInfoSection(hpid),
+    enabled: !!hpid,
+  });
+
+  const {
     dutyAddr = '',
     dutyTel1 = '',
     dutyName = '',
     dgidIdName = '',
   } = hospitalData || {};
+
+  const { etc, info, department } = infoData || {};
 
   // 진료 시간 및 휴무일 계산 - useMemo로 변경하여 성능 최적화
   const { dutyTimes, restWeeks } = useMemo(() => {
@@ -71,7 +89,7 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
   }, [hospitalData, WEEKS]);
 
   // 로딩 상태 UI 개선
-  if (isPending) {
+  if (isPending || isInfoPending) {
     return (
       <div className={STATE_WRAPPER_STYLE}>
         <Loading size={100} />
@@ -80,7 +98,7 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
   }
 
   // 에러 상태 UI 개선
-  if (isError) {
+  if (isError || isInfoError) {
     return (
       <div className={STATE_WRAPPER_STYLE}>
         <div className='border-gray mb-[130px] rounded-lg border p-6 text-center'>
@@ -88,8 +106,8 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
             데이터를 불러오는 중 오류가 발생했습니다
           </h3>
           <p className='mb-4 text-sm'>
-            {error instanceof Error
-              ? error.message
+            {error instanceof Error || infoError instanceof Error
+              ? error?.message || infoError?.message
               : '알 수 없는 오류가 발생했습니다.'}
           </p>
           <button
@@ -103,6 +121,8 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
     );
   }
 
+  console.log(infoData);
+
   return (
     <div className='md:p-8" relative my-10 flex h-[100vh-80px] items-end break-words p-6 lg:my-20'>
       <div className='mx-auto my-0 flex max-w-screen-xl flex-1 flex-col justify-center'>
@@ -110,7 +130,7 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
           dutyAddr={dutyAddr}
           dutyTel1={dutyTel1}
           dutyName={dutyName}
-          dgidIdName={dgidIdName}
+          department={department || ''}
         />
         <InfoSection title='진료 정보'>
           <div>
@@ -123,15 +143,19 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
               );
             })}
           </div>
+          {etc && <p>{etc}</p>}
           {restWeeks.length > 0 && (
             <p>
               <span className='text-red'>휴무</span>:{restWeeks.join(', ')}
             </p>
           )}
         </InfoSection>
-        <InfoSection title='병원 정보'>
-          <p>아토피, 천식 등의 소아 전문 치료</p>
-        </InfoSection>
+        {(dgidIdName || info) && (
+          <InfoSection title='병원 정보'>
+            <p>{dgidIdName}</p>
+            <p>{info}</p>
+          </InfoSection>
+        )}
         <ReviewSection />
       </div>
     </div>
