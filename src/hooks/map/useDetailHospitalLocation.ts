@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Location } from '@/types/map';
-import { getHospitalDetailLocation } from '@/utils/api/hospitals';
+import { getHospitalDetailLocation } from '@/utils/api/hospitalDetail';
 
 export const useDetailHospitalLocation = (id: string) => {
   const [hospitalLocation, setHospitalLocation] = useState<Location>();
