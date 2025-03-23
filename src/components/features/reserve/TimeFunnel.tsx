@@ -11,11 +11,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { generateTimeSlots } from '@/utils/func/getCalendarDate';
 
 interface Props {
   date: string;
   time: string;
-  operationTime: { [key: string]: string };
+  operationTime: { [key: string]: { open: string; close: string } };
   onNext: (time: string) => void;
   onPrev: (date: string) => void;
 }
@@ -78,6 +79,8 @@ const TimeFunnel = ({ date, time, operationTime, onNext, onPrev }: Props) => {
   };
 
   console.log(operationTime[day]);
+
+  console.log(generateTimeSlots(operationTime[day]));
 
   return (
     <CardContainer>

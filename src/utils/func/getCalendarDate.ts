@@ -49,3 +49,25 @@ export const getReservationTime = (time: string) => {
     return `오후 ${hour - 12}시 ${minute}분`;
   }
 };
+
+export const generateTimeSlots = (obj: { open: string; close: string }) => {
+  const open = obj.open.padStart(4, '0');
+  const close = obj.close.padStart(4, '0');
+
+  let totalMinutes = Number(open.slice(0, 2)) * 60 + Number(open.slice(3, 5));
+  const closeMinutes =
+    Number(close.slice(0, 2)) * 60 + Number(close.slice(3, 5));
+
+  const arr = [];
+
+  while (totalMinutes <= closeMinutes) {
+    const str =
+      Math.floor(totalMinutes / 60) +
+      ':' +
+      `${totalMinutes % 60}`.padStart(2, '0');
+    arr.push(str);
+    totalMinutes += 30;
+  }
+
+  return arr;
+};
