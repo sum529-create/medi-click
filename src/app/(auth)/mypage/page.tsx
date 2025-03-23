@@ -1,6 +1,6 @@
 import MyPageContainer from '@/components/features/mypage/MyPageContainer';
 import MyPageContentsContainer from '@/components/features/mypage/MyPageContentsContainer';
-import MyReserveList from '@/components/features/mypage/MyReserveList';
+
 import SideBar from '@/components/features/mypage/sideBar/SideBar';
 
 const MyPage = () => {
@@ -14,7 +14,7 @@ const MyPage = () => {
       <SideBar user={userData} />
       <MyPageContentsContainer>
         {/* <MyReserveCalendar /> */}
-        <MyReserveList />
+
       </MyPageContentsContainer>
     </MyPageContainer>
   );
