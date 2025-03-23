@@ -1,5 +1,5 @@
-import MyCalendar from './MyCalendar/MyCalendar';
-import ScheduleBox from './ScheduleBox/ScheduleBox';
+import MyCalendar from './myCalendar/MyCalendar';
+import ScheduleBox from './scheduleBox/ScheduleBox';
 
 const MyReserveCalendar = () => {
   return (
