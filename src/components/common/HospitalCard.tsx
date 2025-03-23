@@ -13,7 +13,7 @@ interface HospitalCardProps {
 
 const HospitalCard = ({ hospital }: HospitalCardProps) => {
   return (
-    <div className='flex min-h-[120px] flex-col gap-2 rounded-xl border-2 border-main bg-white p-6'>
+    <div className='flex flex-col gap-2 rounded-xl border-2 border-main bg-white p-6'>
       <div className='flex flex-col gap-1'>
         <Title>{hospital.name}</Title>
         <Text>{hospital.department}</Text>
