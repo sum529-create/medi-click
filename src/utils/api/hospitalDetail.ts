@@ -84,7 +84,6 @@ export const getHospitalDetailLocation = async (id: string) => {
     const location = data[0];
 
     hospitalLocation = { lat: location.lat, lng: location.lng };
-    console.log(hospitalLocation);
 
     return hospitalLocation;
   } catch (error) {

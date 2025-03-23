@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import KakaoMap from '@/components/common/KakaoMap';
+import KakaoStaticMap from '@/components/common/KakaoStaticMap';
 import { PATH } from '@/constants/routerPath';
 import formatTelephoneNumber from '@/utils/func/formatTelephoneNumber';
 import { Button } from '../../ui/button';
@@ -35,7 +35,7 @@ const HospitalBasicInfo = ({
   };
   return (
     <div className='mb-[100px] flex flex-col justify-between gap-12 lg:flex-row'>
-      <div className='flex flex-col gap-6'>
+      <div className='flex flex-1 flex-col gap-6'>
         <p className={textStyles.subInfo}>{department || ''}</p>
         <h3 className={textStyles.title}>{dutyName || ''}</h3>
         {hospitalDetails.map((info) => (
@@ -49,8 +49,10 @@ const HospitalBasicInfo = ({
           </Button>
         </div>
       </div>
-      <div className='flex h-[350px] w-full gap-5 lg:w-[350px]'>
-        <KakaoMap params={{ id: Array.isArray(id) ? id[0] : id }} />
+      <div className='box-border flex h-[350px] flex-1 gap-5'>
+        <KakaoStaticMap
+          params={{ id: Array.isArray(id) ? id[0] : id, name: dutyName }}
+        />
       </div>
     </div>
   );

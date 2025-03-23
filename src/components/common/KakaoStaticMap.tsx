@@ -1,18 +1,19 @@
 'use client';
 
-import { Map, MapMarker } from 'react-kakao-maps-sdk';
-import Loading from '@/components/common/Loading';
+import { StaticMap } from 'react-kakao-maps-sdk';
 import { useDetailHospitalLocation } from '@/hooks/map/useDetailHospitalLocation';
 import { useKakaoLoad } from '@/hooks/map/useKakaoLoad';
+import Loading from './Loading';
 
-// KakaoMapType 추가 : 선택적 props값
+// KakaoMapType 추가
 interface KakaoMapType {
   params: {
-    id: string;
+    id: string; // 해당 병원의 id값
+    name: string; // 해당 병원명
   };
 }
 
-const KakaoMap = ({ params }: KakaoMapType) => {
+const KakaoStaticMap = ({ params }: KakaoMapType) => {
   const staticLocation = useDetailHospitalLocation(params.id);
 
   const [loading, error] = useKakaoLoad();
@@ -32,19 +33,21 @@ const KakaoMap = ({ params }: KakaoMapType) => {
     );
 
   return (
-    <div className='relative w-full flex-[2]'>
+    <div className='relative w-full'>
       {staticLocation && (
-        <Map
+        <StaticMap
           center={staticLocation}
+          marker={[{ position: staticLocation, text: params.name }]}
           level={3}
-          draggable={false}
-          className='h-full w-full'
-        >
-          <MapMarker position={staticLocation} />
-        </Map>
+          style={{
+            height: '350px',
+            width: '100%',
+            boxSizing: 'border-box',
+          }}
+        />
       )}
     </div>
   );
 };
 
-export default KakaoMap;
+export default KakaoStaticMap;
