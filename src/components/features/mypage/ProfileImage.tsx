@@ -11,7 +11,9 @@ const ProfileImage = ({ src, height, width }: ImageProps) => {
     <Avatar className={`h-[${height}] w-[${width}]`}>
       <AvatarImage src={src} />
       <AvatarFallback>
-        <div className='h-[108px] w-[108px] rounded-full border-2 border-main-hover bg-sub' />
+        <div
+          className={`h-[${height}] w-[${width}] rounded-full border-2 border-main-hover bg-sub`}
+        />
       </AvatarFallback>
     </Avatar>
   );
