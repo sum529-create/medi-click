@@ -11,17 +11,18 @@ import { getCalendarDate, getSplitDate } from '@/utils/func/getCalendarDate';
 
 interface Props {
   date: string;
-  onNext: (date: string) => void;
+  time: string;
+  onNext: (date: string, time: string) => void;
 }
 
-const CalendarFunnel = ({ date, onNext }: Props) => {
+const CalendarFunnel = ({ date, time, onNext }: Props) => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
     date ? new Date(date) : undefined,
   );
 
   const handleClick = () => {
     if (selectedDate) {
-      onNext(getSplitDate(selectedDate));
+      onNext(getSplitDate(selectedDate), time);
     } else {
       toast.error('예약 날짜를 선택해주세요.');
     }

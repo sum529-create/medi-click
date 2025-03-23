@@ -33,10 +33,14 @@ const ReservePage = ({ params }: Params) => {
 
   return (
     <funnel.Render
-      datePage={({ history }) => (
+      datePage={({ context, history }) => (
         <CalendarFunnel
-          date={funnel.context.date as string}
-          onNext={(date) => history.push('timePage', { date })}
+          date={context.date as string}
+          time={context.time as string}
+          onNext={(date, time) => {
+            console.log('funnel: ', date, time);
+            history.push('timePage', { date, time });
+          }}
         />
       )}
       timePage={({ context, history }) => (
@@ -45,7 +49,16 @@ const ReservePage = ({ params }: Params) => {
           time={context.time as string}
           operationTime={data?.operationTime}
           onNext={(time) => history.push('submitPage', { time })}
-          onPrev={(date) => history.replace('datePage', { date })}
+          onPrev={(date) =>
+            history.replace(
+              'datePage',
+              (
+                prev = {} as { date?: string; time?: string; other?: unknown },
+              ) => ({
+                ...prev,
+              }),
+            )
+          }
         />
       )}
       submitPage={({ context, history }) => (
