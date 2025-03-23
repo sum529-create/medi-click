@@ -51,6 +51,7 @@ const afternoon = [
 
 const TimeFunnel = ({ date, time, operationTime, onNext, onPrev }: Props) => {
   const [selectedTime, setSelectedTime] = useState(time);
+
   const handleTimeButton = (t: string) => {
     setSelectedTime(t);
   };
@@ -92,7 +93,7 @@ const TimeFunnel = ({ date, time, operationTime, onNext, onPrev }: Props) => {
       </CardContent>
       <CardFooter className='mt-16 flex w-full justify-evenly gap-5'>
         <Button onClick={() => onPrev(date)}>이전으로</Button>
-        <Button onClick={() => onNext(selectedTime)}>다음으로</Button>
+        <Button onClick={}>다음으로</Button>
       </CardFooter>
     </CardContainer>
   );
