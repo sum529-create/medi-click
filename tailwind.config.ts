@@ -19,6 +19,7 @@ const config: Config = {
         gray01: '#F8F9FA',
         gray02: '#F1F3F5',
         gray03: '#cccbc8',
+        gray04: '#737373',
         red: '#fd5732',
         'deep-blue': '#00668c',
         black02: '#1D1C1C',

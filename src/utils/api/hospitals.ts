@@ -66,3 +66,27 @@ export const getAllHospitalData = async () => {
     console.error('병원 데이터 불러오기 오류', error);
   }
 };
+
+/**
+ * 병원의 id를 토대로 병원의 이름을 받아오는 함수
+ *
+ * @param id - 병원 id
+ * @returns 병원 이름
+ */
+
+export const getHospitalName = async (id: string) => {
+  try {
+    const { data, error } = await supabase
+      .from(TABLE.HOSPITALS)
+      .select('name')
+      .eq('id', id)
+      .single();
+
+    if (error) throw error;
+    const name = data.name;
+
+    return name;
+  } catch (error) {
+    console.error(error);
+  }
+};

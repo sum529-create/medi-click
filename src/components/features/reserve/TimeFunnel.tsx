@@ -13,15 +13,13 @@ import { Input } from '@/components/ui/input';
 
 interface Props {
   date: string;
+  time: string;
   onNext: (time: string) => void;
   onPrev: (date: string) => void;
 }
 
-const TimeFunnel = ({ date, onNext, onPrev }: Props) => {
-  const [time, setTime] = useState('');
-
-  // 이전 페이지의 결과가 다음 페이지로 넘어오는지 확인하기 위한 콘솔입니다.
-  console.log(date);
+const TimeFunnel = ({ date, time, onNext, onPrev }: Props) => {
+  const [selectedTime, setSelectedTime] = useState(time);
 
   return (
     <CardContainer>
@@ -35,14 +33,13 @@ const TimeFunnel = ({ date, onNext, onPrev }: Props) => {
         <Input
           id='time'
           type='time'
-          value={time}
-          onChange={(e) => setTime(e.target.value)}
+          value={selectedTime}
+          onChange={(e) => setSelectedTime(e.target.value)}
         />
       </CardContent>
       <CardFooter className='flex justify-evenly'>
-        {/* 이벤트 핸들러 함수는 로직이 완상되면 함수로 따로 빼서 사용할 예정입니다. */}
         <Button onClick={() => onPrev(date)}>이전으로</Button>
-        <Button onClick={() => onNext(time)}>다음으로</Button>
+        <Button onClick={() => onNext(selectedTime)}>다음으로</Button>
       </CardFooter>
     </CardContainer>
   );
