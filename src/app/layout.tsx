@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { ToastContainer, Bounce } from 'react-toastify';
 import './globals.css';
 import Header from '@/components/layout/Header';
+import TQProvider from '@/provider/TQProvider';
 
 export const metadata: Metadata = {
   title: 'MEDICLCIK',
@@ -17,21 +18,23 @@ export default function RootLayout({
   return (
     <html lang='ko'>
       <body>
-        <Header />
-        {children}
-        <ToastContainer
-          position='top-right'
-          autoClose={1000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme='light'
-          transition={Bounce}
-        />
+        <TQProvider>
+          <Header />
+          {children}
+          <ToastContainer
+            position='top-right'
+            autoClose={1000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme='light'
+            transition={Bounce}
+          />
+        </TQProvider>
       </body>
     </html>
   );
