@@ -68,24 +68,25 @@ export const getAllHospitalData = async () => {
 };
 
 /**
- * 병원의 id를 토대로 병원의 이름을 받아오는 함수
+ * 병원의 id를 토대로 병원의 이름과 영업시간을 받아오는 함수
  *
  * @param id - 병원 id
- * @returns 병원 이름
+ * @returns 병원 이름, 병원 영업시간
  */
 
 export const getHospitalName = async (id: string) => {
   try {
     const { data, error } = await supabase
       .from(TABLE.HOSPITALS)
-      .select('name')
+      .select('name, operation_time')
       .eq('id', id)
       .single();
 
     if (error) throw error;
-    const name = data.name;
 
-    return name;
+    const { name, operation_time } = data;
+    const operationTime = JSON.parse(JSON.stringify(operation_time));
+    return { name, operationTime };
   } catch (error) {
     console.error(error);
   }

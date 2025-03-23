@@ -14,6 +14,7 @@ import {
 interface Props {
   date: string;
   time: string;
+  operationTime: object;
   onNext: (time: string) => void;
   onPrev: (date: string) => void;
 }
@@ -48,11 +49,13 @@ const afternoon = [
   '17:40',
 ];
 
-const TimeFunnel = ({ date, time, onNext, onPrev }: Props) => {
+const TimeFunnel = ({ date, time, operationTime, onNext, onPrev }: Props) => {
   const [selectedTime, setSelectedTime] = useState(time);
   const handleTimeButton = (t: string) => {
     setSelectedTime(t);
   };
+
+  console.log(operationTime);
 
   return (
     <CardContainer>

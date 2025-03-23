@@ -27,7 +27,7 @@ const ReservePage = ({ params }: Params) => {
     },
   });
 
-  const { data: name, isPending } = useHospitalName(params.id);
+  const { data, isPending } = useHospitalName(params.id);
 
   if (isPending) return <Loading size={100} />;
 
@@ -43,6 +43,7 @@ const ReservePage = ({ params }: Params) => {
         <TimeFunnel
           date={context.date}
           time={context.time as string}
+          operationTime={data?.operationTime}
           onNext={(time) => history.push('submitPage', { time })}
           onPrev={(date) => history.replace('datePage', { date })}
         />
@@ -52,7 +53,7 @@ const ReservePage = ({ params }: Params) => {
           date={context.date as string}
           time={context.time as string}
           other={context.other as unknown}
-          name={name as string}
+          name={data?.name as string}
           onPrev={() => history.replace('timePage')}
         />
       )}
