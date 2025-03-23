@@ -158,22 +158,25 @@ export type Database = {
           birth: string;
           created_at: string;
           id: string;
-          nickname: string | null;
+          name: string | null;
           phone_number: string;
+          avatar_path?: string;
         };
         Insert: {
           birth: string;
           created_at?: string;
           id?: string;
-          nickname?: string | null;
+          name?: string | null;
           phone_number: string;
+          avatar_path?: string;
         };
         Update: {
           birth?: string;
           created_at?: string;
           id?: string;
-          nickname?: string | null;
+          name?: string | null;
           phone_number?: string;
+          avatar_path?: string;
         };
         Relationships: [];
       };
