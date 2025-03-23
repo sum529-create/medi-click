@@ -30,10 +30,16 @@ const AuthForm = ({ mode }: Props) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleAuthSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(AuthForm); // 테스트 코드
+  };
+
   const AuthInputClassName = 'h-14 w-full rounded-lg bg-gray02 px-5 text-lg';
 
   return (
     <form
+      onSubmit={handleAuthSubmit}
       className={`flex flex-col space-y-5 ${mode === 'login' ? 'mb-10' : 'mb-8'}`}
     >
       <Input
