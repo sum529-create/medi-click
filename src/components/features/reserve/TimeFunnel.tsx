@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import CardContainer from '@/components/layout/CardContainer';
 import TimeButtonContainer from '@/components/layout/TimeButtonContainer';
 import { Button } from '@/components/ui/button';
@@ -14,7 +15,7 @@ import {
 interface Props {
   date: string;
   time: string;
-  operationTime: object;
+  operationTime: { [key: string]: string };
   onNext: (time: string) => void;
   onPrev: (date: string) => void;
 }
@@ -49,6 +50,16 @@ const afternoon = [
   '17:40',
 ];
 
+const dayOfWeek: { [key: string]: string } = {
+  Mon: 'Monday',
+  Tue: 'Tuesday',
+  Wed: 'Wednesday',
+  Thu: 'Thursday',
+  Fri: 'Friday',
+  Sat: 'Saturday',
+  Sun: 'Sunday',
+};
+
 const TimeFunnel = ({ date, time, operationTime, onNext, onPrev }: Props) => {
   const [selectedTime, setSelectedTime] = useState(time);
 
@@ -56,7 +67,17 @@ const TimeFunnel = ({ date, time, operationTime, onNext, onPrev }: Props) => {
     setSelectedTime(t);
   };
 
-  console.log(operationTime);
+  const day = dayOfWeek[new Date(date).toString().slice(0, 3)];
+
+  const handleClick = () => {
+    if (selectedTime) {
+      onNext(selectedTime);
+    } else {
+      toast.error('예약 시간을 선택해주세요.');
+    }
+  };
+
+  console.log(operationTime[day]);
 
   return (
     <CardContainer>
@@ -93,7 +114,7 @@ const TimeFunnel = ({ date, time, operationTime, onNext, onPrev }: Props) => {
       </CardContent>
       <CardFooter className='mt-16 flex w-full justify-evenly gap-5'>
         <Button onClick={() => onPrev(date)}>이전으로</Button>
-        <Button onClick={}>다음으로</Button>
+        <Button onClick={handleClick}>다음으로</Button>
       </CardFooter>
     </CardContainer>
   );
