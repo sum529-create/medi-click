@@ -3,7 +3,6 @@ import Title from '@/components/ui/Title';
 import { getAllHospitalData } from '@/utils/api/hospitals';
 
 const HospitalList = async () => {
-  // 실제 데이터 적용되면 HospitalCard는 map으로 돌릴 예정입니다.
   const hospitalList = await getAllHospitalData();
 
   return (
