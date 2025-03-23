@@ -30,7 +30,8 @@ export const getSplitDate = (date: Date) => {
 // 나중에 시간 선택 페이지를 수정하면서 이 함수는 삭제할 예정입니다.
 
 export const getReservationTime = (time: string) => {
-  const [hour, minute] = time.split(':').map(Number);
+  const hour = Number(time.slice(0, 2));
+  const minute = time.slice(3, 5);
 
   if (hour === 0) {
     return `오전 12시 ${minute}분`;
