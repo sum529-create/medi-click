@@ -1,5 +1,5 @@
+import ProfileImage from '../../ProfileImage';
 import ProfileContainer from './ProfileContainer';
-import ProfileImage from './ProfileImage';
 import SideNav from './SideNav';
 
 interface User {

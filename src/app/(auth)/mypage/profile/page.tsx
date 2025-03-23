@@ -1,7 +1,7 @@
 import EditFormInput from '@/components/features/mypage/editProfile/EditFormInput';
-import ProfileImage from '@/components/features/mypage/layout/sideBar/ProfileImage';
 import MainContentsContainer from '@/components/features/mypage/MainContentsContainer';
 import MainContentsTitleBox from '@/components/features/mypage/MainContentsTitleBox';
+import ProfileImage from '@/components/features/mypage/ProfileImage';
 import { Button } from '@/components/ui/button';
 
 const ProfileEditPage = () => {
