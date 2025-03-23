@@ -11,7 +11,7 @@ const MyPage = () => {
 
   return (
     <MyPageContainer>
-      <SideBar user={userData} />
+      <SideBar user={userData} /> 1
       <MyPageContentsContainer>
         <MyReserveCalendar />
       </MyPageContentsContainer>
