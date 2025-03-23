@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-const SideNavWrapper = ({
+const UserMenuItem = ({
   children,
   className,
   href,
@@ -19,4 +19,4 @@ const SideNavWrapper = ({
   );
 };
 
-export default SideNavWrapper;
+export default UserMenuItem;
