@@ -1,17 +1,15 @@
+import EditFormInput from '@/components/features/mypage/editProfile/EditFormInput';
+import MainContentsContainer from '@/components/features/mypage/MainContentsContainer';
+import MainContentsTitleBox from '@/components/features/mypage/MainContentsTitleBox';
 import { Button } from '@/components/ui/button';
-import MainContentsContainer from '../MainContentsContainer';
-import MainContentsTitleBox from '../MainContentsTitleBox';
-import EditFormInput from './EditFormInput';
 
-interface User {
-  userData: {
-    name: string;
-    email: string;
-    phoneNumber: string;
-  };
-}
+const ProfileEditPage = () => {
+  const userData = {
+    name: '김수임',
+    email: 'rrrr6563@naver.com',
+    phoneNumber: '010-1234-5678',
+  }; //임시데이터
 
-const EditProfile = ({ userData }: User) => {
   const { name, email, phoneNumber } = userData;
 
   return (
@@ -48,4 +46,4 @@ const EditProfile = ({ userData }: User) => {
   );
 };
 
-export default EditProfile;
+export default ProfileEditPage;
