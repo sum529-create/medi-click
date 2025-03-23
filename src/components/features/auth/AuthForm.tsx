@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { cn } from '@/lib/utils';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 
@@ -30,12 +31,18 @@ const AuthForm = ({ mode }: Props) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleAuthSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log(AuthForm); // 테스트 코드
+  const handleRoleChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, role: value }));
   };
 
-  const AuthInputClassName = 'h-14 w-full rounded-lg bg-gray02 px-5 text-lg';
+  const handleAuthSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(formData); // 테스트 코드
+  };
+
+  const AuthInputClassName = cn(
+    'h-14 w-full rounded-lg bg-gray02 px-5 text-lg',
+  );
 
   return (
     <form
@@ -78,7 +85,7 @@ const AuthForm = ({ mode }: Props) => {
             name='phone'
             type='tel'
             placeholder='전화번호'
-            pattern='[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}'
+            pattern='[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}|[0-9]{9,11}'
             value={formData.phone}
             onChange={handleAuthChange}
             className={AuthInputClassName}
@@ -96,7 +103,7 @@ const AuthForm = ({ mode }: Props) => {
             onClick={(e) => ((e.target as HTMLInputElement).type = 'date')}
           />
 
-          <Select>
+          <Select value={formData.role} onValueChange={handleRoleChange}>
             <SelectTrigger className={AuthInputClassName}>
               <SelectValue placeholder='역할 선택' />
             </SelectTrigger>
