@@ -12,6 +12,8 @@ interface User {
 }
 
 const EditProfile = ({ userData }: User) => {
+  const { name, email, phoneNumber } = userData;
+
   return (
     <MainContentsContainer>
       <MainContentsTitleBox title='개인 정보 수정' />
@@ -24,17 +26,13 @@ const EditProfile = ({ userData }: User) => {
             </Button>
           </div>
           <div className='flex w-full flex-col gap-10'>
-            <EditFormInput label='이름' inputValue={userData.name} disabled />
-            <EditFormInput
-              label='이메일'
-              inputValue={userData.email}
-              disabled
-            />
+            <EditFormInput label='이름' inputValue={name} disabled />
+            <EditFormInput label='이메일' inputValue={email} disabled />
           </div>
         </div>
         <EditFormInput
           label='연락처'
-          inputValue={userData.phoneNumber}
+          inputValue={phoneNumber}
           className='my-10'
         />
         <div className='flex justify-end'>
