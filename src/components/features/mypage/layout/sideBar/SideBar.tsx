@@ -1,3 +1,6 @@
+'use client';
+
+import { usePathname } from 'next/navigation';
 import { PATH } from '@/constants/routerPath';
 import ProfileImage from '../../ProfileImage';
 import ProfileContainer from './ProfileContainer';
@@ -12,6 +15,8 @@ interface User {
 }
 
 const SideBar = ({ user }: User) => {
+  const pathName = usePathname();
+
   const menuItems = [
     { label: '내 예약 캘린더', path: PATH.MYPAGE },
     { label: '내 예약 목록', path: PATH.RESERVATIONS },
@@ -35,7 +40,11 @@ const SideBar = ({ user }: User) => {
           USER MENU
         </div>
         {menuItems.map((item, index) => (
-          <UserMenuItem key={index} className={item.className} href={item.path}>
+          <UserMenuItem
+            key={index}
+            className={`${item.className} ${pathName === item.path && `bg-sub-hover`}`}
+            href={item.path}
+          >
             {item.label}
           </UserMenuItem>
         ))}
