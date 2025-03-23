@@ -1,5 +1,5 @@
-import Banner from './Banner/Banner';
-import ReserveContents from './ReserveContents/ReserveContents';
+import Banner from './banner/Banner';
+import ReserveContents from './reserveContents/ReserveContents';
 
 const MyReserveDetail = () => {
   return (
