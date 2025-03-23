@@ -48,7 +48,7 @@ const TimeFunnel = ({ date, time, operationTime, onNext, onPrev }: Props) => {
     }
   };
 
-  console.log(operationTime[day]);
+  console.log(selectedTime);
 
   const { morning, afternoon } = generateTimeSlots(operationTime[day]);
 
