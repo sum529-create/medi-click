@@ -7,7 +7,7 @@ const TimeButtonContainer = ({ children, timeZone }: Props) => {
   return (
     <div className='flex flex-col items-start gap-2'>
       <p className='font-bold'>{timeZone}</p>
-      <div className='mx-auto grid w-full max-w-md grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4'>
+      <div className='mx-auto grid max-w-md gap-4 [grid-template-columns:repeat(auto-fit,minmax(100px,1fr))]'>
         {children}
       </div>
     </div>

@@ -50,6 +50,9 @@ const afternoon = [
 
 const TimeFunnel = ({ date, time, onNext, onPrev }: Props) => {
   const [selectedTime, setSelectedTime] = useState(time);
+  const handleTimeButton = (t: string) => {
+    setSelectedTime(t);
+  };
 
   return (
     <CardContainer>
@@ -58,14 +61,14 @@ const TimeFunnel = ({ date, time, onNext, onPrev }: Props) => {
           원하는 예약 시간을 선택해주세요.
         </CardTitle>
       </CardHeader>
-      <CardContent className='my-5 flex h-fit flex-col items-center justify-center gap-5'>
+      <CardContent className='mt-10 flex h-fit flex-col items-center justify-center gap-10'>
         <TimeButtonContainer timeZone='오전'>
           {morning.map((m) => (
             <Button
               key={crypto.randomUUID()}
               variant={selectedTime === m ? 'default' : 'time'}
               size='time'
-              onClick={() => setSelectedTime(m)}
+              onClick={() => handleTimeButton(m)}
             >
               {m}
             </Button>
@@ -77,14 +80,14 @@ const TimeFunnel = ({ date, time, onNext, onPrev }: Props) => {
               key={crypto.randomUUID()}
               variant={selectedTime == a ? 'default' : 'time'}
               size='time'
-              onClick={() => setSelectedTime(a)}
+              onClick={() => handleTimeButton(a)}
             >
               {a}
             </Button>
           ))}
         </TimeButtonContainer>
       </CardContent>
-      <CardFooter className='mt-24 flex justify-evenly'>
+      <CardFooter className='mt-16 flex w-full justify-evenly gap-5'>
         <Button onClick={() => onPrev(date)}>이전으로</Button>
         <Button onClick={() => onNext(selectedTime)}>다음으로</Button>
       </CardFooter>
