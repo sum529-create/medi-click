@@ -30,12 +30,24 @@ const dayOfWeek: { [key: string]: string } = {
 const TimeFunnel = ({ date, time, operationTime, onNext, onPrev }: Props) => {
   const [selectedTime, setSelectedTime] = useState(time);
 
-  const handleTimeButton = (t: string) => {
-    setSelectedTime(t);
+  const handleTimeButton = (time: string) => {
+    setSelectedTime(time);
   };
 
   const day = dayOfWeek[new Date(date).toString().slice(0, 3)];
   const equalDay = operationTime[day];
+
+  if (!equalDay) {
+    return (
+      <CardContainer>
+        <CardHeaderContainer>예약 가능한 시간이 없습니다</CardHeaderContainer>
+        <CardFooter className='mt-16 flex w-full justify-evenly gap-5'>
+          <Button onClick={() => onPrev(date)}>이전으로</Button>
+        </CardFooter>
+      </CardContainer>
+    );
+  }
+  const { morning, afternoon } = generateTimeSlots(equalDay);
 
   const handleClick = () => {
     if (selectedTime) {
@@ -45,44 +57,36 @@ const TimeFunnel = ({ date, time, operationTime, onNext, onPrev }: Props) => {
     }
   };
 
-  const { morning, afternoon } = generateTimeSlots(equalDay);
-
   return (
     <CardContainer>
       <CardHeaderContainer>
         원하는 예약 시간을 선택해주세요.
       </CardHeaderContainer>
       <CardContent className='mt-10 flex h-fit flex-col items-center justify-center gap-10'>
-        {equalDay ? (
-          <>
-            <TimeButtonContainer timeZone='오전'>
-              {morning.map((m) => (
-                <Button
-                  key={crypto.randomUUID()}
-                  variant={selectedTime === m ? 'default' : 'time'}
-                  size='time'
-                  onClick={() => handleTimeButton(m)}
-                >
-                  {m}
-                </Button>
-              ))}
-            </TimeButtonContainer>
-            <TimeButtonContainer timeZone='오후'>
-              {afternoon.map((a) => (
-                <Button
-                  key={crypto.randomUUID()}
-                  variant={selectedTime == a ? 'default' : 'time'}
-                  size='time'
-                  onClick={() => handleTimeButton(a)}
-                >
-                  {a}
-                </Button>
-              ))}
-            </TimeButtonContainer>
-          </>
-        ) : (
-          <div>아무것도 업슴</div>
-        )}
+        <TimeButtonContainer timeZone='오전'>
+          {morning.map((morningTime) => (
+            <Button
+              key={crypto.randomUUID()}
+              variant={selectedTime === morningTime ? 'default' : 'time'}
+              size='time'
+              onClick={() => handleTimeButton(morningTime)}
+            >
+              {morningTime}
+            </Button>
+          ))}
+        </TimeButtonContainer>
+        <TimeButtonContainer timeZone='오후'>
+          {afternoon.map((afternoonTime) => (
+            <Button
+              key={crypto.randomUUID()}
+              variant={selectedTime == afternoonTime ? 'default' : 'time'}
+              size='time'
+              onClick={() => handleTimeButton(afternoonTime)}
+            >
+              {afternoonTime}
+            </Button>
+          ))}
+        </TimeButtonContainer>
       </CardContent>
       <CardFooter className='mt-16 flex w-full justify-evenly gap-5'>
         <Button onClick={() => onPrev(date)}>이전으로</Button>
