@@ -21,7 +21,7 @@ const ProfileEditPage = () => {
       <form className='relative px-20 py-10 font-bold'>
         <div className='flex gap-20'>
           <div className='flex flex-col items-center gap-8'>
-            <ProfileImage src={profileImgPath} height='166px' width='166px' />
+            <ProfileImage src={profileImgPath} size='166px' />
             <Button className='h-[44px] w-[144px] rounded-[10px] text-lg'>
               이미지 변경
             </Button>

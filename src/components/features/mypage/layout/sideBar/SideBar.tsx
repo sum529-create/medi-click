@@ -31,7 +31,7 @@ const SideBar = ({ user }: User) => {
   return (
     <aside className='flex flex-col gap-8'>
       <ProfileContainer>
-        <ProfileImage src={profileImgPath} height='108px' width='108px' />
+        <ProfileImage src={profileImgPath} size='108px' />
         <p className='text-2xl font-bold text-black01'>{name}님</p>
         <p className='font-bold text-black01'>{email}</p>
       </ProfileContainer>
