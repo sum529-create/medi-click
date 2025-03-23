@@ -7,11 +7,12 @@ interface ImageProps {
 
 const ProfileImage = ({ src, size }: ImageProps) => {
   return (
-    <Avatar className={`size-[${size}]`}>
+    <Avatar style={{ width: size, height: size }}>
       <AvatarImage src={src} />
       <AvatarFallback>
         <div
-          className={`size-[${size}] rounded-full border-2 border-main-hover bg-sub`}
+          style={{ width: size, height: size }}
+          className={`rounded-full border-2 border-main-hover bg-sub`}
         />
       </AvatarFallback>
     </Avatar>
