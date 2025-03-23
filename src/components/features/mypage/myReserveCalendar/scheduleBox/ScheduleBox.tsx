@@ -8,6 +8,7 @@ const ScheduleBox = () => {
     hospitalName: '서울통정형외과의원 잠실점',
     schedule: '2025년 3월 20일 (목) 14:00',
     status: 'ok',
+    id: 'test',
   };
   return (
     <ScheduleContainer>
