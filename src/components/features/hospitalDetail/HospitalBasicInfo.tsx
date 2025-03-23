@@ -9,14 +9,14 @@ interface InfoParamsType {
   dutyAddr: string;
   dutyTel1: string;
   dutyName: string;
-  dgidIdName: string;
+  department: string;
 }
 
 const HospitalBasicInfo = ({
   dutyAddr,
   dutyTel1,
   dutyName,
-  dgidIdName,
+  department,
 }: InfoParamsType) => {
   const { id } = useParams();
   const hospitalDetails = [
@@ -36,7 +36,7 @@ const HospitalBasicInfo = ({
   return (
     <div className='mb-[100px] flex flex-col justify-between gap-12 lg:flex-row'>
       <div className='flex flex-col gap-6'>
-        <p className={textStyles.subInfo}>{dgidIdName || ''}</p>
+        <p className={textStyles.subInfo}>{department || ''}</p>
         <h3 className={textStyles.title}>{dutyName || ''}</h3>
         {hospitalDetails.map((info) => (
           <p key={info.label} className={textStyles.subInfo}>

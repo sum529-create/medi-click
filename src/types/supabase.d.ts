@@ -1,3 +1,5 @@
+type ReservationStatus = 'ok' | 'cancel' | 'waiting';
+
 export type Json =
   | string
   | number
@@ -58,7 +60,7 @@ export type Database = {
           hospital_id: string;
           id: number;
           memo: string | null;
-          status: boolean;
+          status: ReservationStatus;
           time: string;
           updated_at: string;
           user_id: string;
@@ -69,7 +71,7 @@ export type Database = {
           hospital_id: string;
           id?: number;
           memo?: string | null;
-          status: boolean;
+          status: ReservationStatus;
           time: string;
           updated_at: string;
           user_id?: string;
@@ -80,7 +82,7 @@ export type Database = {
           hospital_id?: string;
           id?: number;
           memo?: string | null;
-          status?: boolean;
+          status?: ReservationStatus;
           time?: string;
           updated_at?: string;
           user_id?: string;
