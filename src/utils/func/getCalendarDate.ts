@@ -54,20 +54,31 @@ export const generateTimeSlots = (obj: { open: string; close: string }) => {
   const open = obj.open.padStart(4, '0');
   const close = obj.close.padStart(4, '0');
 
-  let totalMinutes = Number(open.slice(0, 2)) * 60 + Number(open.slice(3, 5));
+  let totalMinutes = Number(open.slice(0, 2)) * 60 + Number(open.slice(2, 4));
   const closeMinutes =
     Number(close.slice(0, 2)) * 60 + Number(close.slice(3, 5));
 
-  const arr = [];
+  const morning = [];
+  const afternoon = [];
 
   while (totalMinutes <= closeMinutes) {
+    if (totalMinutes >= 750 && totalMinutes < 840) {
+      totalMinutes += 30;
+      continue;
+    }
+
     const str =
       Math.floor(totalMinutes / 60) +
       ':' +
       `${totalMinutes % 60}`.padStart(2, '0');
-    arr.push(str);
+
+    if (totalMinutes < 750) {
+      morning.push(str);
+    } else {
+      afternoon.push(str);
+    }
     totalMinutes += 30;
   }
 
-  return arr;
+  return { morning, afternoon };
 };

@@ -21,36 +21,6 @@ interface Props {
   onPrev: (date: string) => void;
 }
 
-// 임시 데이터
-const morning = [
-  '09:00',
-  '09:20',
-  '09:40',
-  '10:00',
-  '10:20',
-  '10:40',
-  '11:00',
-  '11:20',
-  '11:40',
-  '12:00',
-  '12:20',
-  '12:40',
-];
-const afternoon = [
-  '14:00',
-  '14:20',
-  '14:40',
-  '15:00',
-  '15:20',
-  '15:40',
-  '16:00',
-  '16:20',
-  '16:40',
-  '17:00',
-  '17:20',
-  '17:40',
-];
-
 const dayOfWeek: { [key: string]: string } = {
   Mon: 'Monday',
   Tue: 'Tuesday',
@@ -80,7 +50,7 @@ const TimeFunnel = ({ date, time, operationTime, onNext, onPrev }: Props) => {
 
   console.log(operationTime[day]);
 
-  console.log(generateTimeSlots(operationTime[day]));
+  const { morning, afternoon } = generateTimeSlots(operationTime[day]);
 
   return (
     <CardContainer>
