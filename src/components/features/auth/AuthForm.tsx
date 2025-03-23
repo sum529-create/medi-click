@@ -80,17 +80,18 @@ const AuthForm = ({ mode }: Props) => {
           />
 
           <Input
-            name='birthdate'
-            type='date'
+            name='birthday'
+            type='text'
             placeholder='생년월일'
             value={formData.birthday}
             onChange={handleChange}
             className={AuthInputClassName}
             required
+            onClick={(e) => ((e.target as HTMLInputElement).type = 'date')}
           />
 
           <Select>
-            <SelectTrigger className='h-14 w-full rounded-lg bg-gray02 px-5 text-lg'>
+            <SelectTrigger className={AuthInputClassName}>
               <SelectValue placeholder='역할 선택' />
             </SelectTrigger>
             <SelectContent>
