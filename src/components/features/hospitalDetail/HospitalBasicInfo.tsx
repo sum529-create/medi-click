@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import KakaoMap from '@/components/common/KakaoMap';
 import { PATH } from '@/constants/routerPath';
 import formatTelephoneNumber from '@/utils/func/formatTelephoneNumber';
 import { Button } from '../../ui/button';
-import KaKaoMap from '../home/KaKaoMap';
 
 interface InfoParamsType {
   dutyAddr: string;
@@ -50,7 +50,7 @@ const HospitalBasicInfo = ({
         </div>
       </div>
       <div className='flex h-[350px] w-full gap-5 lg:w-[350px]'>
-        <KaKaoMap params={{ id: Array.isArray(id) ? id[0] : id }} />
+        <KakaoMap params={{ id: Array.isArray(id) ? id[0] : id }} />
       </div>
     </div>
   );
