@@ -3,6 +3,7 @@ import { useParams } from 'next/navigation';
 import { PATH } from '@/constants/routerPath';
 import formatTelephoneNumber from '@/utils/func/formatTelephoneNumber';
 import { Button } from '../../ui/button';
+import KaKaoMap from '../home/KaKaoMap';
 
 interface InfoParamsType {
   dutyAddr: string;
@@ -48,7 +49,9 @@ const HospitalBasicInfo = ({
           </Button>
         </div>
       </div>
-      <div className='h-[350px] w-full bg-black lg:w-[350px]'>kakao map</div>
+      <div className='flex h-[350px] w-full gap-5 lg:w-[350px]'>
+        <KaKaoMap params={{ id: Array.isArray(id) ? id[0] : id }} />
+      </div>
     </div>
   );
 };
