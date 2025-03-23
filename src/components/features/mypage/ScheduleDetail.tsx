@@ -1,4 +1,6 @@
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { PATH } from '@/constants/routerPath';
 import { ScheduleData } from '@/types/components/ui/mypage.schedule';
 
 interface ContentsProps {
@@ -6,7 +8,7 @@ interface ContentsProps {
 }
 
 const ScheduleDetail = ({ scheduleData }: ContentsProps) => {
-  const { hospitalName, schedule, status } = scheduleData;
+  const { hospitalName, schedule, status, id } = scheduleData;
 
   const reservationStatusMessage = {
     ok: ' 확정',
@@ -25,8 +27,11 @@ const ScheduleDetail = ({ scheduleData }: ContentsProps) => {
           상태: 예약{reservationStatusMessage[status]}
         </p>
       </div>
-      <Button className='absolute right-10 top-12 h-[42px] w-[144px] text-lg font-bold'>
-        상세보기
+      <Button
+        asChild
+        className='absolute right-10 top-12 h-[42px] w-[144px] text-lg font-bold'
+      >
+        <Link href={`${PATH.RESERVATION}/${id}`}>상세보기</Link>
       </Button>
     </div>
   );
