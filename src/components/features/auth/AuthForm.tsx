@@ -25,7 +25,7 @@ const AuthForm = ({ mode }: Props) => {
     role: '',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAuthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -41,7 +41,7 @@ const AuthForm = ({ mode }: Props) => {
         type='text'
         placeholder={mode === 'login' ? '아이디' : '이메일 주소'}
         value={formData.id}
-        onChange={handleChange}
+        onChange={handleAuthChange}
         className={AuthInputClassName}
         required
       />
@@ -51,7 +51,7 @@ const AuthForm = ({ mode }: Props) => {
         type='password'
         placeholder='비밀번호'
         value={formData.password}
-        onChange={handleChange}
+        onChange={handleAuthChange}
         className={AuthInputClassName}
         required
       />
@@ -63,7 +63,7 @@ const AuthForm = ({ mode }: Props) => {
             type='text'
             placeholder='이름'
             value={formData.name}
-            onChange={handleChange}
+            onChange={handleAuthChange}
             className={AuthInputClassName}
             required
           />
@@ -74,7 +74,7 @@ const AuthForm = ({ mode }: Props) => {
             placeholder='전화번호'
             pattern='[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}'
             value={formData.phone}
-            onChange={handleChange}
+            onChange={handleAuthChange}
             className={AuthInputClassName}
             required
           />
@@ -84,7 +84,7 @@ const AuthForm = ({ mode }: Props) => {
             type='text'
             placeholder='생년월일'
             value={formData.birthday}
-            onChange={handleChange}
+            onChange={handleAuthChange}
             className={AuthInputClassName}
             required
             onClick={(e) => ((e.target as HTMLInputElement).type = 'date')}
