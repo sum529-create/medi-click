@@ -7,7 +7,7 @@ import CardHeaderContainer from '@/components/layout/CardHeaderContainer';
 import TimeButtonContainer from '@/components/layout/TimeButtonContainer';
 import { Button } from '@/components/ui/button';
 import { CardContent, CardFooter } from '@/components/ui/card';
-import { generateTimeSlots } from '@/utils/func/getCalendarDate';
+import { generateTimeSlots } from '@/utils/func/generateTimeSlots';
 
 interface Props {
   date: string;
@@ -37,6 +37,7 @@ const TimeFunnel = ({ date, time, operationTime, onNext, onPrev }: Props) => {
   const day = dayOfWeek[new Date(date).toString().slice(0, 3)];
   const equalDay = operationTime[day];
 
+  // 만약 영업날이 아닐 경우 얼리 리턴
   if (!equalDay) {
     return (
       <CardContainer>
