@@ -1,6 +1,19 @@
-const ProfileImage = () => {
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+
+interface ImageProps {
+  src: string;
+  height: string;
+  width: string;
+}
+
+const ProfileImage = ({ src, height, width }: ImageProps) => {
   return (
-    <div className='h-[108px] w-[108px] rounded-full border-2 border-main-hover bg-sub' />
+    <Avatar className={`h-[${height}] w-[${width}]`}>
+      <AvatarImage src={src} />
+      <AvatarFallback>
+        <div className='h-[108px] w-[108px] rounded-full border-2 border-main-hover bg-sub' />
+      </AvatarFallback>
+    </Avatar>
   );
 };
 
