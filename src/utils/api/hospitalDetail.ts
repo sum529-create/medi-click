@@ -25,7 +25,7 @@ export const getHospitalApiUrl = (id: string) => {
 /**
  * 병원 상세 정보 조회
  */
-const hospitalDetail = async (id: string, options?: { isServer?: boolean }) => {
+const hospitalDetail = async (id: string) => {
   try {
     const apiUrl = getHospitalApiUrl(id);
     const res = await fetch(apiUrl);
@@ -62,6 +62,26 @@ export const hospitalDetailInfoSection = async (id: string) => {
   }
 };
 
+/**
+ * 병원 리뷰 조회
+ */
+export const hospitalDetailReviews = async (id: string) => {
+  try {
+    const { data, error } = await supabase
+      .from(TABLE.REVIEWS)
+      .select('review')
+      .eq('hospital_id', id);
+
+    if (error) throw error;
+    if (!data || data.length === 0) return false;
+
+    return data.map((e) => e.review);
+  } catch (error) {
+    console.error('Error fetching hospital reviews data', error);
+    throw error;
+  }
+};
+
 export default hospitalDetail;
 
 /**
@@ -87,6 +107,6 @@ export const getHospitalDetailLocation = async (id: string) => {
 
     return hospitalLocation;
   } catch (error) {
-    console.error('병원 상세 위치정보 불러오기 오류');
+    console.error('병원 상세 위치정보 불러오기 오류', error);
   }
 };
