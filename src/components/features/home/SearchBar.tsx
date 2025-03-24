@@ -8,7 +8,7 @@ import { useSearchStore } from '@/utils/zustand/useSearchStore';
 
 const SearchBar = () => {
   const DEBOUNCE_DELAY = 400;
-  const { searchKeyword, setSearchKeyword } = useSearchStore();
+  const { searchKeyword, setSearchKeyword } = useSearchStore((state) => state);
 
   const debouncedSearch = useCallback(
     debounce(setSearchKeyword, DEBOUNCE_DELAY),

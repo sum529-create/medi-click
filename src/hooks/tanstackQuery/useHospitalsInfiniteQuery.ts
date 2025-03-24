@@ -11,7 +11,7 @@ import { useSearchStore } from '@/utils/zustand/useSearchStore';
 export const useHospitalsInfiniteQuery = () => {
   const HOSPITAL_PAGE_SIZE = 10;
 
-  const { searchKeyword } = useSearchStore();
+  const searchKeyword = useSearchStore((state) => state.searchKeyword);
 
   return useInfiniteQuery({
     queryKey: [QUERY_KEY.HOSPITAL, searchKeyword],
