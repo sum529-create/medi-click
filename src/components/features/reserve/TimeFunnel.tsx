@@ -30,17 +30,15 @@ const dayOfWeek: { [key: string]: string } = {
 };
 
 const TimeFunnel = ({ operationTime, onNext, onPrev }: Props) => {
-  const [time, setTime] = useState<string>(() => {
-    const storageData = getLocalStorage();
-    return storageData.time || '';
-  });
+  const { date, time: storageTime } = getLocalStorage();
+  const [time, setTime] = useState<string>(storageTime || '');
 
   const handleTimeButton = (time: string) => {
     setTime(time);
     updateLocalStorage('time', time);
   };
 
-  const day = dayOfWeek[new Date('2025-04-04').toString().slice(0, 3)];
+  const day = dayOfWeek[new Date(date).toString().slice(0, 3)];
   const equalDay = operationTime[day];
 
   // 만약 영업날이 아닐 경우 얼리 리턴
