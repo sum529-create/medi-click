@@ -7,6 +7,7 @@ interface Input {
   className?: string;
   disabled?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  errorMessage?: string;
 }
 
 const EditFormInput = ({
@@ -15,12 +16,14 @@ const EditFormInput = ({
   className,
   disabled,
   onChange,
+  errorMessage,
 }: Input) => {
   return (
     <div className={`flex w-full flex-col gap-3 ${className}`}>
       <Text size='xl' color='black02' align='left'>
-        {label}
+        {label} <span className='m-5 text-sm text-red'>{errorMessage}</span>
       </Text>
+
       <Input
         className='h-[50px] w-full rounded-[14px] border-2 border-gray03'
         disabled={disabled}

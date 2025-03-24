@@ -9,13 +9,15 @@ import ProfileImage from '@/components/features/mypage/ProfileImage';
 import { Button } from '@/components/ui/button';
 import { useUpdateProfile } from '@/hooks/tanstackQuery/useUpdateProfile';
 import { useUserProfile } from '@/hooks/tanstackQuery/useUserProfile';
+import { validatePhoneNumber } from '@/utils/func/validatePhoneNumber';
 
 const ProfileEditPage = () => {
   const { isProfileError, isProfilePending, getProfileError, profile } =
     useUserProfile();
 
   const updateProfile = useUpdateProfile();
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   useEffect(() => {
     if (profile) setPhoneNumber(profile.phone_number);
@@ -27,7 +29,11 @@ const ProfileEditPage = () => {
 
   const handleEditProfile = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    updateProfile(phoneNumber);
+    if (validatePhoneNumber(phoneNumber)) {
+      updateProfile(phoneNumber);
+    } else {
+      setErrorMessage('010-XXXX-XXXX 형식으로 입력해주세요.');
+    }
   };
 
   return (
@@ -58,6 +64,7 @@ const ProfileEditPage = () => {
           inputValue={phoneNumber}
           className='my-10'
           onChange={(e) => setPhoneNumber(e.target.value)}
+          errorMessage={errorMessage}
         />
         <div className='flex justify-end'>
           <Button
