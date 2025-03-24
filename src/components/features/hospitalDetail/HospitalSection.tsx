@@ -6,7 +6,7 @@ import InfoSection from '@/components/features/hospitalDetail/InfoSection';
 
 import { useHospitalSchedule } from '@/hooks/tanstackQuery/useHospitalSchedule';
 import { convertToTimeFormat } from '@/utils/func/convertToTimeFormat';
-import { getOfficeHours } from '@/utils/func/getOfficeHours';
+import { getOfficeWeeks } from '@/utils/func/getOfficeWeeks';
 import ErrorState from './ErrorState';
 import ReviewSection from './ReviewSection';
 export interface HospitalSectionType {
@@ -83,7 +83,7 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
             {dutyTimes.map(([endTimeKey, startTimeKey], i) => {
               return (
                 <p key={i}>
-                  {` ${getOfficeHours(endTimeKey)} : ${convertToTimeFormat(hospitalData[startTimeKey].toString())} ~ ${convertToTimeFormat(hospitalData[endTimeKey].toString())}`}
+                  {` ${getOfficeWeeks(endTimeKey)} : ${convertToTimeFormat(hospitalData[startTimeKey].toString())} ~ ${convertToTimeFormat(hospitalData[endTimeKey].toString())}`}
                 </p>
               );
             })}
