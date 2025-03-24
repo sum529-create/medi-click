@@ -5,12 +5,13 @@ import { useMemo } from 'react';
 import Loading from '@/components/common/Loading';
 import HospitalBasicInfo from '@/components/features/hospitalDetail/HospitalBasicInfo';
 import InfoSection from '@/components/features/hospitalDetail/InfoSection';
-import ReviewSection from '@/components/features/hospitalDetail/ReviewSection';
 import { QUERY_KEY } from '@/constants/queryKey';
 import hospitalDetail, {
   hospitalDetailInfoSection,
+  hospitalDetailReviews,
 } from '@/utils/api/hospitalDetail';
 import { convertToTimeFormat } from '@/utils/func/convertToTimeFormat';
+import ReviewSection from './ReviewSection';
 interface HospitalSectionType {
   hpid: string;
 }
@@ -41,6 +42,17 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
   } = useQuery({
     queryKey: [QUERY_KEY.HOSPITAL_DETAIL_INFO, hpid],
     queryFn: () => hospitalDetailInfoSection(hpid),
+    enabled: !!hpid,
+  });
+
+  const {
+    data: reviewData,
+    isPending: isReviewPending,
+    isError: isReviewError,
+    error: reviewError,
+  } = useQuery({
+    queryKey: [QUERY_KEY.HOSPITAL_REVIEW, hpid],
+    queryFn: () => hospitalDetailReviews(hpid),
     enabled: !!hpid,
   });
 
@@ -89,7 +101,7 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
   }, [hospitalData, WEEKS]);
 
   // 로딩 상태 UI 개선
-  if (isPending || isInfoPending) {
+  if (isPending || isInfoPending || isReviewPending) {
     return (
       <div className={STATE_WRAPPER_STYLE}>
         <Loading size={100} />
@@ -98,7 +110,7 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
   }
 
   // 에러 상태 UI 개선
-  if (isError || isInfoError) {
+  if (isError || isInfoError || isReviewError) {
     return (
       <div className={STATE_WRAPPER_STYLE}>
         <div className='border-gray mb-[130px] rounded-lg border p-6 text-center'>
@@ -106,7 +118,9 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
             데이터를 불러오는 중 오류가 발생했습니다
           </h3>
           <p className='mb-4 text-sm'>
-            {error instanceof Error || infoError instanceof Error
+            {error instanceof Error ||
+            infoError instanceof Error ||
+            reviewError instanceof Error
               ? error?.message || infoError?.message
               : '알 수 없는 오류가 발생했습니다.'}
           </p>
@@ -154,7 +168,7 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
             <p>{info}</p>
           </InfoSection>
         )}
-        <ReviewSection />
+        <ReviewSection review={reviewData || []} />
       </div>
     </div>
   );
