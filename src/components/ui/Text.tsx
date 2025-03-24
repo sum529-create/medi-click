@@ -13,7 +13,7 @@ import { TitleProps } from './Title';
  * @prop {color} [color] - 색상 ('main' | 'main-hover' | 'sub' | 'sub-hover' | 'black01' | 'black02' | 'gray01' | 'gray02' | 'gray03' | 'red' | 'deep-blue')
  */
 
-type TextProps = Omit<TitleProps, 'tag'> & { isBold: boolean };
+type TextProps = Omit<TitleProps, 'tag'> & { isBold?: boolean };
 
 const Text = ({
   size = 'md',
