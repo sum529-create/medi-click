@@ -1,18 +1,20 @@
 'use client';
 
 import Loading from '@/components/common/Loading';
-import { useReservations } from '@/hooks/tanstackQuery/useReservations';
+import { QUERY_KEY } from '@/constants/queryKey';
+import { useMyPageData } from '@/hooks/tanstackQuery/useMyPageData';
+import { getReservationList } from '@/utils/api/reservation';
 import ScheduleDetail from '../../ScheduleDetail';
 import ScheduleContainer from './ScheduleContainer';
 import ScheduleTitleBox from './ScheduleTitleBox';
 
 const ScheduleBox = () => {
   const {
-    isReservationsError,
-    isReservationsPending,
-    getReservationsError,
-    reservationList,
-  } = useReservations();
+    isError: isReservationsError,
+    isPending: isReservationsPending,
+    error: getReservationsError,
+    data: reservationList,
+  } = useMyPageData(QUERY_KEY.RESERVATION, getReservationList);
 
   if (isReservationsError) throw getReservationsError;
   if (isReservationsPending) return <Loading size={100} />;
