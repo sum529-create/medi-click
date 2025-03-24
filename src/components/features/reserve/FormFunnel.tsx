@@ -1,12 +1,14 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import CardContainer from '@/components/layout/CardContainer';
 import CardHeaderContainer from '@/components/layout/CardHeaderContainer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
+import { insertReservationInfo } from '@/utils/api/reservation';
 import {
   getCalendarDate,
   getReservationTime,
@@ -18,10 +20,11 @@ import {
 
 interface Props {
   name: string;
+  id: string;
   onPrev: () => void;
 }
 
-const FormFunnel = ({ name, onPrev }: Props) => {
+const FormFunnel = ({ name, id, onPrev }: Props) => {
   const [value, setValue] = useState(() => {
     const storageData = getLocalStorage();
     return storageData.reason || '';
@@ -46,6 +49,29 @@ const FormFunnel = ({ name, onPrev }: Props) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
+  };
+
+  const handleSubmit = () => {
+    // 임시 데이터(zustand store에서 받아올 예정입니다)
+    const reservationInfo = {
+      time: time,
+      status: 'waiting',
+      user_id: '1ca622a0-68e5-49f2-b98c-5dcbd167b4cd',
+      date: date,
+      memo: value,
+      hospital_id: id,
+    };
+
+    try {
+      const error = insertReservationInfo(reservationInfo);
+      if (error) {
+        throw error;
+      }
+      toast.success('예약되었습니다!');
+    } catch (error) {
+      toast.error('예약 과정에서 오류가 발생했습니다.');
+      console.error(error);
+    }
   };
 
   return (
@@ -83,7 +109,7 @@ const FormFunnel = ({ name, onPrev }: Props) => {
       </CardContent>
       <CardFooter className='mt-10 flex justify-evenly'>
         <Button onClick={() => onPrev()}>이전으로</Button>
-        <Button>예약 완료하기</Button>
+        <Button onClick={handleSubmit}>예약 완료하기</Button>
       </CardFooter>
     </CardContainer>
   );

@@ -56,6 +56,7 @@ const ReservePage = ({ params }: Params) => {
       submitPage={({ history }) => (
         <FormFunnel
           name={data?.name as string}
+          id={params.id}
           onPrev={() => history.replace('timePage')}
         />
       )}
