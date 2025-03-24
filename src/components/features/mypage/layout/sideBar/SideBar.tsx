@@ -1,9 +1,9 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
+import Loading from '@/components/common/Loading';
 import { PATH } from '@/constants/routerPath';
-import { supabase } from '@/utils/supabase/supabase';
+import { useUserProfile } from '@/hooks/tanstackQuery/useUserProfile';
 import ProfileImage from '../../ProfileImage';
 import ProfileContainer from './ProfileContainer';
 import UserMenuItem from './UserMenuItem';
@@ -20,29 +20,17 @@ const SideBar = () => {
     },
   ];
 
-  const testId: string = '0d6511b9-926b-443f-9828-39e5f302e1e4';
+  const { isProfileError, isProfilePending, getProfileError, profile } =
+    useUserProfile();
 
-  const test = async () => {
-    const { data } = await supabase.from('users').select('*').eq('id', testId);
-
-    return data;
-  };
-
-  const { data, isError, isPending } = useQuery({
-    queryKey: ['user'],
-    queryFn: test,
-  });
-
-  if (isError || isPending) return;
-  if (!data) return;
-
-  const { name, avatar_path } = data[0];
+  if (isProfileError) throw getProfileError;
+  if (isProfilePending) return <Loading size={30} />;
 
   return (
     <aside className='flex flex-col gap-8'>
       <ProfileContainer>
-        <ProfileImage src={avatar_path!} size='108px' />
-        <p className='text-2xl font-bold text-black01'>{name}님</p>
+        <ProfileImage src={profile?.avatar_path} size='108px' />
+        <p className='text-2xl font-bold text-black01'>{profile?.name}님</p>
         <p className='font-bold text-black01'>
           rrr6563@naver.com{/*세션에서 받아올 유저 이메일*/}
         </p>
