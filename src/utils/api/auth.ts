@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { supabase } from '../supabase/supabase';
 
 interface FormData {
@@ -23,16 +24,27 @@ export const signUp = async ({
     password,
   });
 
-  if (error) throw error;
+  if (error) {
+    toast.error('이미 사용 중인 이메일입니다.', {
+      position: 'top-center',
+      autoClose: 3000,
+    });
+    return;
+  }
 
   const { error: insertError } = await supabase.from('users').insert({
     id: user?.id,
+    email,
     name,
     phone_number: phone,
     birth,
   });
 
   if (insertError) throw insertError;
+  toast.success('회원가입이 완료되었습니다.', {
+    position: 'top-center',
+    autoClose: 3000,
+  });
 };
 
 export const login = async ({ email, password }: FormData) => {
