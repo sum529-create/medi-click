@@ -1,12 +1,8 @@
 import { COLUMN, TABLE } from '@/constants/supabaseTables';
-import { Database } from '@/types/supabase';
+import { Reservation } from '@/types/components/mypage/reservation.type';
 import { supabase } from '../supabase/supabase';
 
 const testId: string = '0d6511b9-926b-443f-9828-39e5f302e1e4'; // zustand 또는 로그인 세션에서 받아올 현재 로그인 된 유저 아이디 값
-
-type Reservation = Database['public']['Tables']['reservations']['Row'] & {
-  hospitals: Database['public']['Tables']['hospitals']['Row'];
-};
 
 /**
  * supabase에서 현재 로그인 된 사용자의 모든 예약 리스트를 불러오는 api 함수입니다.
@@ -18,6 +14,24 @@ export const getReservationList = async (): Promise<Reservation[] | null> => {
     .from(TABLE.RESERVATIONS)
     .select(`* , ${TABLE.HOSPITALS}(*)`)
     .eq(COLUMN.USER_ID, testId);
+  if (error) console.log('예약 리스트 가져오기 실패', error);
+
+  return data;
+};
+
+/**
+ * supabase에서 선택한 예약의 상세정보를 가져오는 api 함수입니다.
+ * @param { number } pathId :
+ * @returns { data } 현재 로그인 된 유저의 모든 예약 리스트
+ */
+export const getReservationDetail = async (
+  pathId: string,
+): Promise<Reservation | null> => {
+  const { data, error } = await supabase
+    .from(TABLE.RESERVATIONS)
+    .select(`* , ${TABLE.HOSPITALS}(*)`)
+    .eq(COLUMN.ID, Number(pathId))
+    .single();
   if (error) console.log('예약 리스트 가져오기 실패', error);
 
   return data;
