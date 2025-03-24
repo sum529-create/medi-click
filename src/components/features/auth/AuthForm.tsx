@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import {
   Select,
   SelectContent,
@@ -8,6 +9,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { MODE } from '@/constants/authMode';
+import { cn } from '@/lib/utils';
+import { getSession, login, signUp } from '@/utils/api/auth';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 
@@ -16,32 +20,56 @@ interface Props {
 }
 
 const AuthForm = ({ mode }: Props) => {
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
-    id: '',
+    email: '',
     password: '',
     name: '',
     phone: '',
-    birthday: '',
+    birth: '',
     role: '',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const [isLogin, setIsLogin] = useState(false);
+
+  const handleAuthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const AuthInputClassName = 'h-14 w-full rounded-lg bg-gray02 px-5 text-lg';
+  const handleRoleChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, role: value }));
+  };
+
+  const handleAuthSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (mode === MODE.SIGNUP) {
+      signUp(formData);
+    } else {
+      login(formData);
+    }
+  };
+
+  useEffect(() => {
+    getSession(setIsLogin);
+  }, []);
+
+  const AuthInputClassName = cn(
+    'h-14 w-full rounded-lg bg-gray02 px-5 text-lg',
+  );
 
   return (
     <form
-      className={`flex flex-col space-y-5 ${mode === 'login' ? 'mb-10' : 'mb-8'}`}
+      onSubmit={handleAuthSubmit}
+      className={`flex flex-col space-y-5 ${mode === MODE.LOGIN ? 'mb-10' : 'mb-8'}`}
     >
       <Input
-        name='id'
+        name='email'
         type='text'
-        placeholder={mode === 'login' ? '아이디' : '이메일 주소'}
-        value={formData.id}
-        onChange={handleChange}
+        placeholder='이메일 주소'
+        value={formData.email}
+        onChange={handleAuthChange}
         className={AuthInputClassName}
         required
       />
@@ -51,19 +79,19 @@ const AuthForm = ({ mode }: Props) => {
         type='password'
         placeholder='비밀번호'
         value={formData.password}
-        onChange={handleChange}
+        onChange={handleAuthChange}
         className={AuthInputClassName}
         required
       />
 
-      {mode === 'signup' && (
+      {mode === MODE.SIGNUP && (
         <>
           <Input
             name='name'
             type='text'
             placeholder='이름'
             value={formData.name}
-            onChange={handleChange}
+            onChange={handleAuthChange}
             className={AuthInputClassName}
             required
           />
@@ -72,25 +100,26 @@ const AuthForm = ({ mode }: Props) => {
             name='phone'
             type='tel'
             placeholder='전화번호'
-            pattern='[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}'
+            pattern='[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}|[0-9]{9,11}'
             value={formData.phone}
-            onChange={handleChange}
+            onChange={handleAuthChange}
             className={AuthInputClassName}
             required
           />
 
           <Input
-            name='birthdate'
-            type='date'
+            name='birth'
+            type='text'
             placeholder='생년월일'
-            value={formData.birthday}
-            onChange={handleChange}
+            value={formData.birth}
+            onChange={handleAuthChange}
             className={AuthInputClassName}
             required
+            onClick={(e) => ((e.target as HTMLInputElement).type = 'date')}
           />
 
-          <Select>
-            <SelectTrigger className='h-14 w-full rounded-lg bg-gray02 px-5 text-lg'>
+          <Select value={formData.role} onValueChange={handleRoleChange}>
+            <SelectTrigger className={AuthInputClassName}>
               <SelectValue placeholder='역할 선택' />
             </SelectTrigger>
             <SelectContent>
@@ -103,7 +132,7 @@ const AuthForm = ({ mode }: Props) => {
       )}
 
       <Button className='h-12 w-full rounded-lg text-base font-medium'>
-        {mode === 'login' ? '로그인' : '회원가입'}
+        {mode === MODE.LOGIN ? '로그인' : '회원가입'}
       </Button>
     </form>
   );
