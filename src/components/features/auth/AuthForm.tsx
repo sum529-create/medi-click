@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { MODE } from '@/constants/authMode';
 import { cn } from '@/lib/utils';
 import { getSession, login, signUp } from '@/utils/api/auth';
 import { Button } from '../../ui/button';
@@ -43,7 +44,7 @@ const AuthForm = ({ mode }: Props) => {
 
   const handleAuthSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (mode === 'signup') {
+    if (mode === MODE.SIGNUP) {
       signUp(formData);
     } else {
       login(formData);
@@ -61,7 +62,7 @@ const AuthForm = ({ mode }: Props) => {
   return (
     <form
       onSubmit={handleAuthSubmit}
-      className={`flex flex-col space-y-5 ${mode === 'login' ? 'mb-10' : 'mb-8'}`}
+      className={`flex flex-col space-y-5 ${mode === MODE.LOGIN ? 'mb-10' : 'mb-8'}`}
     >
       <Input
         name='email'
@@ -83,7 +84,7 @@ const AuthForm = ({ mode }: Props) => {
         required
       />
 
-      {mode === 'signup' && (
+      {mode === MODE.SIGNUP && (
         <>
           <Input
             name='name'
@@ -131,7 +132,7 @@ const AuthForm = ({ mode }: Props) => {
       )}
 
       <Button className='h-12 w-full rounded-lg text-base font-medium'>
-        {mode === 'login' ? '로그인' : '회원가입'}
+        {mode === MODE.LOGIN ? '로그인' : '회원가입'}
       </Button>
     </form>
   );
