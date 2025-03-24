@@ -38,7 +38,7 @@ const ReservePage = ({ params }: Params) => {
           date={context.date as string}
           time={context.time as string}
           onNext={(date, time) => {
-            console.log('funnel: ', date, time);
+            // console.log('funnel: ', date, time);
             history.push('timePage', { date, time });
           }}
         />
