@@ -57,7 +57,8 @@ const AuthForm = ({ mode }: Props) => {
         name='email'
         type='text'
         placeholder='이메일 주소'
-        pattern='/^[^\s@]+@[^\s@]+\.[^\s@]+$/'
+        pattern='^[^\s@]+@[^\s@]+\.[^\s@]+$'
+        title='이메일 형식이 올바르지 않습니다. 예시: example@domain.com'
         value={formData.email}
         onChange={handleAuthChange}
         className={AuthInputClassName}
@@ -68,7 +69,8 @@ const AuthForm = ({ mode }: Props) => {
         name='password'
         type='password'
         placeholder='비밀번호'
-        pattern='/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,}$/'
+        pattern='^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{6,}$'
+        title='영문과 숫자를 포함한 6글자 이상을 입력해주세요.'
         value={formData.password}
         onChange={handleAuthChange}
         className={AuthInputClassName}
@@ -81,7 +83,8 @@ const AuthForm = ({ mode }: Props) => {
             name='name'
             type='text'
             placeholder='이름'
-            pattern='/^[가-힣]{2,4}$/'
+            pattern='^[가-힣]{2,4}$'
+            title='이름을 정확히 입력해주세요. (한글 2~4자)'
             value={formData.name}
             onChange={handleAuthChange}
             className={AuthInputClassName}
@@ -92,7 +95,8 @@ const AuthForm = ({ mode }: Props) => {
             name='phone'
             type='tel'
             placeholder='전화번호'
-            pattern='/^(010|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064)-?\d{3,4}-?\d{4}$/'
+            pattern='^(02|010|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064)-?\d{3,4}-?\d{4}$'
+            title='전화번호를 정확히 입력해주세요. 예시: 010-1111-1111 또는 01011111111'
             value={formData.phone}
             onChange={handleAuthChange}
             className={AuthInputClassName}
