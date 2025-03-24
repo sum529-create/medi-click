@@ -1,20 +1,29 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
 import Loading from '@/components/common/Loading';
 import Text from '@/components/ui/Text';
 import { useAllHospitalLocation } from '@/hooks/map/useAllHospitalLocation';
 import { useCurrentLocation } from '@/hooks/map/useCurrentLocation';
 import { useKakaoLoad } from '@/hooks/map/useKakaoLoad';
+import { useHospitalStore } from '@/utils/zustand/useHospitalStore';
 import EventMarkerContainer from './EventMarkerContainer';
 
 const KaKaoMap = () => {
   const currentLocation = useCurrentLocation();
   const hospitalLocationList = useAllHospitalLocation();
+  const selectedHospital = useHospitalStore((state) => state.selectedHospital);
 
+  const [mapCenter, setMapCenter] = useState(currentLocation);
   const [activeMarkerId, setActiveMarkerId] = useState<string | null>(null);
   const [loading, error] = useKakaoLoad();
+
+  useEffect(() => {
+    if (selectedHospital) {
+      setMapCenter(selectedHospital);
+    }
+  }, [selectedHospital]);
 
   if (loading)
     return (
@@ -32,11 +41,7 @@ const KaKaoMap = () => {
 
   return (
     <div className='relative w-full flex-[2] border-2'>
-      <Map
-        center={currentLocation}
-        level={3}
-        className='h-[300px] md:h-[750px]'
-      >
+      <Map center={mapCenter} level={3} className='h-[300px] md:h-[750px]'>
         {hospitalLocationList.map((position) => (
           <EventMarkerContainer
             key={position.id}
