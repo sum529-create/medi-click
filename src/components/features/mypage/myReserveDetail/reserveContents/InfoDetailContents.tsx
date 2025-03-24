@@ -3,7 +3,7 @@ import Title from '@/components/ui/Title';
 
 interface DetailContents {
   title: string;
-  text: string;
+  text: string | null;
 }
 
 const InfoDetailContents = ({ title, text }: DetailContents) => {
