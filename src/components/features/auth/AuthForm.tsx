@@ -36,9 +36,9 @@ const AuthForm = ({ mode }: Props) => {
     e.preventDefault();
 
     if (mode === MODE.SIGNUP) {
-      const error = await signUp(formData);
+      const signUpError = await signUp(formData);
 
-      if (error) {
+      if (signUpError) {
         toast.error('이미 사용 중인 이메일입니다.', {
           position: 'top-center',
           autoClose: 3000,
