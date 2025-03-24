@@ -69,7 +69,9 @@ const CalendarFunnel = ({ onNext }: Props) => {
         />
       </CardContent>
       <CardFooter className='mt-auto flex justify-evenly'>
-        <Button onClick={handleClick}>다음으로</Button>
+        <Button onClick={handleClick} size='move'>
+          다음으로
+        </Button>
       </CardFooter>
     </CardContainer>
   );

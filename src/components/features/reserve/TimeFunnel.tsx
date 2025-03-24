@@ -94,8 +94,12 @@ const TimeFunnel = ({ operationTime, onNext, onPrev }: Props) => {
         </TimeButtonContainer>
       </CardContent>
       <CardFooter className='mt-16 flex w-full justify-evenly gap-5'>
-        <Button onClick={() => onPrev()}>이전으로</Button>
-        <Button onClick={handleClick}>다음으로</Button>
+        <Button onClick={() => onPrev()} size='move' variant='secondary'>
+          이전으로
+        </Button>
+        <Button onClick={handleClick} size='move'>
+          다음으로
+        </Button>
       </CardFooter>
     </CardContainer>
   );

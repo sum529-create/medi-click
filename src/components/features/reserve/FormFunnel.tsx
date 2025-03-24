@@ -107,9 +107,13 @@ const FormFunnel = ({ name, id, onPrev }: Props) => {
           </label>
         </div>
       </CardContent>
-      <CardFooter className='mt-10 flex justify-evenly'>
-        <Button onClick={() => onPrev()}>이전으로</Button>
-        <Button onClick={handleSubmit}>예약 완료하기</Button>
+      <CardFooter className='mt-10 flex gap-5'>
+        <Button onClick={() => onPrev()} size='move' variant='secondary'>
+          이전으로
+        </Button>
+        <Button onClick={handleSubmit} size='move'>
+          예약 완료하기
+        </Button>
       </CardFooter>
     </CardContainer>
   );
