@@ -57,6 +57,7 @@ const AuthForm = ({ mode }: Props) => {
         name='email'
         type='text'
         placeholder='이메일 주소'
+        pattern='/^[^\s@]+@[^\s@]+\.[^\s@]+$/'
         value={formData.email}
         onChange={handleAuthChange}
         className={AuthInputClassName}
@@ -67,6 +68,7 @@ const AuthForm = ({ mode }: Props) => {
         name='password'
         type='password'
         placeholder='비밀번호'
+        pattern='/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,}$/'
         value={formData.password}
         onChange={handleAuthChange}
         className={AuthInputClassName}
@@ -79,6 +81,7 @@ const AuthForm = ({ mode }: Props) => {
             name='name'
             type='text'
             placeholder='이름'
+            pattern='/^[가-힣]{2,4}$/'
             value={formData.name}
             onChange={handleAuthChange}
             className={AuthInputClassName}
@@ -89,7 +92,7 @@ const AuthForm = ({ mode }: Props) => {
             name='phone'
             type='tel'
             placeholder='전화번호'
-            pattern='^010-\d{3,4}-\d{4}$|^010\d{7,8}$'
+            pattern='/^(010|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064)-?\d{3,4}-?\d{4}$/'
             value={formData.phone}
             onChange={handleAuthChange}
             className={AuthInputClassName}
