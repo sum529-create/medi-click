@@ -3,9 +3,10 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import { toast } from 'react-toastify';
 import { MODE } from '@/constants/authMode';
 import { cn } from '@/lib/utils';
-import { getSession, login, signUp } from '@/utils/api/auth';
+import { getSession, logIn, signUp } from '@/utils/api/auth';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 
@@ -33,10 +34,26 @@ const AuthForm = ({ mode }: Props) => {
 
   const handleAuthSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (mode === MODE.SIGNUP) {
-      signUp(formData);
+      const error = await signUp(formData); // signUp 함수에서 반환한 값 받기
+
+      if (error) {
+        toast.error('이미 사용 중인 이메일입니다.', {
+          position: 'top-center',
+          autoClose: 3000,
+        });
+        return;
+      }
+
+      toast.success('회원가입이 완료되었습니다.', {
+        position: 'top-center',
+        autoClose: 3000,
+      });
+
+      router.push('login');
     } else {
-      login(formData);
+      logIn(formData); // 로그인 처리
     }
   };
 
