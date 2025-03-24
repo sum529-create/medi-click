@@ -9,7 +9,10 @@ import { Calendar } from '@/components/ui/calendar';
 import { CardContent, CardFooter } from '@/components/ui/card';
 import Text from '@/components/ui/Text';
 import { getCalendarDate, getSplitDate } from '@/utils/func/getCalendarDate';
-import { getLocalStorage } from '@/utils/func/getLocalStorage';
+import {
+  getLocalStorage,
+  updateLocalStorage,
+} from '@/utils/func/getLocalStorage';
 
 interface Props {
   onNext: () => void;
@@ -17,22 +20,15 @@ interface Props {
 
 const CalendarFunnel = ({ onNext }: Props) => {
   const [date, setDate] = useState<Date | undefined>(() => {
-    const savedDate = getLocalStorage();
-    if (!savedDate) return undefined;
+    const { date: storageDate } = getLocalStorage();
+    console.log('zz', storageDate);
 
-    return new Date(savedDate.date);
+    return storageDate ? new Date(storageDate) : undefined;
   });
 
   const handleClick = () => {
     if (date) {
-      const saved = getLocalStorage();
-      localStorage.setItem(
-        'reservationForm',
-        JSON.stringify({
-          ...saved,
-          date: getSplitDate(date),
-        }),
-      );
+      updateLocalStorage('date', getSplitDate(date));
       onNext();
     } else {
       toast.error('예약 날짜를 선택해주세요.');
