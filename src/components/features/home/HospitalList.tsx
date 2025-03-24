@@ -6,6 +6,7 @@ import Text from '@/components/ui/Text';
 import Title from '@/components/ui/Title';
 import { useHospitalInView } from '@/hooks/tanstackQuery/useHospitalInView';
 import { useHospitalsInfiniteQuery } from '@/hooks/tanstackQuery/useHospitalsInfiniteQuery';
+import { checkEmptyPages } from '@/utils/func/checkEmptyPages';
 
 const HospitalList = () => {
   const {
@@ -38,7 +39,7 @@ const HospitalList = () => {
   return (
     <div className='border-gray-03 flex max-h-[750px] min-h-[400px] flex-[1] flex-col gap-4 overflow-y-auto border-2 bg-white p-6'>
       <Title>병원 목록</Title>
-      {!hospitalList || hospitalList.pages.flat().length === 0 ? (
+      {!hospitalList || checkEmptyPages(hospitalList) ? (
         <Text>검색하신 병원이 존재하지 않습니다.</Text>
       ) : (
         hospitalList.pages.map((page) =>
