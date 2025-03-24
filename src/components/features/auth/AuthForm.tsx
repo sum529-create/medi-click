@@ -9,9 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { PATH } from '@/constants/routerPath';
 import { cn } from '@/lib/utils';
-import { supabase } from '@/utils/supabase/supabase';
+import { login, signUp } from '@/utils/api/auth';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 
@@ -43,36 +42,9 @@ const AuthForm = ({ mode }: Props) => {
   const handleAuthSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (mode === 'signup') {
-      try {
-        await supabase.auth.signUp({
-          email: formData.email,
-          password: formData.password,
-          options: {
-            data: {
-              name: formData.name,
-              phone_number: formData.phone,
-              birth: formData.birth,
-              role: formData.role,
-            },
-          },
-        });
-        alert('회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.');
-        router.push(PATH.LOGIN);
-      } catch (error) {
-        alert(error);
-        console.error('회원가입 오류', error);
-      }
+      signUp(formData);
     } else {
-      try {
-        await supabase.auth.signInWithPassword({
-          email: formData.email,
-          password: formData.password,
-        });
-        alert('로그인이 완료되었습니다. 메인 페이지로 이동합니다.');
-      } catch (error) {
-        alert(error);
-        console.error('로그인 오류', error);
-      }
+      login(formData);
     }
   };
 
