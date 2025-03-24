@@ -18,11 +18,11 @@ interface Props {
 
 const AuthForm = ({ mode }: Props) => {
   const [formData, setFormData] = useState({
-    id: '',
+    email: '',
     password: '',
     name: '',
     phone: '',
-    birthday: '',
+    birth: '',
     role: '',
   });
 
@@ -50,10 +50,10 @@ const AuthForm = ({ mode }: Props) => {
       className={`flex flex-col space-y-5 ${mode === 'login' ? 'mb-10' : 'mb-8'}`}
     >
       <Input
-        name='id'
+        name='email'
         type='text'
-        placeholder={mode === 'login' ? '아이디' : '이메일 주소'}
-        value={formData.id}
+        placeholder='이메일 주소'
+        value={formData.email}
         onChange={handleAuthChange}
         className={AuthInputClassName}
         required
@@ -93,10 +93,10 @@ const AuthForm = ({ mode }: Props) => {
           />
 
           <Input
-            name='birthday'
+            name='birth'
             type='text'
             placeholder='생년월일'
-            value={formData.birthday}
+            value={formData.birth}
             onChange={handleAuthChange}
             className={AuthInputClassName}
             required
