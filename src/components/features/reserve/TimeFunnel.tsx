@@ -93,7 +93,7 @@ const TimeFunnel = ({ operationTime, onNext, onPrev }: Props) => {
           ))}
         </TimeButtonContainer>
       </CardContent>
-      <CardFooter className='mt-16 flex w-full justify-evenly gap-5'>
+      <CardFooter className='absolute bottom-0 left-0 flex w-full justify-evenly gap-5 px-12'>
         <Button onClick={() => onPrev()} size='move' variant='secondary'>
           이전으로
         </Button>

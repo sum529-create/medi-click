@@ -68,7 +68,7 @@ const CalendarFunnel = ({ onNext }: Props) => {
           disabled={(date) => date < new Date()}
         />
       </CardContent>
-      <CardFooter className='mt-auto flex justify-evenly'>
+      <CardFooter className='absolute bottom-0 left-0 flex w-full justify-evenly px-12'>
         <Button onClick={handleClick} size='move'>
           다음으로
         </Button>
