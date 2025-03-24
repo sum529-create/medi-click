@@ -13,7 +13,7 @@ interface Props {
   date: string;
   time: string;
   operationTime: { [key: string]: { open: string; close: string } };
-  onNext: (time: string) => void;
+  onNext: (date: string, time: string) => void;
   onPrev: (date: string) => void;
 }
 
@@ -32,6 +32,12 @@ const TimeFunnel = ({ date, time, operationTime, onNext, onPrev }: Props) => {
 
   const handleTimeButton = (time: string) => {
     setSelectedTime(time);
+    const newData = {
+      ...JSON.parse(localStorage.getItem('reservationForm') || '{}'),
+      time,
+    };
+    localStorage.setItem('reservationForm', JSON.stringify(newData));
+    console.log('현재 localStorage: ', localStorage.getItem('reservationForm'));
   };
 
   const day = dayOfWeek[new Date(date).toString().slice(0, 3)];
@@ -52,7 +58,7 @@ const TimeFunnel = ({ date, time, operationTime, onNext, onPrev }: Props) => {
 
   const handleClick = () => {
     if (selectedTime) {
-      onNext(selectedTime);
+      onNext(date, selectedTime);
     } else {
       toast.error('예약 시간을 선택해주세요.');
     }

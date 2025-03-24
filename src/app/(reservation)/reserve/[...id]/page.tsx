@@ -1,6 +1,7 @@
 'use client';
 
 import { useFunnel } from '@use-funnel/browser';
+import { useEffect } from 'react';
 import Loading from '@/components/common/Loading';
 import CalendarFunnel from '@/components/features/reserve/CalendarFunnel';
 import FormFunnel from '@/components/features/reserve/FormFunnel';
@@ -27,6 +28,11 @@ const ReservePage = ({ params }: Params) => {
     },
   });
 
+  useEffect(() => {
+    localStorage.setItem('reservationForm', JSON.stringify(funnel.context));
+    console.log(JSON.parse(localStorage.getItem('reservationForm') || '{}'));
+  }, [funnel.context]);
+
   const { data, isPending } = useHospitalName(params.id);
 
   if (isPending) return <Loading size={100} />;
@@ -38,8 +44,7 @@ const ReservePage = ({ params }: Params) => {
           date={context.date as string}
           time={context.time as string}
           onNext={(date, time) => {
-            // console.log('funnel: ', date, time);
-            history.push('timePage', { date, time });
+            history.push('timePage', { date });
           }}
         />
       )}
@@ -48,17 +53,8 @@ const ReservePage = ({ params }: Params) => {
           date={context.date}
           time={context.time as string}
           operationTime={data?.operationTime}
-          onNext={(time) => history.push('submitPage', { time })}
-          onPrev={(date) =>
-            history.replace(
-              'datePage',
-              (
-                prev = {} as { date?: string; time?: string; other?: unknown },
-              ) => ({
-                ...prev,
-              }),
-            )
-          }
+          onNext={(date, time) => history.push('submitPage', { date, time })}
+          onPrev={(date) => history.replace('datePage', { date })}
         />
       )}
       submitPage={({ context, history }) => (
