@@ -1,7 +1,11 @@
+// import { Session } from '@supabase/supabase-js';
 import { Database } from '@/types/supabase';
 import { supabase } from '../supabase/supabase';
 
 type ProfileData = Database['public']['Tables']['users']['Row'][] | null;
+// interface SessionData {
+//   session: Session | null;
+// }
 
 /**
  * supabase에서 현재 로그인 된 유저 정보를 불러오는 api 함수입니다.
@@ -19,3 +23,13 @@ export const getUserProfile = async (): Promise<ProfileData> => {
 
   return data;
 };
+
+/**
+ * supabase에서 현재 로그인 된 유저 세션 정보를 불러오는 api 함수입니다.
+ * @returns { data } 현재 로그인 된 유저 세션 정보
+ */
+// export const getUserSession = async (): Promise<SessionData> => {
+//   const { data } = await supabase.auth.getSession();
+
+//   return data;
+// };
