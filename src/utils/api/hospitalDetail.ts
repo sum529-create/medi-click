@@ -25,7 +25,7 @@ export const getHospitalApiUrl = (id: string) => {
 /**
  * 병원 상세 정보 조회
  */
-const hospitalDetail = async (id: string, options?: { isServer?: boolean }) => {
+const hospitalDetail = async (id: string) => {
   try {
     const apiUrl = getHospitalApiUrl(id);
     const res = await fetch(apiUrl);
@@ -107,6 +107,6 @@ export const getHospitalDetailLocation = async (id: string) => {
 
     return hospitalLocation;
   } catch (error) {
-    console.error('병원 상세 위치정보 불러오기 오류');
+    console.error('병원 상세 위치정보 불러오기 오류', error);
   }
 };

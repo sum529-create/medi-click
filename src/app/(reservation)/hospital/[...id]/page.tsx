@@ -16,8 +16,7 @@ export async function generateMetadata({
   }
 
   try {
-    // isServer 옵션을 true로 설정
-    const hospitalData = await hospitalDetail(id, { isServer: true });
+    const hospitalData = await hospitalDetail(id);
 
     return {
       title: hospitalData?.dutyName || '병원 정보',
