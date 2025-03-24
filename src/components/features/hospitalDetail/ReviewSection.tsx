@@ -1,5 +1,7 @@
+import { REVIEW_TEXTS } from '@/constants/reviewConstants';
+import { getReviewKeywordCounts } from '@/utils/func/getReviewKeywordCounts';
 import ProgressBar from './ProgressBar';
-interface ReviewDataType {
+export interface ReviewDataType {
   review: (
     | '친절해요'
     | '진료 대기가 없어요'
@@ -10,20 +12,7 @@ interface ReviewDataType {
 }
 
 const ReviewSection = ({ review }: ReviewDataType) => {
-  const reviewTexts = [
-    '친절해요',
-    '진료 대기가 없어요',
-    '시설이 좋고 청결해요',
-    '전문적이에요',
-  ];
-
-  const reviewCnt = review.reduce((a, c) => {
-    a.set(c, (a.get(c) || 0) + 1);
-    return a;
-  }, new Map());
-
-  const result = reviewTexts.map((e) => reviewCnt.get(e) || 0);
-  const total = result.reduce((a, c) => a + c, 0);
+  const { total, result } = getReviewKeywordCounts({ review });
 
   return (
     <div className='mt-[70px]'>
@@ -33,7 +22,7 @@ const ReviewSection = ({ review }: ReviewDataType) => {
       </div>
       <div className='mt-4 flex flex-col gap-4'>
         {total > 0 ? (
-          reviewTexts.map((e, i) => (
+          REVIEW_TEXTS.map((e, i) => (
             <ProgressBar
               key={i}
               score={result[i]}
