@@ -77,7 +77,7 @@ export const useHospitalSchedule = ({ hpid }: HospitalSectionType) => {
     );
 
     return { dutyTimes: dutyTimeArr, restWeeks: restWeeksArr };
-  }, [hospitalData, WEEKS]);
+  }, [hospitalData]);
 
   return {
     hospitalData,
