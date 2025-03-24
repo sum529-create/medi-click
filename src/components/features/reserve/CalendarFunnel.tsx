@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import CardContainer from '@/components/layout/CardContainer';
 import CardHeaderContainer from '@/components/layout/CardHeaderContainer';
@@ -25,10 +25,6 @@ const CalendarFunnel = ({ onNext }: Props) => {
     return storageDate ? new Date(storageDate) : undefined;
   });
 
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY.RESERVATION, JSON.stringify({ date }));
-  }, [date]);
-
   const handleClick = () => {
     if (date) {
       updateLocalStorage('date', getSplitDate(date));
@@ -36,6 +32,11 @@ const CalendarFunnel = ({ onNext }: Props) => {
     } else {
       toast.error('예약 날짜를 선택해주세요.');
     }
+  };
+
+  const handleSelectDate = (date: Date) => {
+    setDate(date);
+    localStorage.setItem(STORAGE_KEY.RESERVATION, JSON.stringify({ date }));
   };
 
   return (
@@ -50,7 +51,7 @@ const CalendarFunnel = ({ onNext }: Props) => {
         <Calendar
           mode='single'
           selected={date}
-          onSelect={setDate}
+          onSelect={(date) => handleSelectDate(date as Date)}
           className='w-full rounded-md border p-3 shadow'
           classNames={{
             caption: 'flex justify-center pt-1 relative items-center mb-3',
