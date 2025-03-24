@@ -6,11 +6,18 @@ interface Input {
   inputValue: string;
   className?: string;
   disabled?: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const EditFormInput = ({ label, inputValue, className, disabled }: Input) => {
+const EditFormInput = ({
+  label,
+  inputValue,
+  className,
+  disabled,
+  onChange,
+}: Input) => {
   return (
-    <div className={`flex flex-col gap-3 ${className}`}>
+    <div className={`flex w-full flex-col gap-3 ${className}`}>
       <Text size='xl' color='black02' align='left'>
         {label}
       </Text>
@@ -18,6 +25,7 @@ const EditFormInput = ({ label, inputValue, className, disabled }: Input) => {
         className='h-[50px] w-full rounded-[14px] border-2 border-gray03'
         disabled={disabled}
         value={inputValue}
+        onChange={onChange}
       />
     </div>
   );
