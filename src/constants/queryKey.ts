@@ -3,4 +3,5 @@ export const QUERY_KEY = {
   HOSPITAL_DETAIL_INFO: 'hopitalDetailInfo',
   HOSPITAL_NAME: 'hospitalName',
   HOSPITAL: 'hospitals',
+  USER: 'user',
 };
