@@ -15,20 +15,20 @@ export const signUp = async ({
   phone,
   birth,
 }: FormData) => {
-  const { data, error } = await supabase.auth.signUp({
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.signUp({
     email,
     password,
-    options: {
-      data: {
-        name,
-        phone_number: phone,
-        birth,
-      },
-    },
   });
 
-  if (error) throw error;
-  return data;
+  await supabase.from('users').insert({
+    id: user?.id,
+    name,
+    phone_number: phone,
+    birth,
+  });
 };
 
 export const login = async ({ email, password }: FormData) => {
