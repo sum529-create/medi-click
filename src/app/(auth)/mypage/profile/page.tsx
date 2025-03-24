@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Loading from '@/components/common/Loading';
 import EditFormInput from '@/components/features/mypage/editProfile/EditFormInput';
 import MainContentsContainer from '@/components/features/mypage/MainContentsContainer';
@@ -16,23 +16,27 @@ const ProfileEditPage = () => {
     useUserProfile();
 
   const updateProfile = useUpdateProfile();
-  const [phoneNumber, setPhoneNumber] = useState<string>('');
-  const [errorMessage, setErrorMessage] = useState<string>('');
-
-  useEffect(() => {
-    if (profile) setPhoneNumber(profile.phone_number);
-  }, [profile]);
+  const [phoneNumber, setPhoneNumber] = useState<string>(
+    profile?.phone_number || '',
+  );
+  const [errorText, setErrorText] = useState<string | null>(null);
 
   if (isProfileError) throw getProfileError;
   if (isProfilePending) return <Loading size={30} />;
   if (!profile) return; // profile 값 보장
 
+  const { changeCheck, formatCheck, errorMessage } = validatePhoneNumber(
+    profile.phone_number,
+    phoneNumber,
+  );
+
   const handleEditProfile = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (validatePhoneNumber(phoneNumber)) {
+    if (changeCheck && formatCheck) {
       updateProfile(phoneNumber);
+      setErrorText(null);
     } else {
-      setErrorMessage('010-XXXX-XXXX 형식으로 입력해주세요.');
+      setErrorText(errorMessage);
     }
   };
 
@@ -64,7 +68,7 @@ const ProfileEditPage = () => {
           inputValue={phoneNumber}
           className='my-10'
           onChange={(e) => setPhoneNumber(e.target.value)}
-          errorMessage={errorMessage}
+          errorMessage={errorText}
         />
         <div className='flex justify-end'>
           <Button
