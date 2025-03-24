@@ -107,6 +107,6 @@ export const getHospitalDetailLocation = async (id: string) => {
 
     return hospitalLocation;
   } catch (error) {
-    console.error('병원 상세 위치정보 불러오기 오류');
+    console.error('병원 상세 위치정보 불러오기 오류', error);
   }
 };
