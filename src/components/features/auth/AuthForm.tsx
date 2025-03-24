@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import {
   Select,
@@ -8,7 +9,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { PATH } from '@/constants/routerPath';
 import { cn } from '@/lib/utils';
+import { supabase } from '@/utils/supabase/supabase';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 
@@ -17,6 +20,8 @@ interface Props {
 }
 
 const AuthForm = ({ mode }: Props) => {
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -35,9 +40,27 @@ const AuthForm = ({ mode }: Props) => {
     setFormData((prev) => ({ ...prev, role: value }));
   };
 
-  const handleAuthSubmit = (e: React.FormEvent) => {
+  const handleAuthSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData); // 테스트 코드
+    try {
+      await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            name: formData.name,
+            phone_number: formData.phone,
+            birth: formData.birth,
+            role: formData.role,
+          },
+        },
+      });
+      alert('회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.');
+      router.push(PATH.LOGIN);
+    } catch (error) {
+      alert(error);
+      console.error('회원가입 오류', error);
+    }
   };
 
   const AuthInputClassName = cn(
