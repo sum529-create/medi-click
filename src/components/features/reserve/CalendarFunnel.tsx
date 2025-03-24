@@ -3,29 +3,27 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import CardContainer from '@/components/layout/CardContainer';
+import CardHeaderContainer from '@/components/layout/CardHeaderContainer';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
-import {
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { CardContent, CardFooter } from '@/components/ui/card';
+import Text from '@/components/ui/Text';
 import { getCalendarDate, getSplitDate } from '@/utils/func/getCalendarDate';
 
 interface Props {
   date: string;
-  onNext: (date: string) => void;
+  time: string;
+  onNext: (date: string, time: string) => void;
 }
 
-const CalendarFunnel = ({ date, onNext }: Props) => {
+const CalendarFunnel = ({ date, time, onNext }: Props) => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
     date ? new Date(date) : undefined,
   );
 
   const handleClick = () => {
     if (selectedDate) {
-      onNext(getSplitDate(selectedDate));
+      onNext(getSplitDate(selectedDate), time);
     } else {
       toast.error('예약 날짜를 선택해주세요.');
     }
@@ -33,12 +31,12 @@ const CalendarFunnel = ({ date, onNext }: Props) => {
 
   return (
     <CardContainer>
-      <CardHeader className='flex items-center justify-center'>
-        <CardTitle className='text-xl'>
-          원하는 예약 날짜를 선택해주세요.
-        </CardTitle>
-        <p className='h-5 text-gray03'>{getCalendarDate(selectedDate)}</p>
-      </CardHeader>
+      <CardHeaderContainer>
+        원하는 예약 날짜를 선택해주세요.
+      </CardHeaderContainer>
+      <Text size='lg' align='center' color='gray03'>
+        {getCalendarDate(selectedDate)}
+      </Text>
       <CardContent className='my-5 flex flex-col items-center justify-center'>
         <Calendar
           mode='single'
