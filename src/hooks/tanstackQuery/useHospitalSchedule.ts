@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { HospitalSectionType } from '@/components/features/hospitalDetail/HospitalSection';
+import { WEEKS } from '@/constants/hospitalConstants';
 import { QUERY_KEY } from '@/constants/queryKey';
 import hospitalDetail, {
   hospitalDetailInfoSection,
@@ -10,10 +11,6 @@ import hospitalDetail, {
 } from '@/utils/api/hospitalDetail';
 
 export const useHospitalSchedule = ({ hpid }: HospitalSectionType) => {
-  const WEEKS = useMemo(
-    () => ['월', '화', '수', '목', '금', '토', '일', '공휴일'],
-    [],
-  );
   const {
     data: hospitalData,
     isPending: isHospitalPending,
