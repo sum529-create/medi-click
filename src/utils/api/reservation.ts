@@ -5,7 +5,9 @@ import { supabase } from '../supabase/supabase';
 const testId: string = '0d6511b9-926b-443f-9828-39e5f302e1e4'; // zustand 또는 로그인 세션에서 받아올 현재 로그인 된 유저 아이디 값
 
 type ReservationList =
-  | Database['public']['Tables']['reservations']['Row'][]
+  | (Database['public']['Tables']['reservations']['Row'] & {
+      hospitals: Database['public']['Tables']['hospitals']['Row'];
+    })[]
   | null;
 
 /**
@@ -16,7 +18,7 @@ type ReservationList =
 export const getReservationList = async (): Promise<ReservationList> => {
   const { data, error } = await supabase
     .from(TABLE.RESERVATIONS)
-    .select('*')
+    .select(`* , ${TABLE.HOSPITALS}(*)`)
     .eq(COLUMN.USER_ID, testId);
   if (error) console.log('예약 리스트 가져오기 실패', error);
 
