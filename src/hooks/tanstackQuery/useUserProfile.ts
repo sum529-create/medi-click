@@ -8,7 +8,7 @@ interface Profile {
   birth: string;
   created_at: string;
   id: string;
-  name: string | null;
+  name: string;
   phone_number: string;
   avatar_path?: string;
 }
