@@ -7,6 +7,7 @@ import CardHeaderContainer from '@/components/layout/CardHeaderContainer';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { CardContent, CardFooter } from '@/components/ui/card';
+import Text from '@/components/ui/Text';
 import { getCalendarDate, getSplitDate } from '@/utils/func/getCalendarDate';
 
 interface Props {
@@ -33,9 +34,9 @@ const CalendarFunnel = ({ date, time, onNext }: Props) => {
       <CardHeaderContainer>
         원하는 예약 날짜를 선택해주세요.
       </CardHeaderContainer>
-      <p className='h-5 text-center text-gray03'>
+      <Text size='lg' align='center' color='gray03'>
         {getCalendarDate(selectedDate)}
-      </p>
+      </Text>
       <CardContent className='my-5 flex flex-col items-center justify-center'>
         <Calendar
           mode='single'
