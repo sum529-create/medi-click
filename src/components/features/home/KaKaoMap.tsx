@@ -1,11 +1,12 @@
 'use client';
 
-import { Map, MapMarker } from 'react-kakao-maps-sdk';
+import { Map } from 'react-kakao-maps-sdk';
 import Loading from '@/components/common/Loading';
 import Text from '@/components/ui/Text';
 import { useAllHospitalLocation } from '@/hooks/map/useAllHospitalLocation';
 import { useCurrentLocation } from '@/hooks/map/useCurrentLocation';
 import { useKakaoLoad } from '@/hooks/map/useKakaoLoad';
+import EventMarkerContainer from './EventMarkerContainer';
 
 const KaKaoMap = () => {
   const currentLocation = useCurrentLocation();
@@ -34,9 +35,9 @@ const KaKaoMap = () => {
         level={3}
         className='h-[300px] md:h-[750px]'
       >
-        {hospitalLocationList.map((position, idx) => {
-          return <MapMarker key={idx} position={position} />;
-        })}
+        {hospitalLocationList.map((position) => (
+          <EventMarkerContainer key={position.id} position={position} />
+        ))}
       </Map>
     </div>
   );
