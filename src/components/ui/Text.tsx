@@ -15,8 +15,13 @@ import { TitleProps } from './Title';
 
 type TextProps = Omit<TitleProps, 'tag'>;
 
-const Text = ({ size, align, color, children }: TextProps) => {
-  const sizeStyles: Record<TextProps['size'], string> = {
+const Text = ({
+  size = 'md',
+  align = 'left',
+  color = 'black02',
+  children,
+}: TextProps) => {
+  const sizeStyles: Record<NonNullable<TextProps['size']>, string> = {
     xs: 'text-xs',
     sm: 'text-xs lg:text-sm',
     md: 'text-sm lg:text-md',
@@ -27,7 +32,7 @@ const Text = ({ size, align, color, children }: TextProps) => {
     '4xl': 'text-2xl md:text-3xl lg:text-4xl',
   };
 
-  const colorStyles: Record<TitleProps['color'], string> = {
+  const colorStyles: Record<NonNullable<TitleProps['color']>, string> = {
     main: 'text-main',
     'main-hover': 'text-main-hover',
     sub: 'text-sub',

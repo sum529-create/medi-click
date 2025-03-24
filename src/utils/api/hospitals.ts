@@ -36,56 +36,52 @@ export const getAllHospitalLocation = async () => {
 };
 
 /**
- * 모든 병원의 정보를 반환하는 함수
+ * 모든 병원의 정보를 페이지 단위로 10개씩 반환하는 함수
+ * 무한스크롤 기능을 위한 코드입니다
  * @returns allHospitalData - 모든 병원의 기본 정보
  */
-export const getAllHospitalData = async () => {
+export const getAllHospitalData = async (
+  pageParam: number,
+): Promise<Tables<'hospitals'>[]> => {
   try {
-    let allHospitalData: Tables<'hospitals'>[] = [];
-    let page = 0;
-    const pageSize = 100;
+    const pageSize = 10;
+    const start = (pageParam - 1) * pageSize;
+    const end = start + pageSize - 1;
 
-    while (true) {
-      const start = page * pageSize;
-      const end = start + pageSize - 1;
+    const { data: hospitalData, error } = await supabase
+      .from(TABLE.HOSPITALS)
+      .select('*')
+      .range(start, end);
 
-      const { data, error } = await supabase
-        .from(TABLE.HOSPITALS)
-        .select('*')
-        .range(start, end);
+    if (error) throw error;
 
-      if (error) throw error;
-      if (!data || data.length === 0) break;
-
-      allHospitalData = [...allHospitalData, ...data];
-      page++;
-    }
-
-    return allHospitalData;
+    return hospitalData;
   } catch (error) {
     console.error('병원 데이터 불러오기 오류', error);
+    return [];
   }
 };
 
 /**
- * 병원의 id를 토대로 병원의 이름을 받아오는 함수
+ * 병원의 id를 토대로 병원의 이름과 영업시간을 받아오는 함수
  *
  * @param id - 병원 id
- * @returns 병원 이름
+ * @returns 병원 이름, 병원 영업시간
  */
 
 export const getHospitalName = async (id: string) => {
   try {
     const { data, error } = await supabase
       .from(TABLE.HOSPITALS)
-      .select('name')
+      .select('name, operation_time')
       .eq('id', id)
       .single();
 
     if (error) throw error;
-    const name = data.name;
 
-    return name;
+    const { name, operation_time } = data;
+    const operationTime = JSON.parse(JSON.stringify(operation_time));
+    return { name, operationTime };
   } catch (error) {
     console.error(error);
   }
