@@ -46,8 +46,10 @@ const TimeFunnel = ({ operationTime, onNext, onPrev }: Props) => {
     return (
       <CardContainer>
         <CardHeaderContainer>예약 가능한 시간이 없습니다</CardHeaderContainer>
-        <CardFooter className='mt-16 flex w-full justify-evenly gap-5'>
-          <Button onClick={() => onPrev()}>이전으로</Button>
+        <CardFooter className='absolute bottom-0 left-0 flex w-full justify-evenly gap-5 px-12'>
+          <Button onClick={() => onPrev()} size='move' variant='secondary'>
+            이전으로
+          </Button>
         </CardFooter>
       </CardContainer>
     );

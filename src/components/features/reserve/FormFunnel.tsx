@@ -78,7 +78,7 @@ const FormFunnel = ({ name, id, onPrev }: Props) => {
   return (
     <CardContainer>
       <CardHeaderContainer>방문 사유를 입력해주세요.</CardHeaderContainer>
-      <CardContent className='my-5 flex h-3/5 flex-col items-start justify-center gap-5'>
+      <CardContent className='mt-16 flex h-3/5 flex-col items-start justify-center gap-5'>
         <Card className='flex w-full flex-col gap-3 px-10 py-7 shadow-none'>
           {reservationInfo.map((info) => (
             <div className='flex flex-col gap-2' key={crypto.randomUUID()}>

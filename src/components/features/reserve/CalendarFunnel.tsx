@@ -44,9 +44,11 @@ const CalendarFunnel = ({ onNext }: Props) => {
       <CardHeaderContainer>
         원하는 예약 날짜를 선택해주세요.
       </CardHeaderContainer>
-      <Text size='lg' align='center' color='gray03'>
-        {getCalendarDate(date)}
-      </Text>
+      <div className='min-h-[30px]'>
+        <Text size='lg' align='center' color='gray03'>
+          {getCalendarDate(date)}
+        </Text>
+      </div>
       <CardContent className='my-5 flex flex-col items-center justify-center'>
         <Calendar
           mode='single'
