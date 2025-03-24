@@ -30,7 +30,12 @@ const HospitalCard = ({ hospital }: HospitalCardProps) => {
       </div>
       <div className='flex justify-end'>
         <Button asChild>
-          <Link href={`${PATH.RESERVE}/${hospital.id}`}>예약하기</Link>
+          <Link
+            href={`${PATH.RESERVE}/${hospital.id}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            예약하기
+          </Link>
         </Button>
       </div>
     </div>
