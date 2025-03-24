@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import CardContainer from '@/components/layout/CardContainer';
 import CardHeaderContainer from '@/components/layout/CardHeaderContainer';
@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { CardContent, CardFooter } from '@/components/ui/card';
 import Text from '@/components/ui/Text';
+import { STORAGE_KEY } from '@/constants/StorageKey';
 import { getCalendarDate, getSplitDate } from '@/utils/func/getCalendarDate';
 import {
   getLocalStorage,
@@ -25,6 +26,10 @@ const CalendarFunnel = ({ onNext }: Props) => {
     const { date: storageDate } = getLocalStorage();
     return storageDate ? new Date(storageDate) : undefined;
   });
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY.RESERVATION, JSON.stringify({ date }));
+  }, [date]);
 
   const handleClick = () => {
     if (date) {
