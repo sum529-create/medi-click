@@ -2,26 +2,18 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEY } from '@/constants/queryKey';
-import { ReservationStatus } from '@/types/supabase';
+import { Database } from '@/types/supabase';
 import { getReservationList } from '@/utils/api/reservation';
 
-interface Reservations {
-  created_at: string;
-  date: string;
-  hospital_id: string;
-  id: number;
-  memo: string | null;
-  status: ReservationStatus;
-  time: string;
-  updated_at: string;
-  user_id: string;
-}
+type Reservation = Database['public']['Tables']['reservations']['Row'] & {
+  hospitals: Database['public']['Tables']['hospitals']['Row'];
+};
 
 interface UseReservationsReturnValue {
   isReservationsPending: boolean;
   isReservationsError: boolean;
   getReservationsError: Error | null;
-  reservationList: Reservations[];
+  reservationList: Reservation[];
 }
 
 /**
