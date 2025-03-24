@@ -1,4 +1,4 @@
-export type ReservationStatus = 'ok' | 'cancel' | 'waiting';
+type ReservationStatus = 'ok' | 'cancel' | 'waiting';
 
 export type Json =
   | string
