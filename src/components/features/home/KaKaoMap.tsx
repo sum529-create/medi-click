@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
 import Loading from '@/components/common/Loading';
 import Text from '@/components/ui/Text';
@@ -12,6 +13,7 @@ const KaKaoMap = () => {
   const currentLocation = useCurrentLocation();
   const hospitalLocationList = useAllHospitalLocation();
 
+  const [activeMarkerId, setActiveMarkerId] = useState<string | null>(null);
   const [loading, error] = useKakaoLoad();
 
   if (loading)
@@ -36,7 +38,12 @@ const KaKaoMap = () => {
         className='h-[300px] md:h-[750px]'
       >
         {hospitalLocationList.map((position) => (
-          <EventMarkerContainer key={position.id} position={position} />
+          <EventMarkerContainer
+            key={position.id}
+            position={position}
+            activeMarkerId={activeMarkerId}
+            setActiveMarkerId={setActiveMarkerId}
+          />
         ))}
       </Map>
     </div>
