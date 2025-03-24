@@ -1,6 +1,6 @@
 'use client';
 
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import { useCallback, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { Input } from '@/components/ui/input';
