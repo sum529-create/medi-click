@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { MODE } from '@/constants/authMode';
 import { cn } from '@/lib/utils';
-import { getSession, logIn, signUp } from '@/utils/api/auth';
+import { getSession, logIn, logOut, signUp } from '@/utils/api/auth';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 
@@ -36,7 +36,7 @@ const AuthForm = ({ mode }: Props) => {
     e.preventDefault();
 
     if (mode === MODE.SIGNUP) {
-      const error = await signUp(formData); // signUp 함수에서 반환한 값 받기
+      const error = await signUp(formData);
 
       if (error) {
         toast.error('이미 사용 중인 이메일입니다.', {
@@ -51,9 +51,11 @@ const AuthForm = ({ mode }: Props) => {
         autoClose: 3000,
       });
 
+      logOut();
+
       router.push('login');
     } else {
-      logIn(formData); // 로그인 처리
+      logIn(formData);
     }
   };
 
