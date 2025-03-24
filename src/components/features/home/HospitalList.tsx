@@ -24,13 +24,13 @@ const HospitalList = () => {
 
   if (status === 'pending')
     return (
-      <div className='flex-[1]'>
+      <div className='flex-[1] border-2 p-6'>
         <Loading size={100} />
       </div>
     );
   if (status === 'error')
     return (
-      <div className='flex flex-[1] items-center justify-center'>
+      <div className='flex flex-[1] items-center justify-center border-2 p-6'>
         <Text>병원 목록을 불러오는데 오류가 발생하였습니다.</Text>
       </div>
     );
