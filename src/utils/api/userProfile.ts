@@ -5,9 +5,6 @@ import { supabase } from '../supabase/supabase';
 const testId: string = '0d6511b9-926b-443f-9828-39e5f302e1e4'; // zustand 또는 로그인 세션에서 받아올 현재 로그인 된 유저 아이디 값
 
 type ProfileData = Database['public']['Tables']['users']['Row'][] | null;
-// interface SessionData {
-//   session: Session | null;
-// }
 
 /**
  * supabase에서 현재 로그인 된 사용자의 회원 정보를 불러오는 api 함수입니다.
@@ -23,16 +20,6 @@ export const getUserProfile = async (): Promise<ProfileData> => {
 
   return data;
 };
-
-/**
- * supabase에서 현재 로그인 된 유저 세션 정보를 불러오는 api 함수입니다.
- * @returns { data } 현재 로그인 된 유저 세션 정보
- */
-// export const getUserSession = async (): Promise<SessionData> => {
-//   const { data } = await supabase.auth.getSession();
-
-//   return data;
-// };
 
 /**
  * 로그인 된 사용자의 회원 정보를 수정하는 api 함수입니다.
