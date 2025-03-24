@@ -9,25 +9,32 @@ interface FormData {
   role: string;
 }
 
-export const signUp = async (formData: FormData) => {
+export const signUp = async ({
+  email,
+  password,
+  name,
+  phone,
+  birth,
+  role,
+}: FormData) => {
   await supabase.auth.signUp({
-    email: formData.email,
-    password: formData.password,
+    email,
+    password,
     options: {
       data: {
-        name: formData.name,
-        phone_number: formData.phone,
-        birth: formData.birth,
-        role: formData.role,
+        name,
+        phone_number: phone,
+        birth,
+        role,
       },
     },
   });
 };
 
-export const login = async (formData: FormData) => {
+export const login = async ({ email, password }: FormData) => {
   await supabase.auth.signInWithPassword({
-    email: formData.email,
-    password: formData.password,
+    email,
+    password,
   });
 };
 
