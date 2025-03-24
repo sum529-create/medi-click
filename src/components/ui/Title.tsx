@@ -16,10 +16,10 @@
 
 export interface TitleProps {
   children: React.ReactNode;
-  tag: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
-  align: 'left' | 'center' | 'right';
-  color:
+  tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+  align?: 'left' | 'center' | 'right';
+  color?:
     | 'main'
     | 'main-hover'
     | 'sub'
@@ -33,10 +33,16 @@ export interface TitleProps {
     | 'deep-blue';
 }
 
-const Title = ({ tag, size, align, color, children }: TitleProps) => {
+const Title = ({
+  tag = 'h6',
+  size = 'xs',
+  align = 'left',
+  color = 'black02',
+  children,
+}: TitleProps) => {
   const Tag = tag;
 
-  const sizeStyles: Record<TitleProps['size'], string> = {
+  const sizeStyles: Record<NonNullable<TitleProps['size']>, string> = {
     xs: 'text-sm md:text-md lg:text-lg',
     sm: 'text-md md:text-lg lg:text-xl',
     md: 'text-lg md:text-xl lg:text-2xl',
@@ -47,7 +53,7 @@ const Title = ({ tag, size, align, color, children }: TitleProps) => {
     '4xl': 'text-5xl md:6xl lg:text-7xl',
   };
 
-  const colorStyles: Record<TitleProps['color'], string> = {
+  const colorStyles: Record<NonNullable<TitleProps['color']>, string> = {
     main: 'text-main',
     'main-hover': 'text-main-hover',
     sub: 'text-sub',

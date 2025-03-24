@@ -27,8 +27,12 @@ const KaKaoMap = () => {
     );
 
   return (
-    <div className='relative w-full flex-[2]'>
-      <Map center={currentLocation} level={3} className='h-full w-full'>
+    <div className='relative w-full flex-[2] border-2'>
+      <Map
+        center={currentLocation}
+        level={3}
+        className='h-[300px] w-full md:h-full'
+      >
         {hospitalLocationList.map((position, idx) => {
           return <MapMarker key={idx} position={position} />;
         })}
