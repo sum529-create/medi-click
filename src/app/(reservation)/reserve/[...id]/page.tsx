@@ -6,8 +6,8 @@ import Loading from '@/components/common/Loading';
 import CalendarFunnel from '@/components/features/reserve/CalendarFunnel';
 import FormFunnel from '@/components/features/reserve/FormFunnel';
 import TimeFunnel from '@/components/features/reserve/TimeFunnel';
+import { STORAGE_KEY } from '@/constants/StorageKey';
 import { useHospitalName } from '@/hooks/map/useHospitalName';
-// import { date, other, time } from '@/types/context';
 
 interface Params {
   params: {
@@ -29,7 +29,7 @@ const ReservePage = ({ params }: Params) => {
   });
 
   useEffect(() => {
-    localStorage.setItem('reservationForm', '{}');
+    localStorage.setItem(STORAGE_KEY.RESERVATION, '{}');
     funnel.history.replace('datePage');
   }, []);
 
