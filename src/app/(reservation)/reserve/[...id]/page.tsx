@@ -1,6 +1,7 @@
 'use client';
 
 import { useFunnel } from '@use-funnel/browser';
+import { useEffect } from 'react';
 import Loading from '@/components/common/Loading';
 import CalendarFunnel from '@/components/features/reserve/CalendarFunnel';
 import FormFunnel from '@/components/features/reserve/FormFunnel';
@@ -26,6 +27,11 @@ const ReservePage = ({ params }: Params) => {
       context: {},
     },
   });
+
+  useEffect(() => {
+    localStorage.setItem('reservationForm', '{}');
+    funnel.history.replace('datePage');
+  }, []);
 
   const { data, isPending } = useHospitalName(params.id);
 
