@@ -1,22 +1,19 @@
 'use client';
 
-import { useMemo } from 'react';
 import Loading from '@/components/common/Loading';
 import HospitalBasicInfo from '@/components/features/hospitalDetail/HospitalBasicInfo';
 import InfoSection from '@/components/features/hospitalDetail/InfoSection';
 
 import { useHospitalSchedule } from '@/hooks/tanstackQuery/useHospitalSchedule';
 import { convertToTimeFormat } from '@/utils/func/convertToTimeFormat';
+import { getOfficeHours } from '@/utils/func/getOfficeHours';
+import ErrorState from './ErrorState';
 import ReviewSection from './ReviewSection';
 export interface HospitalSectionType {
   hpid: string;
 }
 
 const HospitalSection = ({ hpid }: HospitalSectionType) => {
-  const WEEKS = useMemo(
-    () => ['월', '화', '수', '목', '금', '토', '일', '공휴일'],
-    [],
-  );
   const STATE_WRAPPER_STYLE =
     'flex h-[calc(100vh_-_80px)] w-full items-center justify-center';
 
@@ -42,10 +39,16 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
     dutyTel1 = '',
     dutyName = '',
     dgidIdName = '',
-  } = hospitalData || {};
+  } = hospitalData ?? {};
 
   const { etc, info, department } =
     typeof infoData === 'object' ? infoData : {};
+
+  const errorMessage =
+    [hospitalError, infoError, reviewError]
+      .filter((e) => e instanceof Error)
+      .map((e) => e?.message)
+      .join(', ') || '알 수 없는 오류가 발생했습니다.';
 
   // 로딩 상태 UI 개선
   if (isHospitalPending || isInfoPending || isReviewPending) {
@@ -60,26 +63,7 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
   if (isHospitalError || isInfoError || isReviewError) {
     return (
       <div className={STATE_WRAPPER_STYLE}>
-        <div className='border-gray mb-[130px] rounded-lg border p-6 text-center'>
-          <h3 className='mb-2 text-lg font-medium'>
-            데이터를 불러오는 중 오류가 발생했습니다
-          </h3>
-          <p className='mb-4 text-sm'>
-            {hospitalError instanceof Error ||
-            infoError instanceof Error ||
-            reviewError instanceof Error
-              ? hospitalError?.message ||
-                infoError?.message ||
-                reviewError?.message
-              : '알 수 없는 오류가 발생했습니다.'}
-          </p>
-          <button
-            className='rounded px-4 py-2'
-            onClick={() => window.location.reload()}
-          >
-            새로고침
-          </button>
-        </div>
+        <ErrorState>{errorMessage}</ErrorState>
       </div>
     );
   }
@@ -96,10 +80,10 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
         <InfoSection title='진료 정보'>
           <div>
             <b>진료 시간</b>
-            {dutyTimes.map((e, i) => {
+            {dutyTimes.map(([endTimeKey, startTimeKey], i) => {
               return (
                 <p key={i}>
-                  {` ${WEEKS[Number(e[0].slice(-2, -1)) - 1]} : ${convertToTimeFormat(hospitalData[e[1]].toString())} ~ ${convertToTimeFormat(hospitalData[e[0]].toString())}`}
+                  {` ${getOfficeHours(endTimeKey)} : ${convertToTimeFormat(hospitalData[startTimeKey].toString())} ~ ${convertToTimeFormat(hospitalData[endTimeKey].toString())}`}
                 </p>
               );
             })}
