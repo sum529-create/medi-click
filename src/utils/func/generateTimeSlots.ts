@@ -65,13 +65,13 @@ export const generateTimeSlots = (obj: { open: string; close: string }) => {
       continue;
     }
 
-    const str = changeMinutesToString(totalMinutes);
+    const timeStr = changeMinutesToString(totalMinutes);
 
     // 점심시간 이전이면 오전, 이후면 오후
     if (totalMinutes < LUNCH_START) {
-      morning.push(str);
+      morning.push(timeStr);
     } else {
-      afternoon.push(str);
+      afternoon.push(timeStr);
     }
 
     totalMinutes += 30;
