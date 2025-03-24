@@ -1,40 +1,75 @@
+'use client';
+
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import EditFormInput from '@/components/features/mypage/editProfile/EditFormInput';
 import MainContentsContainer from '@/components/features/mypage/MainContentsContainer';
 import MainContentsTitleBox from '@/components/features/mypage/MainContentsTitleBox';
 import ProfileImage from '@/components/features/mypage/ProfileImage';
 import { Button } from '@/components/ui/button';
+import { supabase } from '@/utils/supabase/supabase';
 
 const ProfileEditPage = () => {
-  const userData = {
-    name: '김수임',
-    email: 'rrrr6563@naver.com',
-    phoneNumber: '010-1234-5678',
-    profileImgPath:
-      'https://velog.velcdn.com/images/_kimsuim/profile/f5407ae2-e00f-4e28-a056-3e6429388967/image.JPG',
-  }; //임시데이터
+  const testId: string = '0d6511b9-926b-443f-9828-39e5f302e1e4';
 
-  const { name, email, phoneNumber, profileImgPath } = userData;
+  const test = async () => {
+    const { data } = await supabase.from('users').select('*').eq('id', testId);
+
+    return data;
+  };
+
+  const { data, isError, isPending } = useQuery({
+    queryKey: ['user'],
+    queryFn: test,
+  });
+
+  const [phone, setPhone] = useState('');
+
+  useEffect(() => {
+    if (data) setPhone(data[0].phone_number);
+  }, [data]);
+
+  const handleEditProfile = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const { error } = await supabase
+      .from('users')
+      .update({ phone_number: phone })
+      .eq('id', testId);
+    if (error) console.log('error', error);
+  };
+
+  if (isError || isPending) return;
+  if (!data) return;
 
   return (
     <MainContentsContainer>
       <MainContentsTitleBox title='개인 정보 수정' />
-      <form className='relative px-20 py-10 font-bold'>
+      <form
+        className='relative px-20 py-10 font-bold'
+        onSubmit={handleEditProfile}
+      >
         <div className='flex gap-20'>
           <div className='flex flex-col items-center gap-8'>
-            <ProfileImage src={profileImgPath} size='166px' />
+            <ProfileImage src={data[0].avatar_path!} size='166px' />
             <Button className='h-[44px] w-[144px] rounded-[10px] text-lg'>
               이미지 변경
             </Button>
           </div>
           <div className='flex w-full flex-col gap-10'>
-            <EditFormInput label='이름' inputValue={name} disabled />
-            <EditFormInput label='이메일' inputValue={email} disabled />
+            <EditFormInput label='이름' inputValue={data[0].name!} disabled />
+            <EditFormInput
+              label='생년월일'
+              inputValue={data[0].birth}
+              disabled
+            />
           </div>
         </div>
         <EditFormInput
           label='연락처'
-          inputValue={phoneNumber}
+          inputValue={phone}
           className='my-10'
+          onChange={(e) => setPhone(e.target.value)}
         />
         <div className='flex justify-end'>
           <Button
