@@ -7,7 +7,7 @@ interface Input {
   className?: string;
   disabled?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  errorMessage?: string;
+  errorMessage?: string | null;
 }
 
 const EditFormInput = ({
