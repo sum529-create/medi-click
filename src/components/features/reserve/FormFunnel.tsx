@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CardContainer from '@/components/layout/CardContainer';
 import CardHeaderContainer from '@/components/layout/CardHeaderContainer';
 import { Button } from '@/components/ui/button';
@@ -11,7 +11,10 @@ import {
   getCalendarDate,
   getReservationTime,
 } from '@/utils/func/getCalendarDate';
-import { getLocalStorage } from '@/utils/func/getLocalStorage';
+import {
+  getLocalStorage,
+  updateLocalStorage,
+} from '@/utils/func/getLocalStorage';
 
 interface Props {
   name: string;
@@ -19,13 +22,16 @@ interface Props {
 }
 
 const FormFunnel = ({ name, onPrev }: Props) => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(() => {
+    const storageData = getLocalStorage();
+    return storageData.reason || '';
+  });
 
   const { date, time } = getLocalStorage();
 
   // 임시 데이터
   const reservationInfo = [
-    { title: '성함', value: '김수임' },
+    { title: '성함', value: '이지은' },
     { title: '생년월일', value: '1900년 3월 20일' },
     { title: '예약 병원', value: `${name}` },
     {
@@ -33,6 +39,14 @@ const FormFunnel = ({ name, onPrev }: Props) => {
       value: `${getCalendarDate(new Date(date))} ${getReservationTime(time)}`,
     },
   ];
+
+  useEffect(() => {
+    updateLocalStorage('reason', value);
+  }, [value]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setValue(e.target.value);
+  };
 
   return (
     <CardContainer>
@@ -50,11 +64,10 @@ const FormFunnel = ({ name, onPrev }: Props) => {
           <label htmlFor='reason' className='font-bold'>
             방문 사유
           </label>
-          {/* onChange 이벤트 핸들러는 아직 만들지 않은 상태입니다 */}
           <Textarea
             id='reason'
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={handleChange}
             placeholder='방문 사유를 간단하게 적어주세요...'
           />
         </div>
@@ -70,7 +83,7 @@ const FormFunnel = ({ name, onPrev }: Props) => {
       </CardContent>
       <CardFooter className='mt-10 flex justify-evenly'>
         <Button onClick={() => onPrev()}>이전으로</Button>
-        <Button>제출하기</Button>
+        <Button>예약 완료하기</Button>
       </CardFooter>
     </CardContainer>
   );
