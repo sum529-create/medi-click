@@ -1,18 +1,14 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import Loading from '@/components/common/Loading';
 import HospitalBasicInfo from '@/components/features/hospitalDetail/HospitalBasicInfo';
 import InfoSection from '@/components/features/hospitalDetail/InfoSection';
-import { QUERY_KEY } from '@/constants/queryKey';
-import hospitalDetail, {
-  hospitalDetailInfoSection,
-  hospitalDetailReviews,
-} from '@/utils/api/hospitalDetail';
+
+import { useHospitalSchedule } from '@/hooks/tanstackQuery/useHospitalSchedule';
 import { convertToTimeFormat } from '@/utils/func/convertToTimeFormat';
 import ReviewSection from './ReviewSection';
-interface HospitalSectionType {
+export interface HospitalSectionType {
   hpid: string;
 }
 
@@ -23,38 +19,23 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
   );
   const STATE_WRAPPER_STYLE =
     'flex h-[calc(100vh_-_80px)] w-full items-center justify-center';
-  const {
-    data: hospitalData,
-    isPending,
-    isError,
-    error,
-  } = useQuery({
-    queryKey: [QUERY_KEY.HOSPITAL_DETAIL, hpid],
-    queryFn: () => hospitalDetail(hpid, { isServer: false }),
-    enabled: !!hpid,
-  });
 
   const {
-    data: infoData,
-    isPending: isInfoPending,
-    isError: isInfoError,
-    error: infoError,
-  } = useQuery({
-    queryKey: [QUERY_KEY.HOSPITAL_DETAIL_INFO, hpid],
-    queryFn: () => hospitalDetailInfoSection(hpid),
-    enabled: !!hpid,
-  });
-
-  const {
-    data: reviewData,
-    isPending: isReviewPending,
-    isError: isReviewError,
-    error: reviewError,
-  } = useQuery({
-    queryKey: [QUERY_KEY.HOSPITAL_REVIEW, hpid],
-    queryFn: () => hospitalDetailReviews(hpid),
-    enabled: !!hpid,
-  });
+    hospitalData,
+    isHospitalPending,
+    isHospitalError,
+    hospitalError,
+    infoData,
+    isInfoPending,
+    isInfoError,
+    infoError,
+    reviewData,
+    isReviewPending,
+    isReviewError,
+    reviewError,
+    dutyTimes,
+    restWeeks,
+  } = useHospitalSchedule({ hpid });
 
   const {
     dutyAddr = '',
@@ -63,45 +44,11 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
     dgidIdName = '',
   } = hospitalData || {};
 
-  const { etc, info, department } = infoData || {};
-
-  // 진료 시간 및 휴무일 계산 - useMemo로 변경하여 성능 최적화
-  const { dutyTimes, restWeeks } = useMemo(() => {
-    if (!hospitalData) {
-      return { dutyTimes: [], restWeeks: [] };
-    }
-
-    // 진료 시간 키 필터링
-    const dutyTimekeys = Object.keys(hospitalData).filter((key) =>
-      key.includes('dutyTime'),
-    );
-
-    // 쌍으로 그룹화
-    const dutyTimeArr = dutyTimekeys.reduce<string[][]>(
-      (acc, _, index, arr) => {
-        if (index % 2 === 0) {
-          acc.push([arr[index], arr[index + 1]]);
-        }
-        return acc;
-      },
-      [],
-    );
-
-    // 운영 요일 계산
-    const operationWeek = dutyTimeArr.map(
-      (pair) => Number(pair[0].slice(-2, -1)) - 1,
-    );
-
-    // 휴무일 계산
-    const restWeeksArr = WEEKS.filter(
-      (_, index) => !operationWeek.includes(index),
-    );
-
-    return { dutyTimes: dutyTimeArr, restWeeks: restWeeksArr };
-  }, [hospitalData, WEEKS]);
+  const { etc, info, department } =
+    typeof infoData === 'object' ? infoData : {};
 
   // 로딩 상태 UI 개선
-  if (isPending || isInfoPending || isReviewPending) {
+  if (isHospitalPending || isInfoPending || isReviewPending) {
     return (
       <div className={STATE_WRAPPER_STYLE}>
         <Loading size={100} />
@@ -110,7 +57,7 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
   }
 
   // 에러 상태 UI 개선
-  if (isError || isInfoError || isReviewError) {
+  if (isHospitalError || isInfoError || isReviewError) {
     return (
       <div className={STATE_WRAPPER_STYLE}>
         <div className='border-gray mb-[130px] rounded-lg border p-6 text-center'>
@@ -118,10 +65,12 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
             데이터를 불러오는 중 오류가 발생했습니다
           </h3>
           <p className='mb-4 text-sm'>
-            {error instanceof Error ||
+            {hospitalError instanceof Error ||
             infoError instanceof Error ||
             reviewError instanceof Error
-              ? error?.message || infoError?.message
+              ? hospitalError?.message ||
+                infoError?.message ||
+                reviewError?.message
               : '알 수 없는 오류가 발생했습니다.'}
           </p>
           <button
@@ -168,7 +117,7 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
             <p>{info}</p>
           </InfoSection>
         )}
-        <ReviewSection review={reviewData || []} />
+        <ReviewSection review={Array.isArray(reviewData) ? reviewData : []} />
       </div>
     </div>
   );
