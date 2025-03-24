@@ -1,4 +1,5 @@
 // import { Session } from '@supabase/supabase-js';
+import { COLUMN, TABLE } from '@/constants/supabaseTables';
 import { Database } from '@/types/supabase';
 import { supabase } from '../supabase/supabase';
 
@@ -13,9 +14,9 @@ type ProfileData = Database['public']['Tables']['users']['Row'][] | null;
  */
 export const getUserProfile = async (): Promise<ProfileData> => {
   const { data, error } = await supabase
-    .from('users')
+    .from(TABLE.USERS)
     .select('*')
-    .eq('id', testId);
+    .eq(COLUMN.ID, testId);
   if (error) console.log('유저 프로필 받아오기 실패', error);
 
   return data;
@@ -29,8 +30,8 @@ export const updateUserProfile = async (
   updatedPhoneNumber: string,
 ): Promise<void> => {
   const { error } = await supabase
-    .from('users')
+    .from(TABLE.USERS)
     .update({ phone_number: updatedPhoneNumber })
-    .eq('id', testId);
+    .eq(COLUMN.ID, testId);
   if (error) console.log('error', error);
 };
