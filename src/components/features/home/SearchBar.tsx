@@ -18,9 +18,7 @@ const SearchBar = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
-
     const filteredKeyword = e.target.value.replace(/[^가-힣a-zA-Z0-9]/g, '');
-    setSearchKeyword(filteredKeyword);
     debouncedSearch(filteredKeyword);
   };
 
