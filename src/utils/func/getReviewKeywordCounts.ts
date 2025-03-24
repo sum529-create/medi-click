@@ -1,5 +1,5 @@
 import { ReviewDataType } from '@/components/features/hospitalDetail/ReviewSection';
-import { REVIEW_TEXTS } from '@/constants/reviewConstants';
+import { REVIEW_TEXTS } from '@/constants/hospitalConstants';
 
 /**
  * getReviewKeywordCounts

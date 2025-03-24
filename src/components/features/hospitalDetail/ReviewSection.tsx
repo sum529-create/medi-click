@@ -1,4 +1,4 @@
-import { REVIEW_TEXTS } from '@/constants/reviewConstants';
+import { REVIEW_TEXTS } from '@/constants/hospitalConstants';
 import { getReviewKeywordCounts } from '@/utils/func/getReviewKeywordCounts';
 import ProgressBar from './ProgressBar';
 export interface ReviewDataType {
