@@ -25,7 +25,7 @@ export const getHospitalApiUrl = (id: string) => {
 /**
  * 병원 상세 정보 조회
  */
-const hospitalDetail = async (id: string, options?: { isServer?: boolean }) => {
+const hospitalDetail = async (id: string) => {
   try {
     const apiUrl = getHospitalApiUrl(id);
     const res = await fetch(apiUrl);

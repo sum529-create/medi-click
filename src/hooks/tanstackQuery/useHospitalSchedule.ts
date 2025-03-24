@@ -18,7 +18,7 @@ export const useHospitalSchedule = ({ hpid }: HospitalSectionType) => {
     error: hospitalError,
   } = useQuery({
     queryKey: [QUERY_KEY.HOSPITAL_DETAIL, hpid],
-    queryFn: () => hospitalDetail(hpid, { isServer: false }),
+    queryFn: () => hospitalDetail(hpid),
     enabled: !!hpid,
   });
 
