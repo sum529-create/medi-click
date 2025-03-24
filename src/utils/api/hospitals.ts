@@ -53,7 +53,7 @@ export const getAllHospitalData = async (
 
     // 검색창에 키워드가 입력되면, 해당 키워드를 가진 병원 목록을 찾음
     if (searchKeyword) {
-      query = query.ilike('name', `%${searchKeyword}%`);
+      query = query.ilike('normalized_name', `%${searchKeyword}%`);
     }
 
     // 검색창에 키워드가 없으면, 전체 병원 목록을 반환함
