@@ -42,16 +42,22 @@ export const getAllHospitalLocation = async () => {
  */
 export const getAllHospitalData = async (
   pageParam: number,
+  searchKeyword: string,
 ): Promise<Tables<'hospitals'>[]> => {
   try {
     const pageSize = 10;
     const start = (pageParam - 1) * pageSize;
     const end = start + pageSize - 1;
 
-    const { data: hospitalData, error } = await supabase
-      .from(TABLE.HOSPITALS)
-      .select('*')
-      .range(start, end);
+    let query = supabase.from(TABLE.HOSPITALS).select('*');
+
+    // 검색창에 키워드가 입력되면, 해당 키워드를 가진 병원 목록을 찾음
+    if (searchKeyword) {
+      query = query.ilike('name', `%${searchKeyword}%`);
+    }
+
+    // 검색창에 키워드가 없으면, 전체 병원 목록을 반환함
+    const { data: hospitalData, error } = await query.range(start, end);
 
     if (error) throw error;
 
