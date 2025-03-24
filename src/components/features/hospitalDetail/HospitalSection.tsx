@@ -121,10 +121,8 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
     );
   }
 
-  console.log(infoData);
-
   return (
-    <div className='md:p-8" relative my-10 flex h-[100vh-80px] items-end break-words p-6 lg:my-20'>
+    <div className='relative my-10 box-border flex h-[100vh_-_80px] w-full items-end break-words p-6 md:p-8 lg:my-20'>
       <div className='mx-auto my-0 flex max-w-screen-xl flex-1 flex-col justify-center'>
         <HospitalBasicInfo
           dutyAddr={dutyAddr}
