@@ -2,14 +2,22 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEY } from '@/constants/queryKey';
-import { Database } from '@/types/supabase';
 import { getUserProfile } from '@/utils/api/userProfile';
+
+interface Profile {
+  birth: string;
+  created_at: string;
+  id: string;
+  name: string | null;
+  phone_number: string;
+  avatar_path?: string;
+}
 
 interface UseUserProfileReturnValue {
   isProfilePending: boolean;
   isProfileError: boolean;
   getProfileError: Error | null;
-  profile: Database['public']['Tables']['users']['Row'];
+  profile: Profile;
 }
 
 /**
