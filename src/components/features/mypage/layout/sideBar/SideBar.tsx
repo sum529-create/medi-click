@@ -35,7 +35,9 @@ const SideBar = () => {
         <Title tag='h2' size='md'>
           {profile?.name}님
         </Title>
-        <Text size='lg'>rrrr6563@naver.com</Text>
+        <Text isBold size='lg'>
+          rrrr6563@naver.com
+        </Text>
       </ProfileContainer>
       <nav className='h-[276px] w-[264px] rounded-[16px] bg-sub'>
         <div className='flex h-[66px] w-[264px] items-center justify-center rounded-t-[16px] bg-main text-2xl font-bold text-white'>
