@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { MODE } from '@/constants/authMode';
 import { cn } from '@/lib/utils';
-import { getSession, logIn, signUp } from '@/utils/api/auth';
+import { getSession, logIn, logOut, signUp } from '@/utils/api/auth';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 
@@ -50,6 +50,8 @@ const AuthForm = ({ mode }: Props) => {
         position: 'top-center',
         autoClose: 3000,
       });
+
+      logOut();
 
       router.push('login');
     } else {
