@@ -1,46 +1,34 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import Loading from '@/components/common/Loading';
 import EditFormInput from '@/components/features/mypage/editProfile/EditFormInput';
 import MainContentsContainer from '@/components/features/mypage/MainContentsContainer';
 import MainContentsTitleBox from '@/components/features/mypage/MainContentsTitleBox';
 import ProfileImage from '@/components/features/mypage/ProfileImage';
 import { Button } from '@/components/ui/button';
-import { supabase } from '@/utils/supabase/supabase';
+import { useUpdateProfile } from '@/hooks/tanstackQuery/useUpdateProfile';
+import { useUserProfile } from '@/hooks/tanstackQuery/useUserProfile';
 
 const ProfileEditPage = () => {
-  const testId: string = '0d6511b9-926b-443f-9828-39e5f302e1e4';
+  const { isProfileError, isProfilePending, getProfileError, profile } =
+    useUserProfile();
 
-  const test = async () => {
-    const { data } = await supabase.from('users').select('*').eq('id', testId);
-
-    return data;
-  };
-
-  const { data, isError, isPending } = useQuery({
-    queryKey: ['user'],
-    queryFn: test,
-  });
-
-  const [phone, setPhone] = useState('');
+  const updateProfile = useUpdateProfile();
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   useEffect(() => {
-    if (data) setPhone(data[0].phone_number);
-  }, [data]);
+    if (profile) setPhoneNumber(profile.phone_number);
+  }, [profile]);
+
+  if (isProfileError) throw getProfileError;
+  if (isProfilePending) return <Loading size={30} />;
+  if (!profile) return; // profile 값 보장
 
   const handleEditProfile = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const { error } = await supabase
-      .from('users')
-      .update({ phone_number: phone })
-      .eq('id', testId);
-    if (error) console.log('error', error);
+    updateProfile(phoneNumber);
   };
-
-  if (isError || isPending) return;
-  if (!data) return;
 
   return (
     <MainContentsContainer>
@@ -51,25 +39,25 @@ const ProfileEditPage = () => {
       >
         <div className='flex gap-20'>
           <div className='flex flex-col items-center gap-8'>
-            <ProfileImage src={data[0].avatar_path!} size='166px' />
+            <ProfileImage src={profile.avatar_path} size='166px' />
             <Button className='h-[44px] w-[144px] rounded-[10px] text-lg'>
               이미지 변경
             </Button>
           </div>
           <div className='flex w-full flex-col gap-10'>
-            <EditFormInput label='이름' inputValue={data[0].name!} disabled />
+            <EditFormInput label='이름' inputValue={profile.name} disabled />
             <EditFormInput
               label='생년월일'
-              inputValue={data[0].birth}
+              inputValue={profile.birth}
               disabled
             />
           </div>
         </div>
         <EditFormInput
           label='연락처'
-          inputValue={phone}
+          inputValue={phoneNumber}
           className='my-10'
-          onChange={(e) => setPhone(e.target.value)}
+          onChange={(e) => setPhoneNumber(e.target.value)}
         />
         <div className='flex justify-end'>
           <Button
