@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Select,
   SelectContent,
@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
-import { login, signUp } from '@/utils/api/auth';
+import { getSession, login, signUp } from '@/utils/api/auth';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 
@@ -30,6 +30,8 @@ const AuthForm = ({ mode }: Props) => {
     role: '',
   });
 
+  const [isLogin, setIsLogin] = useState(false);
+
   const handleAuthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -47,6 +49,10 @@ const AuthForm = ({ mode }: Props) => {
       login(formData);
     }
   };
+
+  useEffect(() => {
+    getSession(setIsLogin);
+  }, []);
 
   const AuthInputClassName = cn(
     'h-14 w-full rounded-lg bg-gray02 px-5 text-lg',
