@@ -4,7 +4,7 @@ import Loading from '@/components/common/Loading';
 import HospitalBasicInfo from '@/components/features/hospitalDetail/HospitalBasicInfo';
 import InfoSection from '@/components/features/hospitalDetail/InfoSection';
 
-import { useHospitalSchedule } from '@/hooks/tanstackQuery/useHospitalSchedule';
+import { useHospitalSchedule } from '@/hooks/hospitalDetail/useHospitalSchedule';
 import { convertToTimeFormat } from '@/utils/func/convertToTimeFormat';
 import { getOfficeWeeks } from '@/utils/func/getOfficeWeeks';
 import ErrorState from './ErrorState';
@@ -18,20 +18,13 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
     'flex h-[calc(100vh_-_80px)] w-full items-center justify-center';
 
   const {
-    hospitalData,
-    isHospitalPending,
-    isHospitalError,
-    hospitalError,
-    infoData,
-    isInfoPending,
-    isInfoError,
-    infoError,
-    reviewData,
-    isReviewPending,
-    isReviewError,
-    reviewError,
-    dutyTimes,
-    restWeeks,
+    data: {
+      hospitalData,
+      infoData,
+      reviewData,
+      schedule: { dutyTimes, restWeeks },
+    },
+    status: { isPending, isError, error },
   } = useHospitalSchedule({ hpid });
 
   const {
@@ -44,14 +37,8 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
   const { etc, info, department } =
     typeof infoData === 'object' ? infoData : {};
 
-  const errorMessage =
-    [hospitalError, infoError, reviewError]
-      .filter((e) => e instanceof Error)
-      .map((e) => e?.message)
-      .join(', ') || '알 수 없는 오류가 발생했습니다.';
-
   // 로딩 상태 UI 개선
-  if (isHospitalPending || isInfoPending || isReviewPending) {
+  if (isPending) {
     return (
       <div className={STATE_WRAPPER_STYLE}>
         <Loading size={100} />
@@ -60,10 +47,12 @@ const HospitalSection = ({ hpid }: HospitalSectionType) => {
   }
 
   // 에러 상태 UI 개선
-  if (isHospitalError || isInfoError || isReviewError) {
+  if (isError) {
     return (
       <div className={STATE_WRAPPER_STYLE}>
-        <ErrorState>{errorMessage}</ErrorState>
+        <ErrorState>
+          {error?.message || '알 수 없는 오류가 발생했습니다.'}
+        </ErrorState>
       </div>
     );
   }

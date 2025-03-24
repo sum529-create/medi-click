@@ -1,48 +1,38 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { HospitalSectionType } from '@/components/features/hospitalDetail/HospitalSection';
 import { WEEKS } from '@/constants/hospitalConstants';
-import { QUERY_KEY } from '@/constants/queryKey';
-import hospitalDetail, {
-  hospitalDetailInfoSection,
-  hospitalDetailReviews,
-} from '@/utils/api/hospitalDetail';
+import { HospitalScheduleResult } from '@/types/components/hospitalDetail/hospitalInfoData';
+import {
+  useGetHospitalDetail,
+  useGetHospitalInfo,
+  useGetHospitalReview,
+} from '../tanstackQuery/useHospitalInfo';
 
-export const useHospitalSchedule = ({ hpid }: HospitalSectionType) => {
+export const useHospitalSchedule = ({
+  hpid,
+}: HospitalSectionType): HospitalScheduleResult => {
   const {
     data: hospitalData,
     isPending: isHospitalPending,
     isError: isHospitalError,
     error: hospitalError,
-  } = useQuery({
-    queryKey: [QUERY_KEY.HOSPITAL_DETAIL, hpid],
-    queryFn: () => hospitalDetail(hpid),
-    enabled: !!hpid,
-  });
+  } = useGetHospitalDetail(hpid);
 
   const {
     data: infoData,
     isPending: isInfoPending,
     isError: isInfoError,
     error: infoError,
-  } = useQuery({
-    queryKey: [QUERY_KEY.HOSPITAL_DETAIL_INFO, hpid],
-    queryFn: () => hospitalDetailInfoSection(hpid),
-    enabled: !!hpid,
-  });
+  } = useGetHospitalInfo(hpid);
 
   const {
     data: reviewData,
     isPending: isReviewPending,
     isError: isReviewError,
     error: reviewError,
-  } = useQuery({
-    queryKey: [QUERY_KEY.HOSPITAL_REVIEW, hpid],
-    queryFn: () => hospitalDetailReviews(hpid),
-    enabled: !!hpid,
-  });
+  } = useGetHospitalReview(hpid);
 
   // 진료 시간 및 휴무일 계산 - useMemo로 변경하여 성능 최적화
   const { dutyTimes, restWeeks } = useMemo(() => {
@@ -66,6 +56,8 @@ export const useHospitalSchedule = ({ hpid }: HospitalSectionType) => {
       [],
     );
 
+    console.log(dutyTimeArr);
+
     // 운영 요일 계산
     const operationWeek = dutyTimeArr.map(
       (pair) => Number(pair[0].slice(-2, -1)) - 1,
@@ -79,20 +71,24 @@ export const useHospitalSchedule = ({ hpid }: HospitalSectionType) => {
     return { dutyTimes: dutyTimeArr, restWeeks: restWeeksArr };
   }, [hospitalData]);
 
+  const isPending = isHospitalPending || isInfoPending || isReviewPending;
+  const isError = isHospitalError || isInfoError || isReviewError;
+  const error = hospitalError || infoError || reviewError;
+
   return {
-    hospitalData,
-    isHospitalPending,
-    isHospitalError,
-    hospitalError,
-    infoData,
-    isInfoPending,
-    isInfoError,
-    infoError,
-    reviewData,
-    isReviewPending,
-    isReviewError,
-    reviewError,
-    dutyTimes,
-    restWeeks,
+    data: {
+      hospitalData,
+      infoData,
+      reviewData,
+      schedule: {
+        dutyTimes,
+        restWeeks,
+      },
+    },
+    status: {
+      isPending,
+      isError,
+      error,
+    },
   };
 };
