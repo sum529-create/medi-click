@@ -10,11 +10,9 @@ import { CardContent, CardFooter } from '@/components/ui/card';
 import { generateTimeSlots } from '@/utils/func/generateTimeSlots';
 
 interface Props {
-  date: string;
-  time: string;
   operationTime: { [key: string]: { open: string; close: string } };
-  onNext: (date: string, time: string) => void;
-  onPrev: (date: string) => void;
+  onNext: () => void;
+  onPrev: () => void;
 }
 
 const dayOfWeek: { [key: string]: string } = {
@@ -27,8 +25,19 @@ const dayOfWeek: { [key: string]: string } = {
   Sun: 'Sunday',
 };
 
-const TimeFunnel = ({ date, time, operationTime, onNext, onPrev }: Props) => {
-  const [selectedTime, setSelectedTime] = useState(time);
+const TimeFunnel = ({ operationTime, onNext, onPrev }: Props) => {
+  const [selectedTime, setSelectedTime] = useState<string>(() => {
+    try {
+      const saved = localStorage.getItem('reservationForm');
+      if (!saved) return '';
+
+      const parsed = JSON.parse(saved);
+      return parsed.time || '';
+    } catch (e) {
+      console.error('로컬스토리지 파싱 오류:', e);
+      return '';
+    }
+  });
 
   const handleTimeButton = (time: string) => {
     setSelectedTime(time);
@@ -40,7 +49,7 @@ const TimeFunnel = ({ date, time, operationTime, onNext, onPrev }: Props) => {
     console.log('현재 localStorage: ', localStorage.getItem('reservationForm'));
   };
 
-  const day = dayOfWeek[new Date(date).toString().slice(0, 3)];
+  const day = dayOfWeek[new Date('2025-04-04').toString().slice(0, 3)];
   const equalDay = operationTime[day];
 
   // 만약 영업날이 아닐 경우 얼리 리턴
@@ -49,7 +58,7 @@ const TimeFunnel = ({ date, time, operationTime, onNext, onPrev }: Props) => {
       <CardContainer>
         <CardHeaderContainer>예약 가능한 시간이 없습니다</CardHeaderContainer>
         <CardFooter className='mt-16 flex w-full justify-evenly gap-5'>
-          <Button onClick={() => onPrev(date)}>이전으로</Button>
+          <Button onClick={() => onPrev()}>이전으로</Button>
         </CardFooter>
       </CardContainer>
     );
@@ -58,7 +67,7 @@ const TimeFunnel = ({ date, time, operationTime, onNext, onPrev }: Props) => {
 
   const handleClick = () => {
     if (selectedTime) {
-      onNext(date, selectedTime);
+      onNext();
     } else {
       toast.error('예약 시간을 선택해주세요.');
     }
@@ -96,7 +105,7 @@ const TimeFunnel = ({ date, time, operationTime, onNext, onPrev }: Props) => {
         </TimeButtonContainer>
       </CardContent>
       <CardFooter className='mt-16 flex w-full justify-evenly gap-5'>
-        <Button onClick={() => onPrev(date)}>이전으로</Button>
+        <Button onClick={() => onPrev()}>이전으로</Button>
         <Button onClick={handleClick}>다음으로</Button>
       </CardFooter>
     </CardContainer>

@@ -7,20 +7,17 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  getCalendarDate,
-  getReservationTime,
-} from '@/utils/func/getCalendarDate';
+// import {
+//   getCalendarDate,
+//   getReservationTime,
+// } from '@/utils/func/getCalendarDate';
 
 interface Props {
-  date: string;
-  time: string;
   name: string;
-  other: unknown;
   onPrev: () => void;
 }
 
-const FormFunnel = ({ date, time, name, onPrev }: Props) => {
+const FormFunnel = ({ name, onPrev }: Props) => {
   const [value, setValue] = useState('');
 
   // 임시 데이터
@@ -30,7 +27,8 @@ const FormFunnel = ({ date, time, name, onPrev }: Props) => {
     { title: '예약 병원', value: `${name}` },
     {
       title: '예약 날짜',
-      value: `${getCalendarDate(new Date(date))} ${getReservationTime(time)}`,
+      // value: `${getCalendarDate(new Date(date))} ${getReservationTime(time)}`,
+      value: 'ㅎㅎ',
     },
   ];
 

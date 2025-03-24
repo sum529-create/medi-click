@@ -11,19 +11,29 @@ import Text from '@/components/ui/Text';
 import { getCalendarDate, getSplitDate } from '@/utils/func/getCalendarDate';
 
 interface Props {
-  date: string;
-  time: string;
-  onNext: (date: string, time: string) => void;
+  onNext: () => void;
 }
 
-const CalendarFunnel = ({ date, time, onNext }: Props) => {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
-    date ? new Date(date) : undefined,
-  );
+const CalendarFunnel = ({ onNext }: Props) => {
+  const [date, setDate] = useState<Date | undefined>(() => {
+    const savedDate = JSON.parse(
+      localStorage.getItem('reservationForm') || '{}',
+    );
+    if (!savedDate) return undefined;
+    return new Date(savedDate.date);
+  });
 
   const handleClick = () => {
-    if (selectedDate) {
-      onNext(getSplitDate(selectedDate), time);
+    if (date) {
+      const saved = JSON.parse(localStorage.getItem('reservationForm') || '{}');
+      localStorage.setItem(
+        'reservationForm',
+        JSON.stringify({
+          ...saved,
+          date: getSplitDate(date),
+        }),
+      );
+      onNext();
     } else {
       toast.error('예약 날짜를 선택해주세요.');
     }
@@ -35,13 +45,13 @@ const CalendarFunnel = ({ date, time, onNext }: Props) => {
         원하는 예약 날짜를 선택해주세요.
       </CardHeaderContainer>
       <Text size='lg' align='center' color='gray03'>
-        {getCalendarDate(selectedDate)}
+        {getCalendarDate(date)}
       </Text>
       <CardContent className='my-5 flex flex-col items-center justify-center'>
         <Calendar
           mode='single'
-          selected={selectedDate}
-          onSelect={setSelectedDate}
+          selected={date}
+          onSelect={setDate}
           className='w-full rounded-md border p-3 shadow'
           classNames={{
             caption: 'flex justify-center pt-1 relative items-center mb-3',
