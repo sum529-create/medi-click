@@ -73,7 +73,7 @@ export type Database = {
           memo?: string | null;
           status: ReservationStatus;
           time: string;
-          updated_at: string;
+          updated_at?: string;
           user_id?: string;
         };
         Update: {

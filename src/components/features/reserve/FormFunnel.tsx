@@ -27,13 +27,9 @@ interface Props {
 }
 
 const FormFunnel = ({ name, id, onPrev }: Props) => {
-  const [value, setValue] = useState(() => {
-    const storageData = getLocalStorage();
-    return storageData.reason || '';
-  });
+  const { date, time, reason } = getLocalStorage();
+  const [value, setValue] = useState(reason || '');
   const router = useRouter();
-
-  const { date, time } = getLocalStorage();
 
   // 임시 데이터
   const reservationInfo = [
@@ -58,7 +54,7 @@ const FormFunnel = ({ name, id, onPrev }: Props) => {
     // 임시 데이터(zustand store에서 받아올 예정입니다)
     const reservationInfo = {
       time: time,
-      status: 'waiting',
+      status: 'waiting' as const,
       user_id: '1ca622a0-68e5-49f2-b98c-5dcbd167b4cd',
       date: date,
       memo: value,
