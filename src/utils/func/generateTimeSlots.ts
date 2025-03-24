@@ -1,5 +1,6 @@
 const LUNCH_START = 750;
 const LUNCH_END = 840;
+const ZERO_STR = '0';
 
 /**
  * 점심시간인지 판별해주는 함수
@@ -35,8 +36,8 @@ const changeTimeToMinutes = (time: string) => {
 const changeMinutesToString = (minutes: number) => {
   const hour = Math.floor(minutes / 60)
     .toString()
-    .padStart(2, '0');
-  const minute = (minutes % 60).toString().padStart(2, '0');
+    .padStart(2, ZERO_STR);
+  const minute = (minutes % 60).toString().padStart(2, ZERO_STR);
   return `${hour}:${minute}`;
 };
 
