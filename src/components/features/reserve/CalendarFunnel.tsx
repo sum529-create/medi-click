@@ -19,8 +19,6 @@ interface Props {
   onNext: () => void;
 }
 
-// 만약 날짜가 바뀌면 다른 페이지에서 선택했던게 다 리셋되도록 할 예정
-
 const CalendarFunnel = ({ onNext }: Props) => {
   const [date, setDate] = useState<Date | undefined>(() => {
     const { date: storageDate } = getLocalStorage();
