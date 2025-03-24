@@ -15,7 +15,7 @@ export const signUp = async ({
   phone,
   birth,
 }: FormData) => {
-  await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -26,13 +26,19 @@ export const signUp = async ({
       },
     },
   });
+
+  if (error) throw error;
+  return data;
 };
 
 export const login = async ({ email, password }: FormData) => {
-  await supabase.auth.signInWithPassword({
+  const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
+
+  if (error) throw error;
+  return data;
 };
 
 export const getSession = async (setIsLogin: (value: boolean) => void) => {

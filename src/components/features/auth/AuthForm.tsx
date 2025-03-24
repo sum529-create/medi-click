@@ -89,7 +89,7 @@ const AuthForm = ({ mode }: Props) => {
             name='phone'
             type='tel'
             placeholder='전화번호'
-            pattern='[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}|[0-9]{9,11}'
+            pattern='^010-\d{3,4}-\d{4}$|^010\d{7,8}$'
             value={formData.phone}
             onChange={handleAuthChange}
             className={AuthInputClassName}
