@@ -1,18 +1,19 @@
+import EditFormInput from '@/components/features/mypage/editProfile/EditFormInput';
+import MainContentsContainer from '@/components/features/mypage/MainContentsContainer';
+import MainContentsTitleBox from '@/components/features/mypage/MainContentsTitleBox';
+import ProfileImage from '@/components/features/mypage/ProfileImage';
 import { Button } from '@/components/ui/button';
-import MainContentsContainer from '../MainContentsContainer';
-import MainContentsTitleBox from '../MainContentsTitleBox';
-import EditFormInput from './EditFormInput';
 
-interface User {
-  userData: {
-    name: string;
-    email: string;
-    phoneNumber: string;
-  };
-}
+const ProfileEditPage = () => {
+  const userData = {
+    name: '김수임',
+    email: 'rrrr6563@naver.com',
+    phoneNumber: '010-1234-5678',
+    profileImgPath:
+      'https://velog.velcdn.com/images/_kimsuim/profile/f5407ae2-e00f-4e28-a056-3e6429388967/image.JPG',
+  }; //임시데이터
 
-const EditProfile = ({ userData }: User) => {
-  const { name, email, phoneNumber } = userData;
+  const { name, email, phoneNumber, profileImgPath } = userData;
 
   return (
     <MainContentsContainer>
@@ -20,7 +21,7 @@ const EditProfile = ({ userData }: User) => {
       <form className='relative px-20 py-10 font-bold'>
         <div className='flex gap-20'>
           <div className='flex flex-col items-center gap-8'>
-            <div className='h-[166px] w-[166px] rounded-full border-2 border-main-hover bg-sub' />
+            <ProfileImage src={profileImgPath} size='166px' />
             <Button className='h-[44px] w-[144px] rounded-[10px] text-lg'>
               이미지 변경
             </Button>
@@ -48,4 +49,4 @@ const EditProfile = ({ userData }: User) => {
   );
 };
 
-export default EditProfile;
+export default ProfileEditPage;

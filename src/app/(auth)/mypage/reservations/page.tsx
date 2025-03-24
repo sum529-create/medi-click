@@ -1,15 +1,16 @@
-import React from 'react';
-import { ScheduleData } from '@/types/components/ui/mypage.schedule';
-import MainContentsContainer from './MainContentsContainer';
-import MainContentsTitleBox from './MainContentsTitleBox';
-import ScheduleDetail from './ScheduleDetail';
+import MainContentsContainer from '@/components/features/mypage/MainContentsContainer';
+import MainContentsTitleBox from '@/components/features/mypage/MainContentsTitleBox';
+import ScheduleDetail from '@/components/features/mypage/ScheduleDetail';
+import type { ScheduleData } from '@/types/components/ui/mypage.schedule';
 
-const MyReserveList = () => {
+const ReserveListPage = () => {
   const testData: ScheduleData = {
     hospitalName: '서울통정형외과의원 잠실점',
     schedule: '2025년 3월 20일 (목) 14:00',
     status: 'ok',
+    id: 'test',
   };
+
   return (
     <MainContentsContainer>
       <MainContentsTitleBox title='내 예약 목록' />
@@ -20,4 +21,4 @@ const MyReserveList = () => {
   );
 };
 
-export default MyReserveList;
+export default ReserveListPage;
