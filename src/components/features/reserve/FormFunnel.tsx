@@ -82,7 +82,9 @@ const FormFunnel = ({ name, id, onPrev }: Props) => {
         <Card className='flex w-full flex-col gap-3 px-10 py-7 shadow-none'>
           {reservationInfo.map((info) => (
             <div className='flex flex-col gap-2' key={crypto.randomUUID()}>
-              <Text color='gray04'>{info.title}</Text>
+              <Text color='gray04' isBold>
+                {info.title}
+              </Text>
               <Text color='gray04'>{info.value}</Text>
             </div>
           ))}

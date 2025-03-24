@@ -68,30 +68,34 @@ const TimeFunnel = ({ operationTime, onNext, onPrev }: Props) => {
         원하는 예약 시간을 선택해주세요.
       </CardHeaderContainer>
       <CardContent className='mt-10 flex h-fit flex-col items-center justify-center gap-10'>
-        <TimeButtonContainer timeZone='오전'>
-          {morning.map((morningTime) => (
-            <Button
-              key={crypto.randomUUID()}
-              variant={time === morningTime ? 'default' : 'time'}
-              size='time'
-              onClick={() => handleTimeButton(morningTime)}
-            >
-              {morningTime}
-            </Button>
-          ))}
-        </TimeButtonContainer>
-        <TimeButtonContainer timeZone='오후'>
-          {afternoon.map((afternoonTime) => (
-            <Button
-              key={crypto.randomUUID()}
-              variant={time == afternoonTime ? 'default' : 'time'}
-              size='time'
-              onClick={() => handleTimeButton(afternoonTime)}
-            >
-              {afternoonTime}
-            </Button>
-          ))}
-        </TimeButtonContainer>
+        {morning.length > 0 && (
+          <TimeButtonContainer timeZone='오전'>
+            {morning.map((morningTime) => (
+              <Button
+                key={crypto.randomUUID()}
+                variant={time === morningTime ? 'default' : 'time'}
+                size='time'
+                onClick={() => handleTimeButton(morningTime)}
+              >
+                {morningTime}
+              </Button>
+            ))}
+          </TimeButtonContainer>
+        )}
+        {afternoon.length > 0 && (
+          <TimeButtonContainer timeZone='오후'>
+            {afternoon.map((afternoonTime) => (
+              <Button
+                key={crypto.randomUUID()}
+                variant={time == afternoonTime ? 'default' : 'time'}
+                size='time'
+                onClick={() => handleTimeButton(afternoonTime)}
+              >
+                {afternoonTime}
+              </Button>
+            ))}
+          </TimeButtonContainer>
+        )}
       </CardContent>
       <CardFooter className='absolute bottom-0 left-0 flex w-full justify-evenly gap-5 px-12'>
         <Button onClick={() => onPrev()} size='move' variant='secondary'>
