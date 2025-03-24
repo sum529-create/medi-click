@@ -7,3 +7,5 @@ export const REVIEW_TEXTS = [
   '시설이 좋고 청결해요',
   '전문적이에요',
 ];
+
+export const WEEKS = ['월', '화', '수', '목', '금', '토', '일', '공휴일'];
