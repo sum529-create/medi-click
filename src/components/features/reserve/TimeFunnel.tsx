@@ -69,7 +69,7 @@ const TimeFunnel = ({ operationTime, onNext, onPrev }: Props) => {
       <CardHeaderContainer>
         원하는 예약 시간을 선택해주세요.
       </CardHeaderContainer>
-      <CardContent className='mt-10 flex h-fit flex-col items-center justify-center gap-10'>
+      <CardContent className='mt-10 flex h-fit flex-col items-center justify-center gap-20'>
         {morning.length > 0 && (
           <TimeButtonContainer timeZone='오전'>
             {morning.map((morningTime) => (
