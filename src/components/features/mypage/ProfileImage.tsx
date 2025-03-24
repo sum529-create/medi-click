@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface ImageProps {
-  src: string;
+  src: string | undefined;
   size: string;
 }
 
