@@ -6,9 +6,11 @@ import { Location } from '@/types/map';
  * @returns currentLocation - 사용자의 현재 위도, 경도
  */
 export const useCurrentLocation = () => {
-  const [currentLocation, setCurrentLocation] = useState<Location>({
-    lat: 33.450701,
-    lng: 126.570667,
+  const [currentLocation, setCurrentLocation] = useState<
+    Omit<Location, 'name' | 'id'>
+  >({
+    lat: 33.4996213,
+    lng: 126.5311884,
   });
 
   useEffect(() => {

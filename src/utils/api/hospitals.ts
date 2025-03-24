@@ -4,7 +4,7 @@ import { Tables } from '@/types/supabase';
 import { supabase } from '../supabase/supabase';
 
 /**
- * 모든 병원의 위치(위도, 경도)를 반환하는 함수
+ * 모든 병원의 위치(위도, 경도, 이름, id)를 반환하는 함수
  * @returns allHospitalLocations - 모든 병원의 위치(위도, 경도) 정보
  */
 export const getAllHospitalLocation = async () => {
@@ -19,7 +19,7 @@ export const getAllHospitalLocation = async () => {
 
       const { data, error } = await supabase
         .from(TABLE.HOSPITALS)
-        .select('lat, lng')
+        .select('lat, lng, name, id')
         .range(start, end);
 
       if (error) throw error;
@@ -37,21 +37,27 @@ export const getAllHospitalLocation = async () => {
 
 /**
  * 모든 병원의 정보를 페이지 단위로 10개씩 반환하는 함수
- * 무한스크롤 기능을 위한 코드입니다
+ * 무한스크롤 기능을 위한 코드
  * @returns allHospitalData - 모든 병원의 기본 정보
  */
 export const getAllHospitalData = async (
   pageParam: number,
+  searchKeyword: string,
 ): Promise<Tables<'hospitals'>[]> => {
   try {
     const pageSize = 10;
     const start = (pageParam - 1) * pageSize;
     const end = start + pageSize - 1;
 
-    const { data: hospitalData, error } = await supabase
-      .from(TABLE.HOSPITALS)
-      .select('*')
-      .range(start, end);
+    let query = supabase.from(TABLE.HOSPITALS).select('*');
+
+    // 검색창에 키워드가 입력되면, 해당 키워드를 가진 병원 목록을 찾음
+    if (searchKeyword) {
+      query = query.ilike('normalized_name', `%${searchKeyword}%`);
+    }
+
+    // 검색창에 키워드가 없으면, 전체 병원 목록을 반환함
+    const { data: hospitalData, error } = await query.range(start, end);
 
     if (error) throw error;
 
