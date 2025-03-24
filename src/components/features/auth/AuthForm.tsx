@@ -2,13 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+
 import { MODE } from '@/constants/authMode';
 import { cn } from '@/lib/utils';
 import { getSession, login, signUp } from '@/utils/api/auth';
@@ -28,7 +22,6 @@ const AuthForm = ({ mode }: Props) => {
     name: '',
     phone: '',
     birth: '',
-    role: '',
   });
 
   const [isLogin, setIsLogin] = useState(false);
@@ -36,10 +29,6 @@ const AuthForm = ({ mode }: Props) => {
   const handleAuthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleRoleChange = (value: string) => {
-    setFormData((prev) => ({ ...prev, role: value }));
   };
 
   const handleAuthSubmit = async (e: React.FormEvent) => {
@@ -117,17 +106,6 @@ const AuthForm = ({ mode }: Props) => {
             required
             onClick={(e) => ((e.target as HTMLInputElement).type = 'date')}
           />
-
-          <Select value={formData.role} onValueChange={handleRoleChange}>
-            <SelectTrigger className={AuthInputClassName}>
-              <SelectValue placeholder='역할 선택' />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value='doctor'>의사</SelectItem>
-              <SelectItem value='nurse'>간호사</SelectItem>
-              <SelectItem value='patient'>환자</SelectItem>
-            </SelectContent>
-          </Select>
         </>
       )}
 

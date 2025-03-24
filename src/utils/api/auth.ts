@@ -6,7 +6,6 @@ interface FormData {
   name: string;
   phone: string;
   birth: string;
-  role: string;
 }
 
 export const signUp = async ({
@@ -15,7 +14,6 @@ export const signUp = async ({
   name,
   phone,
   birth,
-  role,
 }: FormData) => {
   await supabase.auth.signUp({
     email,
@@ -25,7 +23,6 @@ export const signUp = async ({
         name,
         phone_number: phone,
         birth,
-        role,
       },
     },
   });
