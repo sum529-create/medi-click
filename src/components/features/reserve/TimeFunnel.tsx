@@ -8,6 +8,7 @@ import TimeButtonContainer from '@/components/layout/TimeButtonContainer';
 import { Button } from '@/components/ui/button';
 import { CardContent, CardFooter } from '@/components/ui/card';
 import { generateTimeSlots } from '@/utils/func/generateTimeSlots';
+import { getLocalStorage } from '@/utils/func/getLocalStorage';
 
 interface Props {
   operationTime: { [key: string]: { open: string; close: string } };
@@ -28,11 +29,9 @@ const dayOfWeek: { [key: string]: string } = {
 const TimeFunnel = ({ operationTime, onNext, onPrev }: Props) => {
   const [selectedTime, setSelectedTime] = useState<string>(() => {
     try {
-      const saved = localStorage.getItem('reservationForm');
+      const saved = getLocalStorage();
       if (!saved) return '';
-
-      const parsed = JSON.parse(saved);
-      return parsed.time || '';
+      return saved.time || '';
     } catch (e) {
       console.error('로컬스토리지 파싱 오류:', e);
       return '';
@@ -42,11 +41,10 @@ const TimeFunnel = ({ operationTime, onNext, onPrev }: Props) => {
   const handleTimeButton = (time: string) => {
     setSelectedTime(time);
     const newData = {
-      ...JSON.parse(localStorage.getItem('reservationForm') || '{}'),
+      ...getLocalStorage(),
       time,
     };
     localStorage.setItem('reservationForm', JSON.stringify(newData));
-    console.log('현재 localStorage: ', localStorage.getItem('reservationForm'));
   };
 
   const day = dayOfWeek[new Date('2025-04-04').toString().slice(0, 3)];

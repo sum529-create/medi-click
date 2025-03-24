@@ -9,6 +9,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { CardContent, CardFooter } from '@/components/ui/card';
 import Text from '@/components/ui/Text';
 import { getCalendarDate, getSplitDate } from '@/utils/func/getCalendarDate';
+import { getLocalStorage } from '@/utils/func/getLocalStorage';
 
 interface Props {
   onNext: () => void;
@@ -16,16 +17,15 @@ interface Props {
 
 const CalendarFunnel = ({ onNext }: Props) => {
   const [date, setDate] = useState<Date | undefined>(() => {
-    const savedDate = JSON.parse(
-      localStorage.getItem('reservationForm') || '{}',
-    );
+    const savedDate = getLocalStorage();
     if (!savedDate) return undefined;
+
     return new Date(savedDate.date);
   });
 
   const handleClick = () => {
     if (date) {
-      const saved = JSON.parse(localStorage.getItem('reservationForm') || '{}');
+      const saved = getLocalStorage();
       localStorage.setItem(
         'reservationForm',
         JSON.stringify({

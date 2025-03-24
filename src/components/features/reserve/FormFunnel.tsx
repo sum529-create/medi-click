@@ -11,6 +11,7 @@ import {
   getCalendarDate,
   getReservationTime,
 } from '@/utils/func/getCalendarDate';
+import { getLocalStorage } from '@/utils/func/getLocalStorage';
 
 interface Props {
   name: string;
@@ -20,9 +21,7 @@ interface Props {
 const FormFunnel = ({ name, onPrev }: Props) => {
   const [value, setValue] = useState('');
 
-  const { date, time } = JSON.parse(
-    localStorage.getItem('reservationForm') || '{}',
-  );
+  const { date, time } = getLocalStorage();
 
   // 임시 데이터
   const reservationInfo = [
