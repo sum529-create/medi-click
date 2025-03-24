@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import CardContainer from '@/components/layout/CardContainer';
@@ -8,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
+import { PATH } from '@/constants/routerPath';
 import { insertReservationInfo } from '@/utils/api/reservation';
 import {
   getCalendarDate,
@@ -29,6 +31,7 @@ const FormFunnel = ({ name, id, onPrev }: Props) => {
     const storageData = getLocalStorage();
     return storageData.reason || '';
   });
+  const router = useRouter();
 
   const { date, time } = getLocalStorage();
 
@@ -51,7 +54,7 @@ const FormFunnel = ({ name, id, onPrev }: Props) => {
     setValue(e.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // 임시 데이터(zustand store에서 받아올 예정입니다)
     const reservationInfo = {
       time: time,
@@ -63,11 +66,12 @@ const FormFunnel = ({ name, id, onPrev }: Props) => {
     };
 
     try {
-      const error = insertReservationInfo(reservationInfo);
+      const error = await insertReservationInfo(reservationInfo);
       if (error) {
         throw error;
       }
       toast.success('예약되었습니다!');
+      router.push(PATH.RESERVATIONS);
     } catch (error) {
       toast.error('예약 과정에서 오류가 발생했습니다.');
       console.error(error);
