@@ -20,7 +20,9 @@ export default function RootLayout({
       <body>
         <TQProvider>
           <Header />
-          {children}
+          <main className='flex min-h-[cal(100vh-80px)] flex-col items-center'>
+            {children}
+          </main>
           <ToastContainer
             position='top-right'
             autoClose={1000}
