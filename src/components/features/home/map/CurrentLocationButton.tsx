@@ -22,12 +22,7 @@ const CurrentLocationButton = ({
 
   /** UI */
   return (
-    <Button
-      variant='outline'
-      size='icon'
-      className='shadow-md'
-      onClick={handleClickButton}
-    >
+    <Button size='icon' className='shadow-md' onClick={handleClickButton}>
       <MdOutlineMyLocation />
     </Button>
   );

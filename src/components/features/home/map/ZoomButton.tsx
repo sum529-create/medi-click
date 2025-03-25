@@ -10,20 +10,10 @@ const ZoomButton = ({ zoomControls }: ZoomButtonProps) => {
 
   return (
     <div className='flex flex-col gap-1'>
-      <Button
-        variant='outline'
-        size='icon'
-        className='shadow-md'
-        onClick={zoomIn}
-      >
+      <Button size='icon' className='shadow-md' onClick={zoomIn}>
         <FaPlus />
       </Button>
-      <Button
-        variant='outline'
-        size='icon'
-        className='shadow-md'
-        onClick={zoomOut}
-      >
+      <Button size='icon' className='shadow-md' onClick={zoomOut}>
         <FaMinus />
       </Button>
     </div>
