@@ -26,7 +26,12 @@ const EditProfileForm = () => {
   const [errorText, setErrorText] = useState<string | null>(null);
 
   if (isProfileError) throw getProfileError;
-  if (isProfilePending) return <Loading size={30} />;
+  if (isProfilePending)
+    return (
+      <div className='relative top-20'>
+        <Loading size={50} />
+      </div>
+    );
   if (!profile) return; // profile 값 보장
 
   const { changeCheck, formatCheck, errorMessage } = validatePhoneNumber(
