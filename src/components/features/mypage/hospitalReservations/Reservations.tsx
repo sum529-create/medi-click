@@ -1,40 +1,17 @@
 'use client';
 import { useState } from 'react';
+import {
+  formatDate,
+  formatShortDate,
+  getNextDay,
+  getPreviousDay,
+} from '@/utils/func/formatDate';
 import DateNavigation from './DateNavigation';
 import ReservationBanner from './ReservationBanner';
 import ReservationTable from './ReservationTable';
 
 const ReservationsPage = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
-
-  // 날짜 관련 함수들
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      weekday: 'short',
-    });
-  };
-
-  const formatShortDate = (date: Date) => {
-    return date.toLocaleDateString('ko-KR', {
-      month: 'long',
-      day: 'numeric',
-    });
-  };
-
-  const getPreviousDay = () => {
-    const prevDate = new Date(currentDate);
-    prevDate.setDate(prevDate.getDate() - 1);
-    return prevDate;
-  };
-
-  const getNextDay = () => {
-    const nextDate = new Date(currentDate);
-    nextDate.setDate(nextDate.getDate() + 1);
-    return nextDate;
-  };
 
   // 예약 데이터 (실제로는 API에서 가져올 것)
   const reservations = [
@@ -64,11 +41,11 @@ const ReservationsPage = () => {
 
       <div className='my-6'>
         <DateNavigation
-          previousDate={formatShortDate(getPreviousDay())}
+          previousDate={formatShortDate(getPreviousDay(currentDate))}
           currentDate={formatShortDate(currentDate)}
-          nextDate={formatShortDate(getNextDay())}
-          onPreviousClick={() => setCurrentDate(getPreviousDay())}
-          onNextClick={() => setCurrentDate(getNextDay())}
+          nextDate={formatShortDate(getNextDay(currentDate))}
+          onPreviousClick={() => setCurrentDate(getPreviousDay(currentDate))}
+          onNextClick={() => setCurrentDate(getNextDay(currentDate))}
         />
       </div>
 
