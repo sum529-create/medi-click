@@ -9,6 +9,7 @@ interface FormData {
   birth: string;
 }
 
+// 회원가입을 처리하는 함수
 export const signUp = async ({
   email,
   password,
@@ -50,6 +51,7 @@ export const signUp = async ({
   }
 };
 
+// 로그인을 처리하는 함수
 export const logIn = async ({ email, password }: FormData) => {
   return await supabase.auth.signInWithPassword({
     email,
@@ -57,10 +59,12 @@ export const logIn = async ({ email, password }: FormData) => {
   });
 };
 
+// 로그아웃을 처리하는 함수
 export const logOut = async () => {
   await supabase.auth.signOut();
 };
 
+// 현재 세션을 확인하는 함수
 export const getSession = async (setIsLogin: (value: boolean) => void) => {
   try {
     const {

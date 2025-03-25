@@ -28,11 +28,13 @@ const AuthForm = ({ mode }: Props) => {
 
   const [isLogin, setIsLogin] = useState(false);
 
+  // 사용자가 입력 필드 값을 변경할 때 호출되는 함수
   const handleAuthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // 로그인 또는 회원가입 폼 제출 시 호출되는 함수
   const handleAuthSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
