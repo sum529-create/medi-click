@@ -1,15 +1,9 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { PATH } from '@/constants/routerPath';
-import { Tables } from '@/types/supabase';
+import { ReservationProps } from '@/types/components/mypage/reservation.type';
 
-interface Reservation {
-  reservation: Tables<'reservations'> & {
-    hospitals: Tables<'hospitals'>;
-  };
-}
-
-const ScheduleDetail = ({ reservation }: Reservation) => {
+const ScheduleDetail = ({ reservation }: ReservationProps) => {
   const { hospitals, date, status, id } = reservation;
 
   const reservationStatusMessage: { [key: string]: string } = {

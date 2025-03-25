@@ -1,9 +1,8 @@
-import { Database } from '@/types/supabase';
+import { Tables } from '@/types/supabase';
 
-export type Reservation =
-  Database['public']['Tables']['reservations']['Row'] & {
-    hospitals: Database['public']['Tables']['hospitals']['Row'];
-  };
+export type Reservation = Tables<'reservations'> & {
+  hospitals: Tables<'hospitals'>;
+};
 
 export interface ReservationProps {
   reservation: Reservation;
