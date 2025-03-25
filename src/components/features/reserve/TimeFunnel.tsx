@@ -1,20 +1,18 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import CardContainer from '@/components/layout/CardContainer';
 import CardHeaderContainer from '@/components/layout/CardHeaderContainer';
 import TimeButtonContainer from '@/components/layout/TimeButtonContainer';
 import { Button } from '@/components/ui/button';
 import { CardContent, CardFooter } from '@/components/ui/card';
-import { fetchReservationDate } from '@/utils/api/reservation';
-import { deleteTimeSecond } from '@/utils/func/convertToTimeFormat';
+import { useReservationTimeMap } from '@/hooks/reservation/useReservationTime';
 import { generateTimeSlots } from '@/utils/func/generateTimeSlots';
 import {
   getLocalStorage,
   updateLocalStorage,
 } from '@/utils/func/getLocalStorage';
-import { supabase } from '@/utils/supabase/supabase';
 import NoReservationPage from './NoReservationPage';
 
 interface Props {
@@ -37,52 +35,10 @@ const dayOfWeek: { [key: string]: string } = {
 const TimeFunnel = ({ operationTime, id, onNext, onPrev }: Props) => {
   const { date, time: storageTime } = getLocalStorage();
   const [time, setTime] = useState<string>(storageTime || '');
-  const [checkedTime, setCheckedTime] = useState<Record<string, number>>({});
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchReservationDate(id, date);
-      if (data) {
-        const map: Record<string, number> = {};
-        data.forEach((d) => {
-          const time = deleteTimeSecond(d.time);
-          map[time] = (map[time] ?? 0) + 1;
-        });
-        setCheckedTime(map);
-      }
-    };
-
-    fetchData();
-
-    const channel = supabase
-      .channel('reservations-channel')
-      .on(
-        'postgres_changes',
-        {
-          event: 'insert',
-          schema: 'public',
-          table: 'reservations',
-        },
-        (payload) => {
-          if (payload.new.date !== date) return;
-
-          const time = deleteTimeSecond(payload.new.time);
-
-          setCheckedTime((prev) => ({
-            ...prev,
-            [time]: (prev[time] ?? 0) + 1,
-          }));
-        },
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, []);
+  const checkedTime = useReservationTimeMap(id, date);
 
   const day = dayOfWeek[new Date(date).toString().slice(0, 3)];
-  const equalDay = operationTime[day];
+  const equalDay = operationTime[day] || null;
 
   // 만약 영업날이 아닐 경우 얼리 리턴
   if (!equalDay) {
