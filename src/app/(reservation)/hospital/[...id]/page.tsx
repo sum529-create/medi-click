@@ -21,6 +21,10 @@ export async function generateMetadata({
     return {
       title: hospitalData?.dutyName || '병원 정보',
       description: hospitalData?.dutyAddr || '병원 상세 정보',
+      openGraph: {
+        title: hospitalData?.dutyName || '병원 정보',
+        description: hospitalData?.dutyAddr || '병원 상세 정보',
+      },
     };
   } catch (error) {
     console.error('Error generating metadata:', error);
