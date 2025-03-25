@@ -7,6 +7,8 @@ import CardHeaderContainer from '@/components/layout/CardHeaderContainer';
 import TimeButtonContainer from '@/components/layout/TimeButtonContainer';
 import { Button } from '@/components/ui/button';
 import { CardContent, CardFooter } from '@/components/ui/card';
+import { useReservationDate } from '@/hooks/tanstackQuery/useReservationDate';
+import { deleteTimeSecond } from '@/utils/func/convertToTimeFormat';
 import { generateTimeSlots } from '@/utils/func/generateTimeSlots';
 import {
   getLocalStorage,
@@ -35,24 +37,20 @@ const dayOfWeek: { [key: string]: string } = {
 const TimeFunnel = ({ operationTime, id, onNext, onPrev }: Props) => {
   const { date, time: storageTime } = getLocalStorage();
   const [time, setTime] = useState<string>(storageTime || '');
-  const [checkedTime, setCheckedTime] = useState<string[]>([]);
+  const [checkedTime, setCheckedTime] = useState<Record<string, number>>({});
+
+  const { data } = useReservationDate(id, date);
+
+  if (data) {
+    const map: Record<string, number> = {};
+    data.forEach((d) => {
+      const time = deleteTimeSecond(d.time);
+      map[time] = (map[time] ?? 0) + 1;
+    });
+    setCheckedTime(map);
+  }
 
   useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await supabase
-        .from('reservations')
-        .select('time')
-        .eq('hospital_id', id)
-        .eq('date', date);
-
-      if (data) {
-        const temp = data.map((d) => d.time);
-        setCheckedTime([...temp]);
-      }
-    };
-
-    fetchData();
-
     const channel = supabase
       .channel('realtime:reservations')
       .on(
@@ -63,7 +61,14 @@ const TimeFunnel = ({ operationTime, id, onNext, onPrev }: Props) => {
           table: 'reservations',
         },
         (payload) => {
-          setCheckedTime((prev) => [...prev, payload.new.time]);
+          const time = deleteTimeSecond(payload.new.time);
+          console.log(time);
+          if (payload.new.date !== date) return;
+
+          setCheckedTime((prev) => ({
+            ...prev,
+            [time]: (prev[time] ?? 0) + 1,
+          }));
         },
       )
       .subscribe();
@@ -72,10 +77,6 @@ const TimeFunnel = ({ operationTime, id, onNext, onPrev }: Props) => {
       supabase.removeChannel(channel);
     };
   }, []);
-
-  useEffect(() => {
-    console.log('현재시간: ', checkedTime);
-  }, [checkedTime]);
 
   const handleTimeButton = (time: string) => {
     setTime(time);
@@ -118,9 +119,10 @@ const TimeFunnel = ({ operationTime, id, onNext, onPrev }: Props) => {
           <TimeButtonContainer timeZone='오전'>
             {morning.map((morningTime) => (
               <Button
-                key={crypto.randomUUID()}
+                key={morningTime}
                 variant={time === morningTime ? 'default' : 'time'}
                 size='time'
+                disabled={(checkedTime[morningTime] ?? 0) >= 2}
                 onClick={() => handleTimeButton(morningTime)}
               >
                 {morningTime}
@@ -132,9 +134,10 @@ const TimeFunnel = ({ operationTime, id, onNext, onPrev }: Props) => {
           <TimeButtonContainer timeZone='오후'>
             {afternoon.map((afternoonTime) => (
               <Button
-                key={crypto.randomUUID()}
+                key={afternoonTime}
                 variant={time == afternoonTime ? 'default' : 'time'}
                 size='time'
+                disabled={(checkedTime[afternoonTime] ?? 0) >= 2}
                 onClick={() => handleTimeButton(afternoonTime)}
               >
                 {afternoonTime}
