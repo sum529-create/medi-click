@@ -30,7 +30,7 @@ export const insertReservationInfo = async (info: Tables<'reservations'>) => {
 
 export const fetchReservationDate = async (id: string, date: string) => {
   const { data } = await supabase
-    .from('reservations')
+    .from(TABLE.RESERVATIONS)
     .select('time')
     .eq('hospital_id', id)
     .eq('date', date);
