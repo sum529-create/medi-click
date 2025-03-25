@@ -13,6 +13,7 @@ import {
   updateLocalStorage,
 } from '@/utils/func/getLocalStorage';
 import { supabase } from '@/utils/supabase/supabase';
+// import { Database, Tables } from '@/types/supabase';
 
 interface Props {
   operationTime: { [key: string]: { open: string; close: string } };
@@ -34,7 +35,7 @@ const dayOfWeek: { [key: string]: string } = {
 const TimeFunnel = ({ operationTime, id, onNext, onPrev }: Props) => {
   const { date, time: storageTime } = getLocalStorage();
   const [time, setTime] = useState<string>(storageTime || '');
-  const [checkedTime, setCheckedTime] = useState([]);
+  const [checkedTime, setCheckedTime] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,6 +44,11 @@ const TimeFunnel = ({ operationTime, id, onNext, onPrev }: Props) => {
         .select('time')
         .eq('hospital_id', id)
         .eq('date', date);
+
+      if (data) {
+        const temp = data.map((d) => d.time);
+        setCheckedTime([...temp]);
+      }
     };
 
     fetchData();
@@ -57,16 +63,19 @@ const TimeFunnel = ({ operationTime, id, onNext, onPrev }: Props) => {
           table: 'reservations',
         },
         (payload) => {
-          console.log('실시간 예약 정보:', payload);
+          setCheckedTime((prev) => [...prev, payload.new.time]);
         },
       )
       .subscribe();
 
     return () => {
       supabase.removeChannel(channel);
-      console.log('구독 끊기');
     };
   }, []);
+
+  useEffect(() => {
+    console.log('현재시간: ', checkedTime);
+  }, [checkedTime]);
 
   const handleTimeButton = (time: string) => {
     setTime(time);
