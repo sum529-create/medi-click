@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { PATH } from '@/constants/routerPath';
-import { Database } from '@/types/supabase';
+import { Tables } from '@/types/supabase';
 
 interface Reservation {
-  reservation: Database['public']['Tables']['reservations']['Row'] & {
-    hospitals: Database['public']['Tables']['hospitals']['Row'];
+  reservation: Tables<'reservations'> & {
+    hospitals: Tables<'hospitals'>;
   };
 }
 
