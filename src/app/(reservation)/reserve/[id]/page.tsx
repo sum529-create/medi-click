@@ -8,6 +8,7 @@ import FormFunnel from '@/components/features/reserve/FormFunnel';
 import TimeFunnel from '@/components/features/reserve/TimeFunnel';
 import { STORAGE_KEY } from '@/constants/StorageKey';
 import { useHospitalName } from '@/hooks/map/useHospitalName';
+import { ReservationData } from '@/types/context';
 
 interface Params {
   params: {
@@ -17,9 +18,9 @@ interface Params {
 
 const ReservePage = ({ params }: Params) => {
   const funnel = useFunnel<{
-    datePage: any;
-    timePage: any;
-    submitPage: any;
+    datePage: ReservationData;
+    timePage: ReservationData;
+    submitPage: ReservationData;
   }>({
     id: 'my-reservation',
     initial: {
@@ -49,6 +50,7 @@ const ReservePage = ({ params }: Params) => {
       timePage={({ history }) => (
         <TimeFunnel
           operationTime={data?.operationTime}
+          id={params.id}
           onNext={() => history.push('submitPage')}
           onPrev={() => history.replace('datePage')}
         />

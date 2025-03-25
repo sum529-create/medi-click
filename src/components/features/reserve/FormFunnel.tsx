@@ -8,6 +8,7 @@ import CardHeaderContainer from '@/components/layout/CardHeaderContainer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
+import Text from '@/components/ui/Text';
 import { Textarea } from '@/components/ui/textarea';
 import { PATH } from '@/constants/routerPath';
 import { insertReservationInfo } from '@/utils/api/reservation';
@@ -77,12 +78,14 @@ const FormFunnel = ({ name, id, onPrev }: Props) => {
   return (
     <CardContainer>
       <CardHeaderContainer>방문 사유를 입력해주세요.</CardHeaderContainer>
-      <CardContent className='my-5 flex h-3/5 flex-col items-start justify-center gap-5'>
+      <CardContent className='mt-16 flex h-3/5 flex-col items-start justify-center gap-5'>
         <Card className='flex w-full flex-col gap-3 px-10 py-7 shadow-none'>
           {reservationInfo.map((info) => (
             <div className='flex flex-col gap-2' key={crypto.randomUUID()}>
-              <p className='font-bold text-gray04'>{info.title}</p>
-              <p className='text-gray04'>{info.value}</p>
+              <Text color='gray04' isBold>
+                {info.title}
+              </Text>
+              <Text color='gray04'>{info.value}</Text>
             </div>
           ))}
         </Card>
@@ -107,9 +110,13 @@ const FormFunnel = ({ name, id, onPrev }: Props) => {
           </label>
         </div>
       </CardContent>
-      <CardFooter className='mt-10 flex justify-evenly'>
-        <Button onClick={() => onPrev()}>이전으로</Button>
-        <Button onClick={handleSubmit}>예약 완료하기</Button>
+      <CardFooter className='absolute bottom-0 left-0 flex w-full justify-evenly gap-5 px-12'>
+        <Button onClick={() => onPrev()} size='move' variant='secondary'>
+          이전으로
+        </Button>
+        <Button onClick={handleSubmit} size='move'>
+          예약 완료하기
+        </Button>
       </CardFooter>
     </CardContainer>
   );
