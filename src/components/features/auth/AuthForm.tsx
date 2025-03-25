@@ -2,16 +2,12 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+
+import { toast } from 'react-toastify';
 import { MODE } from '@/constants/authMode';
+import { PATH } from '@/constants/routerPath';
 import { cn } from '@/lib/utils';
-import { getSession, login, signUp } from '@/utils/api/auth';
+import { getSession, logIn, logOut, signUp } from '@/utils/api/auth';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 
@@ -28,32 +24,55 @@ const AuthForm = ({ mode }: Props) => {
     name: '',
     phone: '',
     birth: '',
-    role: '',
   });
 
   const [isLogin, setIsLogin] = useState(false);
 
+  // 사용자가 입력 필드 값을 변경할 때 호출되는 함수
   const handleAuthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleRoleChange = (value: string) => {
-    setFormData((prev) => ({ ...prev, role: value }));
-  };
-
+  // 로그인 또는 회원가입 폼 제출 시 호출되는 함수
   const handleAuthSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (mode === MODE.SIGNUP) {
-      signUp(formData);
+      const signUpError = await signUp(formData);
+
+      if (signUpError) {
+        toast.error('이미 사용 중인 이메일입니다.');
+        return;
+      }
+
+      toast.success('회원가입이 완료되었습니다.');
+
+      logOut();
+
+      router.push(PATH.LOGIN);
     } else {
-      login(formData);
+      const { error: loginError } = await logIn(formData);
+
+      if (loginError) {
+        toast.error('아이디나 비밀번호가 틀렸습니다.');
+        return;
+      }
+
+      router.push(PATH.HOME);
     }
   };
 
   useEffect(() => {
     getSession(setIsLogin);
   }, []);
+
+  const AuthInputTitle = {
+    email: '이메일 형식이 올바르지 않습니다. 예시: example@domain.com',
+    password: '영문과 숫자를 포함한 6글자 이상을 입력해주세요.',
+    name: '이름을 정확히 입력해주세요. (한글 2~4자)',
+    phone: '전화번호를 정확히 입력해주세요. 예시: 010-1111-1111',
+  };
 
   const AuthInputClassName = cn(
     'h-14 w-full rounded-lg bg-gray02 px-5 text-lg',
@@ -68,20 +87,22 @@ const AuthForm = ({ mode }: Props) => {
         name='email'
         type='text'
         placeholder='이메일 주소'
+        pattern='^[^\s@]+@[^\s@]+\.[^\s@]+$'
+        title={AuthInputTitle.email}
         value={formData.email}
         onChange={handleAuthChange}
         className={AuthInputClassName}
-        required
       />
 
       <Input
         name='password'
         type='password'
         placeholder='비밀번호'
+        pattern='^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{6,}$'
+        title={AuthInputTitle.password}
         value={formData.password}
         onChange={handleAuthChange}
         className={AuthInputClassName}
-        required
       />
 
       {mode === MODE.SIGNUP && (
@@ -90,21 +111,22 @@ const AuthForm = ({ mode }: Props) => {
             name='name'
             type='text'
             placeholder='이름'
+            pattern='^[가-힣]{2,4}$'
+            title={AuthInputTitle.name}
             value={formData.name}
             onChange={handleAuthChange}
             className={AuthInputClassName}
-            required
           />
 
           <Input
             name='phone'
             type='tel'
             placeholder='전화번호'
-            pattern='[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}|[0-9]{9,11}'
+            pattern='^(010)-\d{4}-\d{4}$'
+            title={AuthInputTitle.phone}
             value={formData.phone}
             onChange={handleAuthChange}
             className={AuthInputClassName}
-            required
           />
 
           <Input
@@ -114,20 +136,8 @@ const AuthForm = ({ mode }: Props) => {
             value={formData.birth}
             onChange={handleAuthChange}
             className={AuthInputClassName}
-            required
             onClick={(e) => ((e.target as HTMLInputElement).type = 'date')}
           />
-
-          <Select value={formData.role} onValueChange={handleRoleChange}>
-            <SelectTrigger className={AuthInputClassName}>
-              <SelectValue placeholder='역할 선택' />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value='doctor'>의사</SelectItem>
-              <SelectItem value='nurse'>간호사</SelectItem>
-              <SelectItem value='patient'>환자</SelectItem>
-            </SelectContent>
-          </Select>
         </>
       )}
 

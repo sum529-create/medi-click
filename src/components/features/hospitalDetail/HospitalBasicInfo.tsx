@@ -1,6 +1,9 @@
+'use client';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import KakaoStaticMap from '@/components/common/KakaoStaticMap';
+import Text from '@/components/ui/Text';
+import Title from '@/components/ui/Title';
 import { PATH } from '@/constants/routerPath';
 import formatTelephoneNumber from '@/utils/func/formatTelephoneNumber';
 import { Button } from '../../ui/button';
@@ -36,12 +39,16 @@ const HospitalBasicInfo = ({
   return (
     <div className='mb-[100px] flex flex-col justify-between gap-12 lg:flex-row'>
       <div className='flex flex-1 flex-col gap-6'>
-        <p className={textStyles.subInfo}>{department || ''}</p>
-        <h3 className={textStyles.title}>{dutyName || ''}</h3>
+        <Text size='xl' color='black02'>
+          {department || ''}
+        </Text>
+        <Title tag='h2' size='xl' color='black01'>
+          {dutyName || ''}
+        </Title>
         {hospitalDetails.map((info) => (
-          <p key={info.label} className={textStyles.subInfo}>
+          <Text key={info.label} size='xl' color='black02'>
             {info.label}: {info.value}
-          </p>
+          </Text>
         ))}
         <div className={textStyles.button}>
           <Button size='lg' asChild>
