@@ -91,7 +91,7 @@ export default hospitalDetail;
  */
 export const getHospitalDetailLocation = async (id: string) => {
   try {
-    let hospitalLocation: Location = { lat: 0, lng: 0 };
+    let hospitalLocation: Omit<Location, 'name' | 'id'> = { lat: 0, lng: 0 };
 
     const { data, error } = await supabase
       .from(TABLE.HOSPITALS)
