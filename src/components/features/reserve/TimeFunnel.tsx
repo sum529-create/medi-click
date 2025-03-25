@@ -15,6 +15,7 @@ import {
   updateLocalStorage,
 } from '@/utils/func/getLocalStorage';
 import { supabase } from '@/utils/supabase/supabase';
+import NoReservationPage from './NoReservationPage';
 
 interface Props {
   operationTime: { [key: string]: { open: string; close: string } };
@@ -80,28 +81,19 @@ const TimeFunnel = ({ operationTime, id, onNext, onPrev }: Props) => {
     };
   }, []);
 
-  const handleTimeButton = (time: string) => {
-    setTime(time);
-    updateLocalStorage('time', time);
-  };
-
   const day = dayOfWeek[new Date(date).toString().slice(0, 3)];
   const equalDay = operationTime[day];
 
   // 만약 영업날이 아닐 경우 얼리 리턴
   if (!equalDay) {
-    return (
-      <CardContainer>
-        <CardHeaderContainer>예약 가능한 시간이 없습니다</CardHeaderContainer>
-        <CardFooter className='absolute bottom-0 left-0 flex w-full justify-evenly gap-5 px-12'>
-          <Button onClick={() => onPrev()} size='move' variant='secondary'>
-            이전으로
-          </Button>
-        </CardFooter>
-      </CardContainer>
-    );
+    return <NoReservationPage onPrev={onPrev} />;
   }
   const { morning, afternoon } = generateTimeSlots(equalDay);
+
+  const handleTimeButton = (time: string) => {
+    setTime(time);
+    updateLocalStorage('time', time);
+  };
 
   const handleClick = () => {
     if (time) {
