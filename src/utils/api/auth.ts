@@ -1,3 +1,4 @@
+import { TABLE } from '@/constants/supabaseTables';
 import { supabase } from '../supabase/supabase';
 
 interface FormData {
@@ -15,33 +16,45 @@ export const signUp = async ({
   phone,
   birth,
 }: FormData) => {
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.signUp({
-    email,
-    password,
-  });
+  try {
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.signUp({
+      email,
+      password,
+    });
 
-  await supabase.from('users').insert({
-    id: user?.id,
-    email,
-    name,
-    phone_number: phone,
-    birth,
-  });
+    if (error) {
+      console.error('회원가입 중 오류 발생:', error.message);
+      return error.message;
+    }
 
-  return error;
+    const { error: dbError } = await supabase.from(TABLE.USERS).insert({
+      id: user?.id,
+      email,
+      name,
+      phone_number: phone,
+      birth,
+    });
+
+    if (dbError) {
+      console.error('데이터베이스에 저장 중 오류 발생', dbError.message);
+      return dbError.message;
+    }
+
+    return error;
+  } catch (error) {
+    console.error('회원가입 중 오류 발생:', error);
+    return;
+  }
 };
 
 export const logIn = async ({ email, password }: FormData) => {
-  const { data, error } = await supabase.auth.signInWithPassword({
+  return await supabase.auth.signInWithPassword({
     email,
     password,
   });
-
-  if (error) throw error;
-  return data;
 };
 
 export const logOut = async () => {

@@ -50,20 +50,20 @@ const AuthForm = ({ mode }: Props) => {
 
       router.push(PATH.LOGIN);
     } else {
-      logIn(formData);
+      const { error: loginError } = await logIn(formData);
+
+      if (loginError) {
+        toast.error('아이디나 비밀번호가 틀렸습니다.');
+        return;
+      }
+
+      router.push(PATH.HOME);
     }
   };
 
   useEffect(() => {
     getSession(setIsLogin);
   }, []);
-
-  const AuthInputPattern = {
-    email: '^[^\s@]+@[^\s@]+\.[^\s@]+$',
-    password: '^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{6,}$',
-    name: '^[가-힣]{2,4}$',
-    phone: '^(010)-\d{4}-\d{4}$',
-  };
 
   const AuthInputTitle = {
     email: '이메일 형식이 올바르지 않습니다. 예시: example@domain.com',
@@ -85,7 +85,7 @@ const AuthForm = ({ mode }: Props) => {
         name='email'
         type='text'
         placeholder='이메일 주소'
-        pattern={AuthInputPattern.email}
+        pattern='^[^\s@]+@[^\s@]+\.[^\s@]+$'
         title={AuthInputTitle.email}
         value={formData.email}
         onChange={handleAuthChange}
@@ -96,7 +96,7 @@ const AuthForm = ({ mode }: Props) => {
         name='password'
         type='password'
         placeholder='비밀번호'
-        pattern={AuthInputPattern.password}
+        pattern='^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{6,}$'
         title={AuthInputTitle.password}
         value={formData.password}
         onChange={handleAuthChange}
@@ -109,7 +109,7 @@ const AuthForm = ({ mode }: Props) => {
             name='name'
             type='text'
             placeholder='이름'
-            pattern={AuthInputPattern.name}
+            pattern='^[가-힣]{2,4}$'
             title={AuthInputTitle.name}
             value={formData.name}
             onChange={handleAuthChange}
@@ -120,7 +120,7 @@ const AuthForm = ({ mode }: Props) => {
             name='phone'
             type='tel'
             placeholder='전화번호'
-            pattern={AuthInputPattern.phone}
+            pattern='^(010)-\d{4}-\d{4}$'
             title={AuthInputTitle.phone}
             value={formData.phone}
             onChange={handleAuthChange}
