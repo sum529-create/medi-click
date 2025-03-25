@@ -29,6 +29,7 @@ export interface TitleProps {
     | 'gray01'
     | 'gray02'
     | 'gray03'
+    | 'gray04'
     | 'red'
     | 'deep-blue'
     | 'white';
@@ -64,6 +65,7 @@ const Title = ({
     gray01: 'text-gray01',
     gray02: 'text-gray02',
     gray03: 'text-gray03',
+    gray04: 'text-gray04',
     red: 'text-red',
     'deep-blue': 'text-deep-blue',
     white: 'text-white',

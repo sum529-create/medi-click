@@ -43,6 +43,7 @@ const Text = ({
     gray01: 'text-gray01',
     gray02: 'text-gray02',
     gray03: 'text-gray03',
+    gray04: 'text-gray04',
     red: 'text-red',
     'deep-blue': 'text-deep-blue',
   };
