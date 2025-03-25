@@ -10,7 +10,7 @@ const Banner = () => {
         src='/img/bannerImg.jpg'
         fill
         className='object-cover'
-        alt='배너이미지'
+        alt='병원 진료 이미지'
       />
       <div className='absolute inset-0 bg-black opacity-60'></div>
       <div className='z-10 flex flex-col gap-3'>
