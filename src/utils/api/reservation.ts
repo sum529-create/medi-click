@@ -2,7 +2,7 @@ import { COLUMN, TABLE } from '@/constants/supabaseTables';
 import { Reservation } from '@/types/components/mypage/reservation.type';
 import { supabase } from '../supabase/supabaseClient';
 
-const testId: string = '0d6511b9-926b-443f-9828-39e5f302e1e4'; // zustand 또는 로그인 세션에서 받아올 현재 로그인 된 유저 아이디 값
+const testId: string = '833a3cf8-fceb-455d-87f0-4d7aa341213c'; // zustand 또는 로그인 세션에서 받아올 현재 로그인 된 유저 아이디 값
 
 /**
  * supabase에서 현재 로그인 된 사용자의 모든 예약 리스트를 불러오는 api 함수입니다.
@@ -40,7 +40,7 @@ export const getReservationDetail = async (
 };
 
 /**
- * 선택한 예약 정보를 삭제하는 함수입니다.
+ * 선택한 예약 정보를 삭제하는 api 함수입니다.
  */
 export const deleteReservation = async (id: number): Promise<void> => {
   const { error } = await supabase
@@ -48,4 +48,21 @@ export const deleteReservation = async (id: number): Promise<void> => {
     .delete()
     .eq(COLUMN.ID, id);
   if (error) throw new Error('예약 삭제에 실패했습니다.');
+};
+
+/**
+ * 기등록 된 예약 정보를 수정하는 api 함수입니다.
+ */
+export const updateReservation = async (
+  id: number,
+  time: string,
+  date: string,
+  memo: string | null,
+) => {
+  const { error } = await supabase
+    .from(TABLE.RESERVATIONS)
+    .update({ date, time, memo })
+    .eq('id', id);
+
+  if (error) throw new Error('예약 정보 수정에 실패했습니다.');
 };
