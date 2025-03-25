@@ -191,9 +191,8 @@ export type Database = {
         | '진료 대기가 없어요'
         | '시설이 좋고 청결해요'
         | '전문적이에요';
-      reservation_status: 'ok' | 'cancel' | '';
+      reservation_status: 'ok' | 'cancel' | 'waiting;';
     };
-    waiting;
     CompositeTypes: {
       [_ in never]: never;
     };
