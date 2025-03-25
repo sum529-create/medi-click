@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 
 import { toast } from 'react-toastify';
 import { MODE } from '@/constants/authMode';
+import { PATH } from '@/constants/routerPath';
 import { cn } from '@/lib/utils';
 import { getSession, logIn, logOut, signUp } from '@/utils/api/auth';
 import { Button } from '../../ui/button';
@@ -39,21 +40,15 @@ const AuthForm = ({ mode }: Props) => {
       const signUpError = await signUp(formData);
 
       if (signUpError) {
-        toast.error('이미 사용 중인 이메일입니다.', {
-          position: 'top-center',
-          autoClose: 3000,
-        });
+        toast.error('이미 사용 중인 이메일입니다.');
         return;
       }
 
-      toast.success('회원가입이 완료되었습니다.', {
-        position: 'top-center',
-        autoClose: 3000,
-      });
+      toast.success('회원가입이 완료되었습니다.');
 
       logOut();
 
-      router.push('login');
+      router.push(PATH.LOGIN);
     } else {
       logIn(formData);
     }
@@ -62,6 +57,20 @@ const AuthForm = ({ mode }: Props) => {
   useEffect(() => {
     getSession(setIsLogin);
   }, []);
+
+  const AuthInputPattern = {
+    email: '^[^\s@]+@[^\s@]+\.[^\s@]+$',
+    password: '^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{6,}$',
+    name: '^[가-힣]{2,4}$',
+    phone: '^(010)-\d{4}-\d{4}$',
+  };
+
+  const AuthInputTitle = {
+    email: '이메일 형식이 올바르지 않습니다. 예시: example@domain.com',
+    password: '영문과 숫자를 포함한 6글자 이상을 입력해주세요.',
+    name: '이름을 정확히 입력해주세요. (한글 2~4자)',
+    phone: '전화번호를 정확히 입력해주세요. 예시: 010-1111-1111',
+  };
 
   const AuthInputClassName = cn(
     'h-14 w-full rounded-lg bg-gray02 px-5 text-lg',
@@ -76,24 +85,22 @@ const AuthForm = ({ mode }: Props) => {
         name='email'
         type='text'
         placeholder='이메일 주소'
-        pattern='^[^\s@]+@[^\s@]+\.[^\s@]+$'
-        title='이메일 형식이 올바르지 않습니다. 예시: example@domain.com'
+        pattern={AuthInputPattern.email}
+        title={AuthInputTitle.email}
         value={formData.email}
         onChange={handleAuthChange}
         className={AuthInputClassName}
-        required
       />
 
       <Input
         name='password'
         type='password'
         placeholder='비밀번호'
-        pattern='^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{6,}$'
-        title='영문과 숫자를 포함한 6글자 이상을 입력해주세요.'
+        pattern={AuthInputPattern.password}
+        title={AuthInputTitle.password}
         value={formData.password}
         onChange={handleAuthChange}
         className={AuthInputClassName}
-        required
       />
 
       {mode === MODE.SIGNUP && (
@@ -102,24 +109,22 @@ const AuthForm = ({ mode }: Props) => {
             name='name'
             type='text'
             placeholder='이름'
-            pattern='^[가-힣]{2,4}$'
-            title='이름을 정확히 입력해주세요. (한글 2~4자)'
+            pattern={AuthInputPattern.name}
+            title={AuthInputTitle.name}
             value={formData.name}
             onChange={handleAuthChange}
             className={AuthInputClassName}
-            required
           />
 
           <Input
             name='phone'
             type='tel'
             placeholder='전화번호'
-            pattern='^(02|010|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064)-?\d{3,4}-?\d{4}$'
-            title='전화번호를 정확히 입력해주세요. 예시: 010-1111-1111 또는 01011111111'
+            pattern={AuthInputPattern.phone}
+            title={AuthInputTitle.phone}
             value={formData.phone}
             onChange={handleAuthChange}
             className={AuthInputClassName}
-            required
           />
 
           <Input
@@ -129,7 +134,6 @@ const AuthForm = ({ mode }: Props) => {
             value={formData.birth}
             onChange={handleAuthChange}
             className={AuthInputClassName}
-            required
             onClick={(e) => ((e.target as HTMLInputElement).type = 'date')}
           />
         </>
