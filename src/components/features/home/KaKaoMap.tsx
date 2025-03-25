@@ -1,21 +1,22 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { FaPlus, FaMinus } from 'react-icons/fa6';
+import { useEffect, useState } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
 import Loading from '@/components/common/Loading';
-import { Button } from '@/components/ui/button';
 import Text from '@/components/ui/Text';
 import { useAllHospitalLocation } from '@/hooks/map/useAllHospitalLocation';
 import { useCurrentLocation } from '@/hooks/map/useCurrentLocation';
 import { useKakaoLoad } from '@/hooks/map/useKakaoLoad';
+import { useMapZoom } from '@/hooks/map/useMapZoom';
 import { useHospitalStore } from '@/utils/zustand/useHospitalStore';
-import EventMarkerContainer from './EventMarkerContainer';
+import EventMarkerContainer from './map/EventMarkerContainer';
+import ZoomButton from './map/ZoomButton';
 
 const KaKaoMap = () => {
   /** custom hook */
   const currentLocation = useCurrentLocation();
   const hospitalLocationList = useAllHospitalLocation();
+  const { mapRef, zoomIn, zoomOut } = useMapZoom();
 
   /** state */
   const [loading, error] = useKakaoLoad();
@@ -23,20 +24,6 @@ const KaKaoMap = () => {
   const [mapLevel, setMapLevel] = useState(3);
   const [activeMarkerId, setActiveMarkerId] = useState<string | null>(null);
   const selectedHospital = useHospitalStore((state) => state.selectedHospital);
-
-  const mapRef = useRef<kakao.maps.Map>(null);
-
-  const zoomIn = () => {
-    const map = mapRef.current;
-    if (!map) return;
-    map.setLevel(map.getLevel() - 1);
-  };
-
-  const zoomOut = () => {
-    const map = mapRef.current;
-    if (!map) return;
-    map.setLevel(map.getLevel() + 1);
-  };
 
   useEffect(() => {
     if (selectedHospital) {
@@ -77,15 +64,8 @@ const KaKaoMap = () => {
             setActiveMarkerId={setActiveMarkerId}
           />
         ))}
-        {/** 줌인/아웃 버튼 */}
-        <div className='absolute right-4 top-4 z-10 flex flex-col gap-1 shadow-md'>
-          <Button variant='outline' size='icon' onClick={zoomIn}>
-            <FaPlus />
-          </Button>
-          <Button variant='outline' size='icon' onClick={zoomOut}>
-            <FaMinus />
-          </Button>
-        </div>
+        {/** 줌 인/아웃 버튼 */}
+        <ZoomButton zoomControls={{ zoomIn, zoomOut }} />
       </Map>
     </div>
   );
