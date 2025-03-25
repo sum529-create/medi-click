@@ -1,6 +1,6 @@
 import { TABLE } from '@/constants/supabaseTables';
 import { Location } from '@/types/map';
-import { supabase } from '../supabase/supabase';
+import { supabase } from '../supabase/supabaseClient';
 
 /**
  * 병원 상세 정보 조회를 위한 기본 URL 생성 함수
@@ -91,7 +91,7 @@ export default hospitalDetail;
  */
 export const getHospitalDetailLocation = async (id: string) => {
   try {
-    let hospitalLocation: Location = { lat: 0, lng: 0 };
+    let hospitalLocation: Omit<Location, 'id' | 'name'> = { lat: 0, lng: 0 };
 
     const { data, error } = await supabase
       .from(TABLE.HOSPITALS)
@@ -110,3 +110,20 @@ export const getHospitalDetailLocation = async (id: string) => {
     console.error('병원 상세 위치정보 불러오기 오류', error);
   }
 };
+
+/**
+ * 병원 상세 데이터 Promise.all
+ */
+export async function getAllHospitalDetailData(id: string) {
+  try {
+    const [hospitalData, infoData, reviewData] = await Promise.all([
+      hospitalDetail(id),
+      hospitalDetailInfoSection(id),
+      hospitalDetailReviews(id),
+    ]);
+    return { hospitalData, infoData, reviewData, error: null };
+  } catch (error) {
+    console.error('병원 정보 불러오기 오류', error);
+    return { hospitalData: null, infoData: null, reviewData: null, error };
+  }
+}
