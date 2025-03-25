@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchReservationDate } from '@/utils/api/reservation';
 import { deleteTimeSecond } from '@/utils/func/convertToTimeFormat';
-import { supabase } from '@/utils/supabase/supabase';
+import { supabase } from '@/utils/supabase/supabaseClient';
 
 export const useReservationTimeMap = (id: string, date: string) => {
   const [checkedTime, setCheckedTime] = useState<Record<string, number>>({});
