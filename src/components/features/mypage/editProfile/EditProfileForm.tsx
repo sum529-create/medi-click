@@ -61,11 +61,22 @@ const EditProfileForm = () => {
           </Button>
         </div>
         <div className='flex w-full flex-col gap-10'>
-          <EditFormInput label='이름' inputValue={profile.name} disabled />
-          <EditFormInput label='생년월일' inputValue={profile.birth} disabled />
+          <EditFormInput
+            textSize='xl'
+            label='이름'
+            inputValue={profile.name}
+            disabled
+          />
+          <EditFormInput
+            textSize='xl'
+            label='생년월일'
+            inputValue={profile.birth}
+            disabled
+          />
         </div>
       </div>
       <EditFormInput
+        textSize='xl'
         label='연락처'
         inputValue={phoneNumber}
         className='my-10'
