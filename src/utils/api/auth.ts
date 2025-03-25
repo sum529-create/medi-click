@@ -1,4 +1,6 @@
-import { supabase } from '../supabase/supabase';
+import { createClient } from '../supabase/supabaseClient';
+
+const supabase = createClient();
 
 interface FormData {
   email: string;

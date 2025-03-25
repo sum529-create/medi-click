@@ -1,7 +1,9 @@
 import { TABLE } from '@/constants/supabaseTables';
 import { Location } from '@/types/map';
 import { Tables } from '@/types/supabase';
-import { supabase } from '../supabase/supabase';
+import { createClient } from '../supabase/supabaseClient';
+
+const supabase = createClient();
 
 /**
  * 모든 병원의 위치(위도, 경도, 이름, id)를 반환하는 함수

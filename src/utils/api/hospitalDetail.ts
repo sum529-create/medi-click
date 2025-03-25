@@ -1,6 +1,8 @@
 import { TABLE } from '@/constants/supabaseTables';
 import { Location } from '@/types/map';
-import { supabase } from '../supabase/supabase';
+import { createClient } from '../supabase/supabaseClient';
+
+const supabase = createClient();
 
 /**
  * 병원 상세 정보 조회를 위한 기본 URL 생성 함수
@@ -91,7 +93,7 @@ export default hospitalDetail;
  */
 export const getHospitalDetailLocation = async (id: string) => {
   try {
-    let hospitalLocation: Location = { lat: 0, lng: 0 };
+    let hospitalLocation: Omit<Location, 'id' | 'name'> = { lat: 0, lng: 0 };
 
     const { data, error } = await supabase
       .from(TABLE.HOSPITALS)
