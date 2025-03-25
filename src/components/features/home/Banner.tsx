@@ -14,7 +14,7 @@ const Banner = () => {
       <div className='absolute inset-0 bg-black opacity-60'></div>
       <div className='z-10 flex flex-col gap-3'>
         <Title size='xl' color='gray03'>
-          원하는 병원을 클릭 한 번으로
+          원하는 병원을 <span className='text-main'>클릭 한 번</span>으로
         </Title>
         <Text size='xl' color='gray03'>
           지금 바로 내가 원하는 병원을 찾고 예약해보세요.
