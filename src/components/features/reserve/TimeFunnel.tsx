@@ -34,6 +34,7 @@ const dayOfWeek: { [key: string]: string } = {
 const TimeFunnel = ({ operationTime, id, onNext, onPrev }: Props) => {
   const { date, time: storageTime } = getLocalStorage();
   const [time, setTime] = useState<string>(storageTime || '');
+  const [checkedTime, setCheckedTime] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,6 +46,26 @@ const TimeFunnel = ({ operationTime, id, onNext, onPrev }: Props) => {
     };
 
     fetchData();
+
+    const channel = supabase
+      .channel('realtime:reservations')
+      .on(
+        'postgres_changes',
+        {
+          event: 'insert',
+          schema: 'public',
+          table: 'reservations',
+        },
+        (payload) => {
+          console.log('실시간 예약 정보:', payload);
+        },
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+      console.log('구독 끊기');
+    };
   }, []);
 
   const handleTimeButton = (time: string) => {
