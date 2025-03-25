@@ -13,13 +13,14 @@ import { TitleProps } from './Title';
  * @prop {color} [color] - 색상 ('main' | 'main-hover' | 'sub' | 'sub-hover' | 'black01' | 'black02' | 'gray01' | 'gray02' | 'gray03' | 'red' | 'deep-blue')
  */
 
-type TextProps = Omit<TitleProps, 'tag'>;
+type TextProps = Omit<TitleProps, 'tag'> & { isBold?: boolean };
 
 const Text = ({
   size = 'md',
   align = 'left',
   color = 'black02',
   children,
+  isBold,
 }: TextProps) => {
   const sizeStyles: Record<NonNullable<TextProps['size']>, string> = {
     xs: 'text-xs',
@@ -47,8 +48,9 @@ const Text = ({
   };
 
   const alignStyles: string = `text-${align}`;
+  const boldStyles: string = isBold ? 'font-bold' : '';
 
-  const styles = `${sizeStyles[size]} ${colorStyles[color]} ${alignStyles}`;
+  const styles = `${sizeStyles[size]} ${colorStyles[color]} ${alignStyles} ${boldStyles}`;
   return <p className={styles}>{children}</p>;
 };
 
