@@ -1,5 +1,6 @@
 'use client';
 import { useMemo } from 'react';
+import Text from '@/components/ui/Text';
 import { WEEKS } from '@/constants/hospitalConstants';
 import { HospitalDataType } from '@/types/components/hospitalDetail/hospitalInfoData';
 import { convertToTimeFormat } from '@/utils/func/convertToTimeFormat';
@@ -48,20 +49,26 @@ const MedicalHours = ({ hospitalData, etc }: Props) => {
   return (
     <>
       <div>
-        <b>진료 시간</b>
+        <Text size='xl' color='black01' isBold={true}>
+          진료 시간
+        </Text>
         {dutyTimes.map(([endTimeKey, startTimeKey], i) => {
           return (
-            <p key={i}>
+            <Text size='lg' color='black01' key={i}>
               {` ${getOfficeWeeks(endTimeKey)} : ${convertToTimeFormat(hospitalData[startTimeKey].toString())} ~ ${convertToTimeFormat(hospitalData[endTimeKey].toString())}`}
-            </p>
+            </Text>
           );
         })}
       </div>
-      {etc && <p>{etc}</p>}
+      {etc && (
+        <Text size='xl' color='black01'>
+          {etc}
+        </Text>
+      )}
       {restWeeks.length > 0 && (
-        <p>
+        <Text size='lg' color='black01'>
           <span className='text-red'>휴무</span>:{restWeeks.join(', ')}
-        </p>
+        </Text>
       )}
     </>
   );

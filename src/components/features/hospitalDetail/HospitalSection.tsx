@@ -1,6 +1,7 @@
 import HospitalBasicInfo from '@/components/features/hospitalDetail/HospitalBasicInfo';
 import InfoSection from '@/components/features/hospitalDetail/InfoSection';
 
+import Text from '@/components/ui/Text';
 import { HospitalDetailDataType } from '@/types/components/hospitalDetail/hospitalInfoData';
 import MedicalHours from './MedicalHours';
 import ReviewSection from './ReviewSection';
@@ -37,8 +38,12 @@ const HospitalSection = ({
         </InfoSection>
         {(dgidIdName || info) && (
           <InfoSection title='병원 정보'>
-            <p>{dgidIdName}</p>
-            <p>{info}</p>
+            <Text size='lg' color='black01'>
+              {dgidIdName}
+            </Text>
+            <Text size='lg' color='black01'>
+              {info}
+            </Text>
           </InfoSection>
         )}
         <ReviewSection review={Array.isArray(reviewData) ? reviewData : []} />

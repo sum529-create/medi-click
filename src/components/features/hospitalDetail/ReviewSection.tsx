@@ -1,3 +1,4 @@
+import Text from '@/components/ui/Text';
 import { REVIEW_TEXTS } from '@/constants/hospitalConstants';
 import { getReviewKeywordCounts } from '@/utils/func/getReviewKeywordCounts';
 import ProgressBar from './ProgressBar';
@@ -17,8 +18,12 @@ const ReviewSection = ({ review }: ReviewDataType) => {
   return (
     <div className='mt-[70px]'>
       <div className='mb-5 flex items-center justify-between'>
-        <h4 className='text-2xl font-bold'>⭐ 병원 후기</h4>
-        <span className='text-xl'>총 {total}개</span>
+        <Text size='2xl' color='black01' isBold={true}>
+          ⭐ 병원 후기
+        </Text>
+        <Text size='xl' color='black01'>
+          총 {total}개
+        </Text>
       </div>
       <div className='mt-4 flex flex-col gap-4'>
         {total > 0 ? (
@@ -31,9 +36,11 @@ const ReviewSection = ({ review }: ReviewDataType) => {
             />
           ))
         ) : (
-          <p className='h-52 content-center self-center text-center text-xl'>
-            후기가 없습니다.
-          </p>
+          <div className='h-52 content-center self-center text-center'>
+            <Text size='lg' color='black01'>
+              후기가 없습니다.
+            </Text>
+          </div>
         )}
       </div>
     </div>

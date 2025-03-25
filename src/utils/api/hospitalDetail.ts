@@ -1,5 +1,5 @@
 import { TABLE } from '@/constants/supabaseTables';
-import { latLngLocation } from '@/types/components/hospitalDetail/hospitalInfoData';
+import { Location } from '@/types/map';
 import { supabase } from '../supabase/supabase';
 
 /**
@@ -91,7 +91,7 @@ export default hospitalDetail;
  */
 export const getHospitalDetailLocation = async (id: string) => {
   try {
-    let hospitalLocation: latLngLocation = { lat: 0, lng: 0 };
+    let hospitalLocation: Omit<Location, 'id' | 'name'> = { lat: 0, lng: 0 };
 
     const { data, error } = await supabase
       .from(TABLE.HOSPITALS)
@@ -121,9 +121,9 @@ export async function getAllHospitalDetailData(id: string) {
       hospitalDetailInfoSection(id),
       hospitalDetailReviews(id),
     ]);
-    return { hospitalData, infoData, reviewData };
+    return { hospitalData, infoData, reviewData, error: null };
   } catch (error) {
-    console.error('병원 정보 불러오기 오류');
-    throw error;
+    console.error('병원 정보 불러오기 오류', error);
+    return { hospitalData: null, infoData: null, reviewData: null, error };
   }
 }

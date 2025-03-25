@@ -28,7 +28,7 @@ export interface HospitalDetailDataType {
   infoData:
     | boolean
     | { department: string; info: string | null; etc: string | null }
-    | undefined;
+    | null;
   reviewData:
     | boolean
     | (
@@ -38,7 +38,7 @@ export interface HospitalDetailDataType {
         | '전문적이에요'
         | null
       )[]
-    | undefined;
+    | null;
 }
 
 // 위도, 경도 타입

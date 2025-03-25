@@ -41,32 +41,30 @@ const HospitalDetailPage = async ({ params }: PageProps) => {
   const STATE_WRAPPER_STYLE =
     'flex h-[calc(100vh-80px)] w-full items-center justify-center';
   const hospitalId = params?.id[0];
-  try {
-    const { hospitalData, infoData, reviewData } =
-      await getAllHospitalDetailData(hospitalId);
-    return (
-      <Suspense
-        fallback={
-          <div className={STATE_WRAPPER_STYLE}>
-            <Loading size={100} />
-          </div>
-        }
-      >
-        <HospitalSection
-          hospitalData={hospitalData}
-          infoData={infoData}
-          reviewData={reviewData}
-        />
-      </Suspense>
-    );
-  } catch (error) {
-    console.error('failed fetching hospital detail data', error);
+  const { hospitalData, infoData, reviewData, error } =
+    await getAllHospitalDetailData(hospitalId);
+  if (error) {
     return (
       <div className={STATE_WRAPPER_STYLE}>
         <ErrorState>{'병원 정보를 불러오는 데 실패했습니다'}</ErrorState>
       </div>
     );
   }
+  return (
+    <Suspense
+      fallback={
+        <div className={STATE_WRAPPER_STYLE}>
+          <Loading size={100} />
+        </div>
+      }
+    >
+      <HospitalSection
+        hospitalData={hospitalData}
+        infoData={infoData}
+        reviewData={reviewData}
+      />
+    </Suspense>
+  );
 };
 
 export default HospitalDetailPage;
