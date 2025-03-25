@@ -7,7 +7,7 @@ import CardHeaderContainer from '@/components/layout/CardHeaderContainer';
 import TimeButtonContainer from '@/components/layout/TimeButtonContainer';
 import { Button } from '@/components/ui/button';
 import { CardContent, CardFooter } from '@/components/ui/card';
-import { useReservationDate } from '@/hooks/tanstackQuery/useReservationDate';
+import { fetchReservationDate } from '@/utils/api/reservation';
 import { deleteTimeSecond } from '@/utils/func/convertToTimeFormat';
 import { generateTimeSlots } from '@/utils/func/generateTimeSlots';
 import {
@@ -38,17 +38,20 @@ const TimeFunnel = ({ operationTime, id, onNext, onPrev }: Props) => {
   const [time, setTime] = useState<string>(storageTime || '');
   const [checkedTime, setCheckedTime] = useState<Record<string, number>>({});
 
-  const { data } = useReservationDate(id, date);
-
   useEffect(() => {
-    if (data) {
-      const map: Record<string, number> = {};
-      data.forEach((d) => {
-        const time = deleteTimeSecond(d.time);
-        map[time] = (map[time] ?? 0) + 1;
-      });
-      setCheckedTime(map);
-    }
+    const fetchData = async () => {
+      const data = await fetchReservationDate(id, date);
+      if (data) {
+        const map: Record<string, number> = {};
+        data.forEach((d) => {
+          const time = deleteTimeSecond(d.time);
+          map[time] = (map[time] ?? 0) + 1;
+        });
+        setCheckedTime(map);
+      }
+    };
+
+    fetchData();
 
     const channel = supabase
       .channel('realtime:reservations')
