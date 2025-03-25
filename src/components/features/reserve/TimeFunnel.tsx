@@ -15,7 +15,6 @@ import {
   updateLocalStorage,
 } from '@/utils/func/getLocalStorage';
 import { supabase } from '@/utils/supabase/supabase';
-// import { Database, Tables } from '@/types/supabase';
 
 interface Props {
   operationTime: { [key: string]: { open: string; close: string } };
@@ -41,16 +40,16 @@ const TimeFunnel = ({ operationTime, id, onNext, onPrev }: Props) => {
 
   const { data } = useReservationDate(id, date);
 
-  if (data) {
-    const map: Record<string, number> = {};
-    data.forEach((d) => {
-      const time = deleteTimeSecond(d.time);
-      map[time] = (map[time] ?? 0) + 1;
-    });
-    setCheckedTime(map);
-  }
-
   useEffect(() => {
+    if (data) {
+      const map: Record<string, number> = {};
+      data.forEach((d) => {
+        const time = deleteTimeSecond(d.time);
+        map[time] = (map[time] ?? 0) + 1;
+      });
+      setCheckedTime(map);
+    }
+
     const channel = supabase
       .channel('realtime:reservations')
       .on(
@@ -62,7 +61,7 @@ const TimeFunnel = ({ operationTime, id, onNext, onPrev }: Props) => {
         },
         (payload) => {
           const time = deleteTimeSecond(payload.new.time);
-          console.log(time);
+
           if (payload.new.date !== date) return;
 
           setCheckedTime((prev) => ({

@@ -17,10 +17,10 @@ export const getCalendarDate = (date: Date | undefined) => {
 // Supabase 저장용
 
 export const getSplitDate = (date: Date) => {
-  const dateArr = [];
+  const dateArr: (string | number)[] = [];
 
   dateArr.push(date.getFullYear());
-  dateArr.push(date.getMonth() + 1);
+  dateArr.push(`${date.getMonth() + 1}`.padStart(2, '0'));
   dateArr.push(date.getDate());
 
   return dateArr.join('-');
