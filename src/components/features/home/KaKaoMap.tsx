@@ -10,6 +10,7 @@ import { useCurrentLocation } from '@/hooks/map/useCurrentLocation';
 import { useKakaoLoad } from '@/hooks/map/useKakaoLoad';
 import { useMapZoom } from '@/hooks/map/useMapZoom';
 import { useHospitalStore } from '@/utils/zustand/useHospitalStore';
+import KakaoMapContainer from './layout/KakaoMapContainer';
 import CurrentLocationButton from './map/CurrentLocationButton';
 import EventMarkerContainer from './map/EventMarkerContainer';
 import ZoomButton from './map/ZoomButton';
@@ -69,7 +70,7 @@ const KaKaoMap = () => {
     );
 
   return (
-    <div className='relative w-full flex-[2] border-2'>
+    <KakaoMapContainer>
       {/** 지도 */}
       <Map
         center={mapCenter}
@@ -97,7 +98,7 @@ const KaKaoMap = () => {
           />
         </div>
       </Map>
-    </div>
+    </KakaoMapContainer>
   );
 };
 

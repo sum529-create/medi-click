@@ -1,10 +1,11 @@
 import Image from 'next/image';
 import Text from '@/components/ui/Text';
 import Title from '@/components/ui/Title';
+import BannerContainer from './layout/BannerContainer';
 
 const Banner = () => {
   return (
-    <div className='relative flex w-full flex-col overflow-hidden rounded-xl bg-sub p-6 md:min-h-[400px] md:p-20'>
+    <BannerContainer>
       <Image
         src='/img/bannerImg.jpg'
         fill
@@ -20,7 +21,7 @@ const Banner = () => {
           지금 바로 내가 원하는 병원을 찾고 예약해보세요.
         </Text>
       </div>
-    </div>
+    </BannerContainer>
   );
 };
 

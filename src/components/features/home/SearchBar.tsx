@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { Input } from '@/components/ui/input';
 import { useSearchStore } from '@/utils/zustand/useSearchStore';
+import SearchBarContainer from './layout/SearchBarContainer';
 
 const SearchBar = () => {
   /** constant */
@@ -31,7 +32,7 @@ const SearchBar = () => {
 
   /** UI */
   return (
-    <div className='relative w-full max-w-[800px]'>
+    <SearchBarContainer>
       <IoSearch className='text-gray0 absolute right-4 top-1/2 -translate-y-1/2 text-3xl text-gray-400' />
       <Input
         type='text'
@@ -40,7 +41,7 @@ const SearchBar = () => {
         value={inputValue}
         onChange={handleChange}
       />
-    </div>
+    </SearchBarContainer>
   );
 };
 
