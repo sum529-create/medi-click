@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import Text from '@/components/ui/Text';
 import { Textarea } from '@/components/ui/textarea';
 import Title from '@/components/ui/Title';
+import { showEditModalStore } from '@/store/mypageStore';
 import { ReservationProps } from '@/types/components/mypage/reservation.type';
 import { updateReservation } from '@/utils/api/reservation';
 import EditFormInput from '../../../editProfile/EditFormInput';
@@ -15,6 +16,8 @@ const EditReservationModal = ({ reservation }: ReservationProps) => {
   const [date, setDate] = useState(reservation.date);
   const [time, setTime] = useState(reservation.time.slice(0, 5));
   const [memo, setMemo] = useState(reservation.memo);
+
+  const { toggleModal } = showEditModalStore();
 
   const handleOnSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,6 +66,7 @@ const EditReservationModal = ({ reservation }: ReservationProps) => {
           <Button
             className='w-[100px] bg-sub text-black01 hover:bg-sub-hover'
             type='button'
+            onClick={() => toggleModal()}
           >
             취소
           </Button>

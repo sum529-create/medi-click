@@ -8,13 +8,17 @@ import Text from '@/components/ui/Text';
 import Title from '@/components/ui/Title';
 import { STATUS_MESSAGE } from '@/constants/reservationStatus';
 import { PATH } from '@/constants/routerPath';
+import { showEditModalStore } from '@/store/mypageStore';
 import { ReservationProps } from '@/types/components/mypage/reservation.type';
 import { deleteReservation } from '@/utils/api/reservation';
 import { getReservationTime } from '@/utils/func/getCalendarDate';
 import BannerContainer from './BannerContainer';
+import EditReservationModal from './EditReservation/EditReservationModal';
 
 const Banner = ({ reservation }: ReservationProps) => {
   const { hospital_id, time, status, id, date, hospitals } = reservation;
+  const { isShowModal, toggleModal } = showEditModalStore();
+
   const router = useRouter();
 
   const formattingTime = getReservationTime(time);
@@ -25,8 +29,13 @@ const Banner = ({ reservation }: ReservationProps) => {
     router.push(PATH.RESERVATIONS);
   };
 
+  const handleShowUpdateModal = () => {
+    toggleModal();
+  };
+
   return (
     <BannerContainer>
+      {isShowModal && <EditReservationModal reservation={reservation} />}
       <Title tag='h1' size='lg' align='left' color='deep-blue'>
         {hospitals.name}
       </Title>
@@ -39,7 +48,10 @@ const Banner = ({ reservation }: ReservationProps) => {
         상태: 예약 {STATUS_MESSAGE[status]}
       </Text>
       <div className='absolute bottom-8 right-8 flex gap-10'>
-        <Button className='h-[44px] w-[146px] rounded-[10px] bg-deep-blue font-bold'>
+        <Button
+          className='h-[44px] w-[146px] rounded-[10px] bg-deep-blue font-bold'
+          onClick={handleShowUpdateModal}
+        >
           예약 변경
         </Button>
         <Button
