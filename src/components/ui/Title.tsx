@@ -11,7 +11,7 @@
  * @prop {tag} tag - 태그 종류  ('h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6')
  * @prop {size} [size] - 글자 크기 ('xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl')
  * @prop {align} [align] - 정렬 위치 ('left' | 'center' | 'right')
- * @prop {color} [color] - 색상 ('main' | 'main-hover' | 'sub' | 'sub-hover' | 'black01' | 'black02' | 'gray01' | 'gray02' | 'gray03' | 'red' | 'deep-blue')
+ * @prop {color} [color] - 색상 ('main' | 'main-hover' | 'sub' | 'sub-hover' | 'black01' | 'black02' | 'gray01' | 'gray02' | 'gray03' | 'red' | 'deep-blue' | 'white')
  */
 
 export interface TitleProps {
@@ -30,7 +30,8 @@ export interface TitleProps {
     | 'gray02'
     | 'gray03'
     | 'red'
-    | 'deep-blue';
+    | 'deep-blue'
+    | 'white';
 }
 
 const Title = ({
@@ -65,6 +66,7 @@ const Title = ({
     gray03: 'text-gray03',
     red: 'text-red',
     'deep-blue': 'text-deep-blue',
+    white: 'text-white',
   };
 
   const alignStyles: string = `text-${align}`;

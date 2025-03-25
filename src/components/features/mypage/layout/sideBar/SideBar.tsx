@@ -4,8 +4,10 @@ import { usePathname } from 'next/navigation';
 import Loading from '@/components/common/Loading';
 import Text from '@/components/ui/Text';
 import Title from '@/components/ui/Title';
+import { QUERY_KEY } from '@/constants/queryKey';
 import { PATH } from '@/constants/routerPath';
-import { useUserProfile } from '@/hooks/tanstackQuery/useUserProfile';
+import { useMyPageDataQuery } from '@/hooks/tanstackQuery/useMyPageDataQuery';
+import { getUserProfile } from '@/utils/api/userProfile';
 import ProfileImage from '../../ProfileImage';
 import ProfileContainer from './ProfileContainer';
 import UserMenuItem from './UserMenuItem';
@@ -22,18 +24,23 @@ const SideBar = () => {
     },
   ];
 
-  const { isProfileError, isProfilePending, getProfileError, profile } =
-    useUserProfile();
+  const {
+    isError: isProfileError,
+    isPending: isProfilePending,
+    error: getProfileError,
+    data: profile,
+  } = useMyPageDataQuery(QUERY_KEY.USER, getUserProfile);
 
   if (isProfileError) throw getProfileError;
   if (isProfilePending) return <Loading size={30} />;
+  if (!profile) return;
 
   return (
     <aside className='flex flex-col gap-8'>
       <ProfileContainer>
-        <ProfileImage src={profile?.avatar_path} size='108px' />
+        <ProfileImage src={profile.avatar_path} size='108px' />
         <Title tag='h2' size='md'>
-          {profile?.name}님
+          {profile.name}님
         </Title>
         <Text isBold size='lg'>
           rrrr6563@naver.com
