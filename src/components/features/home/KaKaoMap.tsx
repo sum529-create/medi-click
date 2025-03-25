@@ -9,6 +9,7 @@ import { useCurrentLocation } from '@/hooks/map/useCurrentLocation';
 import { useKakaoLoad } from '@/hooks/map/useKakaoLoad';
 import { useMapZoom } from '@/hooks/map/useMapZoom';
 import { useHospitalStore } from '@/utils/zustand/useHospitalStore';
+import CurrentLocationButton from './map/CurrentLocationButton';
 import EventMarkerContainer from './map/EventMarkerContainer';
 import ZoomButton from './map/ZoomButton';
 
@@ -29,8 +30,11 @@ const KaKaoMap = () => {
     if (selectedHospital) {
       setMapCenter(selectedHospital);
       setMapLevel(1);
+      return;
     }
-  }, [selectedHospital]);
+
+    setMapCenter(currentLocation);
+  }, [selectedHospital, currentLocation]);
 
   /** UI */
   if (loading)
@@ -49,6 +53,7 @@ const KaKaoMap = () => {
 
   return (
     <div className='relative w-full flex-[2] border-2'>
+      {/** 지도 */}
       <Map
         center={mapCenter}
         level={mapLevel}
@@ -65,7 +70,14 @@ const KaKaoMap = () => {
           />
         ))}
         {/** 줌 인/아웃 버튼 */}
-        <ZoomButton zoomControls={{ zoomIn, zoomOut }} />
+        <div className='absolute right-4 top-4 z-10 flex flex-col gap-4'>
+          <ZoomButton zoomControls={{ zoomIn, zoomOut }} />
+          <CurrentLocationButton
+            currentLocation={currentLocation}
+            setMapCenter={setMapCenter}
+            setMapLevel={setMapLevel}
+          />
+        </div>
       </Map>
     </div>
   );
