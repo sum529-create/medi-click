@@ -16,12 +16,14 @@ const KaKaoMap = () => {
   const selectedHospital = useHospitalStore((state) => state.selectedHospital);
 
   const [mapCenter, setMapCenter] = useState(currentLocation);
+  const [mapLevel, setMapLevel] = useState(3);
   const [activeMarkerId, setActiveMarkerId] = useState<string | null>(null);
   const [loading, error] = useKakaoLoad();
 
   useEffect(() => {
     if (selectedHospital) {
       setMapCenter(selectedHospital);
+      setMapLevel(1);
     }
   }, [selectedHospital]);
 
@@ -41,7 +43,11 @@ const KaKaoMap = () => {
 
   return (
     <div className='relative w-full flex-[2] border-2'>
-      <Map center={mapCenter} level={3} className='h-[300px] md:h-[750px]'>
+      <Map
+        center={mapCenter}
+        level={mapLevel}
+        className='h-[300px] md:h-[750px]'
+      >
         {hospitalLocationList.map((position) => (
           <EventMarkerContainer
             key={position.id}
