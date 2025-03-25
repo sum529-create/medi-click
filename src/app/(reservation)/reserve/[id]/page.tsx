@@ -50,6 +50,7 @@ const ReservePage = ({ params }: Params) => {
       timePage={({ history }) => (
         <TimeFunnel
           operationTime={data?.operationTime}
+          id={params.id}
           onNext={() => history.push('submitPage')}
           onPrev={() => history.replace('datePage')}
         />

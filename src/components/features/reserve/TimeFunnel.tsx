@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import CardContainer from '@/components/layout/CardContainer';
 import CardHeaderContainer from '@/components/layout/CardHeaderContainer';
@@ -12,9 +12,11 @@ import {
   getLocalStorage,
   updateLocalStorage,
 } from '@/utils/func/getLocalStorage';
+import { supabase } from '@/utils/supabase/supabase';
 
 interface Props {
   operationTime: { [key: string]: { open: string; close: string } };
+  id: string;
   onNext: () => void;
   onPrev: () => void;
 }
@@ -29,9 +31,21 @@ const dayOfWeek: { [key: string]: string } = {
   Sun: 'Sunday',
 };
 
-const TimeFunnel = ({ operationTime, onNext, onPrev }: Props) => {
+const TimeFunnel = ({ operationTime, id, onNext, onPrev }: Props) => {
   const { date, time: storageTime } = getLocalStorage();
   const [time, setTime] = useState<string>(storageTime || '');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await supabase
+        .from('reservations')
+        .select('time')
+        .eq('hospital_id', id)
+        .eq('date', date);
+    };
+
+    fetchData();
+  }, []);
 
   const handleTimeButton = (time: string) => {
     setTime(time);
