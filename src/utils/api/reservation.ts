@@ -23,7 +23,7 @@ export const getReservationList = async (): Promise<Reservation[] | null> => {
   return data;
 };
 
-export const insertReservationInfo = async (info: Tables<'reservations'>[]) => {
+export const insertReservationInfo = async (info: Tables<'reservations'>) => {
   const { error } = await supabase.from(TABLE.RESERVATIONS).insert(info);
   return error;
 };

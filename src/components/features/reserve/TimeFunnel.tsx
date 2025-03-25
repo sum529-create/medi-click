@@ -54,7 +54,7 @@ const TimeFunnel = ({ operationTime, id, onNext, onPrev }: Props) => {
     fetchData();
 
     const channel = supabase
-      .channel('realtime:reservations')
+      .channel('reservations-channel')
       .on(
         'postgres_changes',
         {
