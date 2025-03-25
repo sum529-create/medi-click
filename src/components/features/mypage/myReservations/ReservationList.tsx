@@ -13,7 +13,7 @@ const ReservationList = () => {
     isPending: isReservationsPending,
     error: getReservationsError,
     data: reservationList,
-  } = useMyPageDataQuery(QUERY_KEY.RESERVATION, getReservationList);
+  } = useMyPageDataQuery(QUERY_KEY.RESERVATIONS, getReservationList);
 
   if (isReservationsError) throw getReservationsError;
   if (isReservationsPending)
@@ -31,7 +31,7 @@ const ReservationList = () => {
         </Text>
       </div>
     );
-
+  console.log('reservationList', reservationList);
   return (
     <>
       {reservationList.map((item) => (
