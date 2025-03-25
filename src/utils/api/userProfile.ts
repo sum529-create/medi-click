@@ -5,7 +5,7 @@ import { supabase } from '../supabase/supabase';
 
 const testId: string = '0d6511b9-926b-443f-9828-39e5f302e1e4'; // zustand 또는 로그인 세션에서 받아올 현재 로그인 된 유저 아이디 값
 
-type ProfileData = Tables<'users'> | null;
+type ProfileData = Tables<'users'>;
 
 /**
  * supabase에서 현재 로그인 된 사용자의 회원 정보를 불러오는 api 함수입니다.
@@ -18,7 +18,7 @@ export const getUserProfile = async (): Promise<ProfileData> => {
     .select('*')
     .eq(COLUMN.ID, testId)
     .single();
-  if (error) console.log('유저 프로필 받아오기 실패', error);
+  if (error) throw new Error('사용자 정보 불러오기를 실패했습니다.');
 
   return data;
 };
@@ -34,5 +34,5 @@ export const updateUserProfile = async (
     .from(TABLE.USERS)
     .update({ phone_number: updatedPhoneNumber })
     .eq(COLUMN.ID, testId);
-  if (error) console.log('error', error);
+  if (error) throw new Error('사용자 정보 변경에 실패했습니다.');
 };

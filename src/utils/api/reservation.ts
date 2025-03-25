@@ -9,12 +9,13 @@ const testId: string = '0d6511b9-926b-443f-9828-39e5f302e1e4'; // zustand 또는
  * id는 주스탠드나 로그인 세션에 있을 값을 가져오는 것으로 수정 예정입니다.
  * @returns { data } 현재 로그인 된 유저의 모든 예약 리스트
  */
-export const getReservationList = async (): Promise<Reservation[] | null> => {
+export const getReservationList = async (): Promise<Reservation[]> => {
   const { data, error } = await supabase
     .from(TABLE.RESERVATIONS)
     .select(`* , ${TABLE.HOSPITALS}(*)`)
     .eq(COLUMN.USER_ID, testId);
-  if (error) console.log('예약 리스트 가져오기 실패', error);
+
+  if (error) throw new Error('예약 목록 불러오기에 실패했습니다.');
 
   return data;
 };
@@ -26,13 +27,14 @@ export const getReservationList = async (): Promise<Reservation[] | null> => {
  */
 export const getReservationDetail = async (
   pathId: string,
-): Promise<Reservation | null> => {
+): Promise<Reservation> => {
   const { data, error } = await supabase
     .from(TABLE.RESERVATIONS)
     .select(`* , ${TABLE.HOSPITALS}(*)`)
     .eq(COLUMN.ID, Number(pathId))
     .single();
-  if (error) console.log('예약 리스트 가져오기 실패', error);
+
+  if (error) throw new Error('예약 상세 페이지 불러오기에 실패했습니다.');
 
   return data;
 };
