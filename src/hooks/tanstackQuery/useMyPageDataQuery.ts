@@ -20,7 +20,7 @@ interface ReturnValue<T> {
  *
  * @returns { Partial<ReturnValue<T>> } { isError, isPending, error, data }
  */
-export const useMyPageData = <T>(
+export const useMyPageDataQuery = <T>(
   queryKey: string,
   queryFn: () => Promise<T>,
 ): Partial<ReturnValue<T>> => {

@@ -6,8 +6,8 @@ import EditFormInput from '@/components/features/mypage/editProfile/EditFormInpu
 import ProfileImage from '@/components/features/mypage/ProfileImage';
 import { Button } from '@/components/ui/button';
 import { QUERY_KEY } from '@/constants/queryKey';
-import { useMyPageData } from '@/hooks/tanstackQuery/useMyPageData';
-import { useUpdateProfile } from '@/hooks/tanstackQuery/useUpdateProfile';
+import { useMyPageDataQuery } from '@/hooks/tanstackQuery/useMyPageDataQuery';
+import { useUpdateProfileMutate } from '@/hooks/tanstackQuery/useUpdateProfileMutate';
 import { getUserProfile } from '@/utils/api/userProfile';
 import { validatePhoneNumber } from '@/utils/func/validatePhoneNumber';
 
@@ -17,9 +17,9 @@ const EditProfileForm = () => {
     isPending: isProfilePending,
     error: getProfileError,
     data: profile,
-  } = useMyPageData(QUERY_KEY.USER, getUserProfile);
+  } = useMyPageDataQuery(QUERY_KEY.USER, getUserProfile);
 
-  const updateProfile = useUpdateProfile();
+  const updateProfile = useUpdateProfileMutate();
   const [phoneNumber, setPhoneNumber] = useState<string>(
     profile?.phone_number || '',
   );

@@ -6,7 +6,7 @@ import Text from '@/components/ui/Text';
 import Title from '@/components/ui/Title';
 import { QUERY_KEY } from '@/constants/queryKey';
 import { PATH } from '@/constants/routerPath';
-import { useMyPageData } from '@/hooks/tanstackQuery/useMyPageData';
+import { useMyPageDataQuery } from '@/hooks/tanstackQuery/useMyPageDataQuery';
 import { getUserProfile } from '@/utils/api/userProfile';
 import ProfileImage from '../../ProfileImage';
 import ProfileContainer from './ProfileContainer';
@@ -29,7 +29,7 @@ const SideBar = () => {
     isPending: isProfilePending,
     error: getProfileError,
     data: profile,
-  } = useMyPageData(QUERY_KEY.USER, getUserProfile);
+  } = useMyPageDataQuery(QUERY_KEY.USER, getUserProfile);
 
   if (isProfileError) throw getProfileError;
   if (isProfilePending) return <Loading size={30} />;

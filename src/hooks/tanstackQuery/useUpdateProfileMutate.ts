@@ -12,7 +12,7 @@ import { updateUserProfile } from '@/utils/api/userProfile';
  *
  * @returns { mutate: updateProfile }
  */
-export const useUpdateProfile = () => {
+export const useUpdateProfileMutate = () => {
   const queryClient = useQueryClient();
 
   const { mutate: updateProfile } = useMutation({
