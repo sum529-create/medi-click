@@ -12,7 +12,7 @@ import {
   getLocalStorage,
   updateLocalStorage,
 } from '@/utils/func/getLocalStorage';
-import { supabase } from '@/utils/supabase/supabase';
+import { supabase } from '@/utils/supabase/supabaseClient';
 
 interface Props {
   operationTime: { [key: string]: { open: string; close: string } };
