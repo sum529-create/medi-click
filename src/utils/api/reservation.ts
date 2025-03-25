@@ -38,3 +38,14 @@ export const getReservationDetail = async (
 
   return data;
 };
+
+/**
+ * 선택한 예약 정보를 삭제하는 함수입니다.
+ */
+export const deleteReservation = async (id: number): Promise<void> => {
+  const { error } = await supabase
+    .from(TABLE.RESERVATIONS)
+    .delete()
+    .eq(COLUMN.ID, id);
+  if (error) throw new Error('예약 삭제에 실패했습니다.');
+};
