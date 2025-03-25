@@ -8,25 +8,35 @@ import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { CardContent, CardFooter } from '@/components/ui/card';
 import Text from '@/components/ui/Text';
+import { STORAGE_KEY } from '@/constants/StorageKey';
 import { getCalendarDate, getSplitDate } from '@/utils/func/getCalendarDate';
+import {
+  getLocalStorage,
+  updateLocalStorage,
+} from '@/utils/func/getLocalStorage';
 
 interface Props {
-  date: string;
-  time: string;
-  onNext: (date: string, time: string) => void;
+  onNext: () => void;
 }
 
-const CalendarFunnel = ({ date, time, onNext }: Props) => {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
-    date ? new Date(date) : undefined,
-  );
+const CalendarFunnel = ({ onNext }: Props) => {
+  const [date, setDate] = useState<Date | undefined>(() => {
+    const { date: storageDate } = getLocalStorage();
+    return storageDate ? new Date(storageDate) : undefined;
+  });
 
   const handleClick = () => {
-    if (selectedDate) {
-      onNext(getSplitDate(selectedDate), time);
+    if (date) {
+      updateLocalStorage('date', getSplitDate(date));
+      onNext();
     } else {
       toast.error('예약 날짜를 선택해주세요.');
     }
+  };
+
+  const handleSelectDate = (date: Date) => {
+    setDate(date);
+    localStorage.setItem(STORAGE_KEY.RESERVATION, JSON.stringify({ date }));
   };
 
   return (
@@ -35,13 +45,13 @@ const CalendarFunnel = ({ date, time, onNext }: Props) => {
         원하는 예약 날짜를 선택해주세요.
       </CardHeaderContainer>
       <Text size='lg' align='center' color='gray03'>
-        {getCalendarDate(selectedDate)}
+        {getCalendarDate(date)}
       </Text>
       <CardContent className='my-5 flex flex-col items-center justify-center'>
         <Calendar
           mode='single'
-          selected={selectedDate}
-          onSelect={setSelectedDate}
+          selected={date}
+          onSelect={(date) => handleSelectDate(date as Date)}
           className='w-full rounded-md border p-3 shadow'
           classNames={{
             caption: 'flex justify-center pt-1 relative items-center mb-3',
