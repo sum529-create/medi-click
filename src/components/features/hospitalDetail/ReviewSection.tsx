@@ -31,7 +31,9 @@ const ReviewSection = ({ review }: ReviewDataType) => {
             />
           ))
         ) : (
-          <p>후기가 없습니다.</p>
+          <p className='h-52 content-center self-center text-center text-xl'>
+            후기가 없습니다.
+          </p>
         )}
       </div>
     </div>

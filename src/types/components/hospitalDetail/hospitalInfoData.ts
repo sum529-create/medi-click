@@ -23,34 +23,26 @@ export interface HospitalDataType {
   [key: string]: string | number;
 }
 
-export interface HospitalScheduleResult {
-  // 데이터 객체
-  data: {
-    hospitalData: HospitalDataType;
-    infoData:
-      | boolean
-      | { department: string; info: string | null; etc: string | null }
-      | undefined;
-    reviewData:
-      | boolean
-      | (
-          | '친절해요'
-          | '진료 대기가 없어요'
-          | '시설이 좋고 청결해요'
-          | '전문적이에요'
-          | null
-        )[]
-      | undefined;
-    schedule: {
-      dutyTimes: string[][];
-      restWeeks: string[];
-    };
-  };
+export interface HospitalDetailDataType {
+  hospitalData: HospitalDataType;
+  infoData:
+    | boolean
+    | { department: string; info: string | null; etc: string | null }
+    | undefined;
+  reviewData:
+    | boolean
+    | (
+        | '친절해요'
+        | '진료 대기가 없어요'
+        | '시설이 좋고 청결해요'
+        | '전문적이에요'
+        | null
+      )[]
+    | undefined;
+}
 
-  // 상태 객체
-  status: {
-    isPending: boolean;
-    isError: boolean;
-    error: Error | null;
-  };
+// 위도, 경도 타입
+export interface latLngLocation {
+  lat: number;
+  lng: number;
 }

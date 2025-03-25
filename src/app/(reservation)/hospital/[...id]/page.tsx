@@ -1,6 +1,11 @@
 import { Metadata } from 'next';
+import { Suspense } from 'react';
+import Loading from '@/components/common/Loading';
+import ErrorState from '@/components/features/hospitalDetail/ErrorState';
 import HospitalSection from '@/components/features/hospitalDetail/HospitalSection';
-import hospitalDetail from '@/utils/api/hospitalDetail';
+import hospitalDetail, {
+  getAllHospitalDetailData,
+} from '@/utils/api/hospitalDetail';
 
 interface PageProps {
   params: { id: string[] };
@@ -32,9 +37,36 @@ export async function generateMetadata({
   }
 }
 
-const HospitalDetailPage = ({ params }: PageProps) => {
+const HospitalDetailPage = async ({ params }: PageProps) => {
+  const STATE_WRAPPER_STYLE =
+    'flex h-[calc(100vh-80px)] w-full items-center justify-center';
   const hospitalId = params?.id[0];
-  return <HospitalSection hpid={hospitalId} />;
+  try {
+    const { hospitalData, infoData, reviewData } =
+      await getAllHospitalDetailData(hospitalId);
+    return (
+      <Suspense
+        fallback={
+          <div className={STATE_WRAPPER_STYLE}>
+            <Loading size={100} />
+          </div>
+        }
+      >
+        <HospitalSection
+          hospitalData={hospitalData}
+          infoData={infoData}
+          reviewData={reviewData}
+        />
+      </Suspense>
+    );
+  } catch (error) {
+    console.error('failed fetching hospital detail data', error);
+    return (
+      <div className={STATE_WRAPPER_STYLE}>
+        <ErrorState>{'병원 정보를 불러오는 데 실패했습니다'}</ErrorState>
+      </div>
+    );
+  }
 };
 
 export default HospitalDetailPage;
