@@ -12,7 +12,7 @@ const ProfileImage = ({ src, size }: ImageProps) => {
       <AvatarFallback>
         <div
           style={{ width: size, height: size }}
-          className={`rounded-full border-2 border-main-hover bg-sub`}
+          className='rounded-full border-2 border-main-hover bg-sub'
         />
       </AvatarFallback>
     </Avatar>

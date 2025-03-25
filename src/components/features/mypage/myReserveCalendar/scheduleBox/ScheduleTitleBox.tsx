@@ -1,9 +1,11 @@
+import Title from '@/components/ui/Title';
+
 const ScheduleTitleBox = () => {
   return (
-    <div className='flex min-h-[90px] w-full rounded-[13px] bg-main-hover'>
-      <h2 className='my-auto ml-10 text-3xl font-bold text-white'>
+    <div className='flex min-h-[90px] w-full items-center rounded-[13px] bg-main-hover pl-10'>
+      <Title tag='h2' size='lg' color='white'>
         예정된 예약
-      </h2>
+      </Title>
     </div>
   );
 };

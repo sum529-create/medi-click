@@ -2,7 +2,7 @@
 
 import Loading from '@/components/common/Loading';
 import { QUERY_KEY } from '@/constants/queryKey';
-import { useMyPageData } from '@/hooks/tanstackQuery/useMyPageData';
+import { useMyPageDataQuery } from '@/hooks/tanstackQuery/useMyPageDataQuery';
 import { getReservationList } from '@/utils/api/reservation';
 import ScheduleDetail from '../../ScheduleDetail';
 import ScheduleContainer from './ScheduleContainer';
@@ -14,7 +14,7 @@ const ScheduleBox = () => {
     isPending: isReservationsPending,
     error: getReservationsError,
     data: reservationList,
-  } = useMyPageData(QUERY_KEY.RESERVATION, getReservationList);
+  } = useMyPageDataQuery(QUERY_KEY.RESERVATION, getReservationList);
 
   if (isReservationsError) throw getReservationsError;
   if (isReservationsPending) return <Loading size={100} />;
