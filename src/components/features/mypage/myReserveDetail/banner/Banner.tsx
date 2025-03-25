@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Text from '@/components/ui/Text';
 import Title from '@/components/ui/Title';
+import { STATUS_MESSAGE } from '@/constants/reservationStatus';
 import { PATH } from '@/constants/routerPath';
 import { ReservationProps } from '@/types/components/mypage/reservation.type';
 import { getReservationTime } from '@/utils/func/getCalendarDate';
@@ -9,12 +10,6 @@ import BannerContainer from './BannerContainer';
 
 const Banner = ({ reservation }: ReservationProps) => {
   const { hospital_id, time, status, id, date, hospitals } = reservation;
-
-  const reservationStatusMessage: { [key: string]: string } = {
-    ok: ' 확정',
-    cancel: ' 취소',
-    waiting: ' 대기중',
-  };
 
   const formattingTime = getReservationTime(time);
 
@@ -29,7 +24,7 @@ const Banner = ({ reservation }: ReservationProps) => {
         {formattingTime}
       </Text>
       <Text size='lg' align='left' color='black02'>
-        상태: 예약 {reservationStatusMessage[status]}
+        상태: 예약 {STATUS_MESSAGE[status]}
       </Text>
       <div className='absolute bottom-8 right-8 flex gap-10'>
         <Button className='h-[44px] w-[146px] rounded-[10px] bg-deep-blue font-bold'>
