@@ -26,6 +26,7 @@ const KaKaoMap = () => {
   const [activeMarkerId, setActiveMarkerId] = useState<string | null>(null);
   const selectedHospital = useHospitalStore((state) => state.selectedHospital);
 
+  /** function */
   useEffect(() => {
     if (selectedHospital) {
       setMapCenter(selectedHospital);

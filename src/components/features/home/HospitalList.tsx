@@ -24,6 +24,7 @@ const HospitalList = () => {
     fetchNextPage,
   });
 
+  /** UI */
   if (isPending)
     return (
       <div className='flex-[1] border-2 p-6'>

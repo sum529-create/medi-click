@@ -14,11 +14,13 @@ const CurrentLocationButton = ({
   setMapCenter,
   setMapLevel,
 }: LocationButtonProps) => {
+  /** function */
   const handleClickButton = () => {
     setMapCenter(currentLocation);
     setMapLevel(3);
   };
 
+  /** UI */
   return (
     <Button
       variant='outline'

@@ -7,11 +7,14 @@ import { Input } from '@/components/ui/input';
 import { useSearchStore } from '@/utils/zustand/useSearchStore';
 
 const SearchBar = () => {
+  /** constant */
   const DEBOUNCE_DELAY = 400;
 
+  /** state */
   const [inputValue, setInputValue] = useState('');
   const setSearchKeyword = useSearchStore((state) => state.setSearchKeyword);
 
+  /** function */
   const debouncedSetSearchKeyword = useMemo(
     () =>
       debounce((keyword: string) => {
@@ -26,6 +29,7 @@ const SearchBar = () => {
     debouncedSetSearchKeyword(filteredKeyword);
   };
 
+  /** UI */
   return (
     <div className='relative w-full max-w-[800px]'>
       <IoSearch className='text-gray0 absolute right-4 top-1/2 -translate-y-1/2 text-3xl text-gray-400' />
