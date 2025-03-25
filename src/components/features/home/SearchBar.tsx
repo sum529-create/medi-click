@@ -1,25 +1,29 @@
 'use client';
 
 import { debounce } from 'lodash-es';
-import { useCallback, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { Input } from '@/components/ui/input';
 import { useSearchStore } from '@/utils/zustand/useSearchStore';
 
 const SearchBar = () => {
   const DEBOUNCE_DELAY = 400;
+
   const [inputValue, setInputValue] = useState('');
   const setSearchKeyword = useSearchStore((state) => state.setSearchKeyword);
 
-  const debouncedSearch = useCallback(
-    debounce(setSearchKeyword, DEBOUNCE_DELAY),
-    [],
+  const debouncedSetSearchKeyword = useMemo(
+    () =>
+      debounce((keyword: string) => {
+        setSearchKeyword(keyword);
+      }, DEBOUNCE_DELAY),
+    [setSearchKeyword],
   );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
     const filteredKeyword = e.target.value.replace(/[^가-힣a-zA-Z0-9]/g, '');
-    debouncedSearch(filteredKeyword);
+    debouncedSetSearchKeyword(filteredKeyword);
   };
 
   return (
