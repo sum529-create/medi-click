@@ -63,9 +63,9 @@ const TimeFunnel = ({ operationTime, id, onNext, onPrev }: Props) => {
           table: 'reservations',
         },
         (payload) => {
-          const time = deleteTimeSecond(payload.new.time);
-
           if (payload.new.date !== date) return;
+
+          const time = deleteTimeSecond(payload.new.time);
 
           setCheckedTime((prev) => ({
             ...prev,
@@ -105,6 +105,11 @@ const TimeFunnel = ({ operationTime, id, onNext, onPrev }: Props) => {
 
   const handleClick = () => {
     if (time) {
+      if ((checkedTime[time] ?? 0) >= 2) {
+        toast.error('이미 예약이 완료된 시간입니다.');
+        setTime('');
+        return;
+      }
       onNext();
     } else {
       toast.error('예약 시간을 선택해주세요.');
