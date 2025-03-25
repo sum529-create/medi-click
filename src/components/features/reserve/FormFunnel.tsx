@@ -1,31 +1,39 @@
 'use client';
 
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import CardContainer from '@/components/layout/CardContainer';
 import CardHeaderContainer from '@/components/layout/CardHeaderContainer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
+import { PATH } from '@/constants/routerPath';
+import { insertReservationInfo } from '@/utils/api/reservation';
 import {
   getCalendarDate,
   getReservationTime,
 } from '@/utils/func/getCalendarDate';
-import { getLocalStorage } from '@/utils/func/getLocalStorage';
+import {
+  getLocalStorage,
+  updateLocalStorage,
+} from '@/utils/func/getLocalStorage';
 
 interface Props {
   name: string;
+  id: string;
   onPrev: () => void;
 }
 
-const FormFunnel = ({ name, onPrev }: Props) => {
-  const [value, setValue] = useState('');
-
-  const { date, time } = getLocalStorage();
+const FormFunnel = ({ name, id, onPrev }: Props) => {
+  const { date, time, reason } = getLocalStorage();
+  const [value, setValue] = useState(reason || '');
+  const router = useRouter();
 
   // 임시 데이터
   const reservationInfo = [
-    { title: '성함', value: '김수임' },
+    { title: '성함', value: '이지은' },
     { title: '생년월일', value: '1900년 3월 20일' },
     { title: '예약 병원', value: `${name}` },
     {
@@ -33,6 +41,38 @@ const FormFunnel = ({ name, onPrev }: Props) => {
       value: `${getCalendarDate(new Date(date))} ${getReservationTime(time)}`,
     },
   ];
+
+  useEffect(() => {
+    updateLocalStorage('reason', value);
+  }, [value]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setValue(e.target.value);
+  };
+
+  const handleSubmit = async () => {
+    // 임시 데이터(zustand store에서 받아올 예정입니다)
+    const reservationInfo = {
+      time: time,
+      status: 'waiting' as const,
+      user_id: '1ca622a0-68e5-49f2-b98c-5dcbd167b4cd',
+      date: date,
+      memo: value,
+      hospital_id: id,
+    };
+
+    try {
+      const error = await insertReservationInfo(reservationInfo);
+      if (error) {
+        throw error;
+      }
+      toast.success('예약되었습니다!');
+      router.push(PATH.RESERVATIONS);
+    } catch (error) {
+      toast.error('예약 과정에서 오류가 발생했습니다.');
+      console.error(error);
+    }
+  };
 
   return (
     <CardContainer>
@@ -50,11 +90,10 @@ const FormFunnel = ({ name, onPrev }: Props) => {
           <label htmlFor='reason' className='font-bold'>
             방문 사유
           </label>
-          {/* onChange 이벤트 핸들러는 아직 만들지 않은 상태입니다 */}
           <Textarea
             id='reason'
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={handleChange}
             placeholder='방문 사유를 간단하게 적어주세요...'
           />
         </div>
@@ -70,7 +109,7 @@ const FormFunnel = ({ name, onPrev }: Props) => {
       </CardContent>
       <CardFooter className='mt-10 flex justify-evenly'>
         <Button onClick={() => onPrev()}>이전으로</Button>
-        <Button>제출하기</Button>
+        <Button onClick={handleSubmit}>예약 완료하기</Button>
       </CardFooter>
     </CardContainer>
   );
