@@ -4,23 +4,29 @@ import Text from '@/components/ui/Text';
 import Title from '@/components/ui/Title';
 import { PATH } from '@/constants/routerPath';
 import { ReservationProps } from '@/types/components/mypage/reservation.type';
+import { getReservationTime } from '@/utils/func/getCalendarDate';
 import BannerContainer from './BannerContainer';
 
 const Banner = ({ reservation }: ReservationProps) => {
-  const { hospital_id, time, status, hospitals, memo, id, date } = reservation;
+  const { hospital_id, time, status, id, date, hospitals } = reservation;
 
   const reservationStatusMessage: { [key: string]: string } = {
     ok: ' 확정',
     cancel: ' 취소',
     waiting: ' 대기중',
   };
+
+  const formattingTime = getReservationTime(time);
+
   return (
     <BannerContainer>
       <Title tag='h1' size='lg' align='left' color='deep-blue'>
         {hospitals.name}
       </Title>
       <Text size='lg' align='left' color='black02'>
-        {date} {time}
+        {date}
+        <span className='mx-5'>|</span>
+        {formattingTime}
       </Text>
       <Text size='lg' align='left' color='black02'>
         상태: 예약 {reservationStatusMessage[status]}
