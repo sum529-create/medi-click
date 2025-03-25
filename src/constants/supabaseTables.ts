@@ -10,3 +10,8 @@ export const TABLE = {
   REVIEWS: 'reviews' as const,
   USERS: 'users' as const,
 };
+
+export const COLUMN = {
+  ID: 'id' as const,
+  USER_ID: 'user_id',
+};

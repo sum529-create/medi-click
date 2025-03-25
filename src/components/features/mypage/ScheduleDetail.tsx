@@ -1,16 +1,18 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { PATH } from '@/constants/routerPath';
-import { ScheduleData } from '@/types/components/ui/mypage.schedule';
+import { Tables } from '@/types/supabase';
 
-interface ContentsProps {
-  scheduleData: ScheduleData;
+interface Reservation {
+  reservation: Tables<'reservations'> & {
+    hospitals: Tables<'hospitals'>;
+  };
 }
 
-const ScheduleDetail = ({ scheduleData }: ContentsProps) => {
-  const { hospitalName, schedule, status, id } = scheduleData;
+const ScheduleDetail = ({ reservation }: Reservation) => {
+  const { hospitals, date, status, id } = reservation;
 
-  const reservationStatusMessage = {
+  const reservationStatusMessage: { [key: string]: string } = {
     ok: ' 확정',
     cancel: ' 취소',
     waiting: ' 대기중',
@@ -20,8 +22,10 @@ const ScheduleDetail = ({ scheduleData }: ContentsProps) => {
     <div className='relative m-8 h-[140px] rounded-[15px] border-2 border-main bg-white p-4'>
       <div className='ml-5 flex flex-col gap-4'>
         <div>
-          <h3 className='text-2xl font-bold text-deep-blue'>{hospitalName}</h3>
-          <p className='text-xl font-medium text-black01'>{schedule}</p>
+          <h3 className='text-2xl font-bold text-deep-blue'>
+            {hospitals.name}
+          </h3>
+          <p className='text-xl font-medium text-black01'>{date}</p>
         </div>
         <p className='text-lg font-medium text-black01'>
           상태: 예약{reservationStatusMessage[status]}

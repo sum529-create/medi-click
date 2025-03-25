@@ -1,5 +1,3 @@
-type ReservationStatus = 'ok' | 'cancel' | 'waiting';
-
 export type Json =
   | string
   | number
@@ -60,7 +58,7 @@ export type Database = {
           hospital_id: string;
           id: number;
           memo: string | null;
-          status: ReservationStatus;
+          status: Database['public']['Enums']['reservation_status'];
           time: string;
           updated_at: string;
           user_id: string;
@@ -71,7 +69,7 @@ export type Database = {
           hospital_id: string;
           id?: number;
           memo?: string | null;
-          status: ReservationStatus;
+          status: Database['public']['Enums']['reservation_status'];
           time: string;
           updated_at?: string;
           user_id?: string;
@@ -82,7 +80,7 @@ export type Database = {
           hospital_id?: string;
           id?: number;
           memo?: string | null;
-          status?: ReservationStatus;
+          status?: Database['public']['Enums']['reservation_status'];
           time?: string;
           updated_at?: string;
           user_id?: string;
@@ -158,22 +156,25 @@ export type Database = {
           birth: string;
           created_at: string;
           id: string;
-          nickname: string | null;
+          name: string;
           phone_number: string;
+          avatar_path?: string;
         };
         Insert: {
           birth: string;
           created_at?: string;
           id?: string;
-          nickname?: string | null;
+          name?: string;
           phone_number: string;
+          avatar_path?: string;
         };
         Update: {
           birth?: string;
           created_at?: string;
           id?: string;
-          nickname?: string | null;
+          name?: string;
           phone_number?: string;
+          avatar_path?: string;
         };
         Relationships: [];
       };
@@ -190,6 +191,7 @@ export type Database = {
         | '진료 대기가 없어요'
         | '시설이 좋고 청결해요'
         | '전문적이에요';
+      reservation_status: 'ok' | 'cancel' | 'waiting;';
     };
     CompositeTypes: {
       [_ in never]: never;
