@@ -1,8 +1,6 @@
 import { TABLE } from '@/constants/supabaseTables';
 import { Location } from '@/types/map';
-import { createClient } from '../supabase/supabaseClient';
-
-const supabase = createClient();
+import { supabase } from '../supabase/supabaseClient';
 
 /**
  * 병원 상세 정보 조회를 위한 기본 URL 생성 함수
