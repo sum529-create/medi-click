@@ -71,7 +71,7 @@ export type Database = {
           memo?: string | null;
           status: Database['public']['Enums']['reservation_status'];
           time: string;
-          updated_at: string;
+          updated_at?: string;
           user_id?: string;
         };
         Update: {
