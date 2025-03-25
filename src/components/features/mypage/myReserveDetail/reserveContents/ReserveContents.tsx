@@ -1,3 +1,4 @@
+import KakaoStaticMap from '@/components/common/KakaoStaticMap';
 import { Button } from '@/components/ui/button';
 import { ReservationProps } from '@/types/components/mypage/reservation.type';
 import hospitalDetail from '@/utils/api/hospitalDetail';
@@ -6,11 +7,10 @@ import ContentsContainer from './ContentsContainer';
 import InfoContainer from './InfoContainer';
 import InfoDetailContainer from './InfoDetailContainer';
 import InfoDetailContents from './InfoDetailContents';
-import InfoMap from './InfoMap';
 import InfoTitleBox from './InfoTitleBox';
 
 const ReserveContents = async ({ reservation }: ReservationProps) => {
-  const { hospital_id, date, time, status } = reservation;
+  const { hospital_id, date, time, status, id, hospitals } = reservation;
   const { dgidIdName } = await hospitalDetail(hospital_id);
   const showButton = isPastDateTime(date, time);
 
@@ -32,7 +32,9 @@ const ReserveContents = async ({ reservation }: ReservationProps) => {
           )}
         </InfoDetailContainer>
       </InfoContainer>
-      <InfoMap />
+      <div className='mr-20 mt-7 h-[300px] w-[300px] flex-shrink-0 overflow-hidden border-2'>
+        <KakaoStaticMap params={{ id: hospital_id, name: hospitals.name }} />
+      </div>
     </ContentsContainer>
   );
 };
