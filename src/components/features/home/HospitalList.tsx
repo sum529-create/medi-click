@@ -11,10 +11,11 @@ import { checkEmptyPages } from '@/utils/func/checkEmptyPages';
 const HospitalList = () => {
   const {
     data: hospitalList,
-    status,
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
+    isPending,
+    isError,
   } = useHospitalsInfiniteQuery();
 
   const { ref } = useHospitalInView({
@@ -23,13 +24,14 @@ const HospitalList = () => {
     fetchNextPage,
   });
 
-  if (status === 'pending')
+  if (isPending)
     return (
       <div className='flex-[1] border-2 p-6'>
-        <Loading size={100} />
+        <Loading size={180} />
       </div>
     );
-  if (status === 'error')
+
+  if (isError)
     return (
       <div className='flex flex-[1] items-center justify-center border-2 p-6'>
         <Text>병원 목록을 불러오는데 오류가 발생하였습니다.</Text>
@@ -48,7 +50,6 @@ const HospitalList = () => {
           )),
         )
       )}
-
       <div ref={ref}></div>
     </div>
   );
