@@ -1,8 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { FaPlus, FaMinus } from 'react-icons/fa6';
 import { Map } from 'react-kakao-maps-sdk';
 import Loading from '@/components/common/Loading';
+import { Button } from '@/components/ui/button';
 import Text from '@/components/ui/Text';
 import { useAllHospitalLocation } from '@/hooks/map/useAllHospitalLocation';
 import { useCurrentLocation } from '@/hooks/map/useCurrentLocation';
@@ -11,14 +13,30 @@ import { useHospitalStore } from '@/utils/zustand/useHospitalStore';
 import EventMarkerContainer from './EventMarkerContainer';
 
 const KaKaoMap = () => {
+  /** custom hook */
   const currentLocation = useCurrentLocation();
   const hospitalLocationList = useAllHospitalLocation();
-  const selectedHospital = useHospitalStore((state) => state.selectedHospital);
 
+  /** state */
+  const [loading, error] = useKakaoLoad();
   const [mapCenter, setMapCenter] = useState(currentLocation);
   const [mapLevel, setMapLevel] = useState(3);
   const [activeMarkerId, setActiveMarkerId] = useState<string | null>(null);
-  const [loading, error] = useKakaoLoad();
+  const selectedHospital = useHospitalStore((state) => state.selectedHospital);
+
+  const mapRef = useRef<kakao.maps.Map>(null);
+
+  const zoomIn = () => {
+    const map = mapRef.current;
+    if (!map) return;
+    map.setLevel(map.getLevel() - 1);
+  };
+
+  const zoomOut = () => {
+    const map = mapRef.current;
+    if (!map) return;
+    map.setLevel(map.getLevel() + 1);
+  };
 
   useEffect(() => {
     if (selectedHospital) {
@@ -27,6 +45,7 @@ const KaKaoMap = () => {
     }
   }, [selectedHospital]);
 
+  /** UI */
   if (loading)
     return (
       <div className='h-[300px] flex-[2] border-2 md:h-[750px]'>
@@ -46,8 +65,10 @@ const KaKaoMap = () => {
       <Map
         center={mapCenter}
         level={mapLevel}
-        className='h-[300px] md:h-[750px]'
+        ref={mapRef}
+        className='relative h-[300px] md:h-[750px]'
       >
+        {/** 마커 */}
         {hospitalLocationList.map((position) => (
           <EventMarkerContainer
             key={position.id}
@@ -56,6 +77,15 @@ const KaKaoMap = () => {
             setActiveMarkerId={setActiveMarkerId}
           />
         ))}
+        {/** 줌인/아웃 버튼 */}
+        <div className='absolute right-4 top-4 z-10 flex flex-col gap-1 shadow-md'>
+          <Button variant='outline' size='icon' onClick={zoomIn}>
+            <FaPlus />
+          </Button>
+          <Button variant='outline' size='icon' onClick={zoomOut}>
+            <FaMinus />
+          </Button>
+        </div>
       </Map>
     </div>
   );
