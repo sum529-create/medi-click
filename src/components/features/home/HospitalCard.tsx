@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { PATH } from '@/constants/routerPath';
 import { Tables } from '@/types/supabase';
 import { useHospitalStore } from '@/utils/zustand/useHospitalStore';
-import { Button } from '../ui/button';
-import Text from '../ui/Text';
-import Title from '../ui/Title';
+import { Button } from '../../ui/button';
+import Text from '../../ui/Text';
+import Title from '../../ui/Title';
 
 interface HospitalCardProps {
   hospital: Tables<'hospitals'>;

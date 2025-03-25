@@ -1,7 +1,7 @@
 'use client';
 
-import HospitalCard from '@/components/common/HospitalCard';
 import Loading from '@/components/common/Loading';
+import HospitalCard from '@/components/features/home/HospitalCard';
 import Text from '@/components/ui/Text';
 import Title from '@/components/ui/Title';
 import { useHospitalInView } from '@/hooks/tanstackQuery/useHospitalInView';
