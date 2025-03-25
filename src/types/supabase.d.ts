@@ -107,7 +107,6 @@ export type Database = {
           created_at: string;
           hostpital_id: string | null;
           id: number;
-          reservation_id: number;
           review: Database['public']['Enums']['review'] | null;
           user_id: string | null;
         };
@@ -115,7 +114,6 @@ export type Database = {
           created_at?: string;
           hostpital_id?: string | null;
           id?: number;
-          reservation_id: number;
           review?: Database['public']['Enums']['review'] | null;
           user_id?: string | null;
         };
@@ -123,7 +121,6 @@ export type Database = {
           created_at?: string;
           hostpital_id?: string | null;
           id?: number;
-          reservation_id?: number;
           review?: Database['public']['Enums']['review'] | null;
           user_id?: string | null;
         };
@@ -133,13 +130,6 @@ export type Database = {
             columns: ['hostpital_id'];
             isOneToOne: false;
             referencedRelation: 'hospitals';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'reviews_reservation_id_fkey';
-            columns: ['reservation_id'];
-            isOneToOne: false;
-            referencedRelation: 'reservations';
             referencedColumns: ['id'];
           },
           {
