@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { ReservationProps } from '@/types/components/mypage/reservation.type';
 import hospitalDetail from '@/utils/api/hospitalDetail';
+import { isPastDateTime } from '@/utils/func/isPastDateTime';
 import ContentsContainer from './ContentsContainer';
 import InfoContainer from './InfoContainer';
 import InfoDetailContainer from './InfoDetailContainer';
@@ -9,8 +10,9 @@ import InfoMap from './InfoMap';
 import InfoTitleBox from './InfoTitleBox';
 
 const ReserveContents = async ({ reservation }: ReservationProps) => {
-  const { dgidIdName } = await hospitalDetail(reservation.hospital_id);
-  console.log('dgidIdName', dgidIdName);
+  const { hospital_id, date, time, status } = reservation;
+  const { dgidIdName } = await hospitalDetail(hospital_id);
+  const showButton = isPastDateTime(date, time);
 
   return (
     <ContentsContainer>
@@ -21,10 +23,13 @@ const ReserveContents = async ({ reservation }: ReservationProps) => {
           <InfoDetailContents title='예약자' text='김수임님' />
           <InfoDetailContents title='진료과' text={dgidIdName} />
           <InfoDetailContents title='증상' text={reservation.memo} />
-          <Button className='absolute right-8 top-48 h-[44px] w-[146px] rounded-[10px] font-bold'>
-            리뷰 작성
-          </Button>
-          {/*날짜가 지나면 해당 버튼이 나타나도록*/}
+          {showButton && status === 'ok' ? (
+            <Button className='absolute right-8 top-48 h-[44px] w-[146px] rounded-[10px] font-bold'>
+              리뷰 작성
+            </Button>
+          ) : (
+            <></>
+          )}
         </InfoDetailContainer>
       </InfoContainer>
       <InfoMap />
