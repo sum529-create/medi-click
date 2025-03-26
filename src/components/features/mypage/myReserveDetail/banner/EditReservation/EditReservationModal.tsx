@@ -1,28 +1,47 @@
 'use client';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Button } from '@/components/ui/button';
 import Text from '@/components/ui/Text';
 import { Textarea } from '@/components/ui/textarea';
 import Title from '@/components/ui/Title';
-import { showEditModalStore } from '@/store/mypageStore';
-import { ReservationProps } from '@/types/components/mypage/reservation.type';
+import { QUERY_KEY } from '@/constants/queryKey';
+import { reservationStore, showEditModalStore } from '@/store/mypageStore';
 import { updateReservation } from '@/utils/api/reservation';
 import EditFormInput from '../../../editProfile/EditFormInput';
 import ModalContainer from './ModalContainer';
 
-const EditReservationModal = ({ reservation }: ReservationProps) => {
+const EditReservationModal = () => {
+  const { reservation, clearReservation } = reservationStore();
+  const { toggleModal } = showEditModalStore();
+
   const [date, setDate] = useState(reservation.date);
-  const [time, setTime] = useState(reservation.time.slice(0, 5));
+  const [time, setTime] = useState(reservation.time!.slice(0, 5));
   const [memo, setMemo] = useState(reservation.memo);
 
-  const { toggleModal } = showEditModalStore();
+  const queryClient = useQueryClient();
+
+  const { mutate: updateProfile } = useMutation({
+    mutationFn: () => updateReservation(reservation.id!, time!, date!, memo!),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.RESERVATION],
+      });
+      clearReservation();
+      toggleModal();
+      toast.success('업데이트가 완료되었습니다.');
+    },
+    onError: () => toast.error('프로필 업데이트에 실패했습니다.'),
+  });
 
   const handleOnSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await updateReservation(reservation.id, time, date, memo);
+      updateProfile();
+      clearReservation();
+      toggleModal();
       toast.success('예약이 변경되었습니다.');
     } catch (error) {
       toast.error('예약 수정에 실패했습니다.');
@@ -36,7 +55,7 @@ const EditReservationModal = ({ reservation }: ReservationProps) => {
       <form className='mt-7 flex flex-col gap-10' onSubmit={handleOnSubmit}>
         <EditFormInput
           label='날짜'
-          inputValue={date}
+          inputValue={date!}
           type='date'
           textSize='md'
           onChange={(e) => setDate(e.target.value)}
