@@ -4,9 +4,9 @@ import { supabase } from '../supabase/supabaseClient';
 interface FormData {
   email: string;
   password: string;
-  name?: string;
-  phone?: string;
-  birth?: string;
+  name: string;
+  phone: string;
+  birth: string;
 }
 
 // 회원가입 함수

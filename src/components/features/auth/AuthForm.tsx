@@ -6,9 +6,9 @@ import { toast } from 'react-toastify';
 import { MODE } from '@/constants/authMode';
 import { PATH } from '@/constants/routerPath';
 import { cn } from '@/lib/utils';
-import { useAuthStore } from '@/store/useAuthStore';
 import { logIn, logOut, signUp } from '@/utils/api/auth';
 import { listenAuthState } from '@/utils/api/authState';
+import { useAuthStore } from '@/utils/zustand/useAuthStore';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 

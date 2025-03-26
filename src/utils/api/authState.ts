@@ -1,4 +1,4 @@
-import { useAuthStore } from '@/store/useAuthStore';
+import { useAuthStore } from '@/utils/zustand/useAuthStore';
 import { supabase } from '../supabase/supabaseClient';
 import { fetchUserData } from './auth';
 

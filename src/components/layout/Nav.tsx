@@ -3,9 +3,9 @@
 import Link from 'next/link';
 import { useEffect } from 'react';
 import { PATH } from '@/constants/routerPath';
-import { useAuthStore } from '@/store/useAuthStore';
 import { logOut } from '@/utils/api/auth';
 import { getSession } from '@/utils/api/authState';
+import { useAuthStore } from '@/utils/zustand/useAuthStore';
 import { Button } from '../ui/button';
 
 const Nav = () => {
