@@ -21,8 +21,8 @@ const KaKaoMap = () => {
 
   /** custom hook */
   const currentLocation = useCurrentLocation();
-  const hospitalLocationList = useAllHospitalLocation();
   const { mapRef, zoomIn, zoomOut } = useMapZoom();
+  const hospitalLocationList = useAllHospitalLocation();
 
   /** state */
   const [loading, error] = useKakaoLoad();
@@ -79,7 +79,7 @@ const KaKaoMap = () => {
         onCenterChanged={updateCenterWhenMapMoved}
         className='relative h-[300px] md:h-[750px]'
       >
-        <MarkerClusterer averageCenter={true} minLevel={6}>
+        <MarkerClusterer averageCenter={true} minLevel={4}>
           {/** 마커 */}
           {hospitalLocationList.map((position) => (
             <EventMarkerContainer
