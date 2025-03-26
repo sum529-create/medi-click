@@ -1,4 +1,5 @@
 import { TABLE } from '@/constants/supabaseTables';
+import { useAuthStore } from '@/store/useAuthStore';
 import { supabase } from '../supabase/supabase';
 
 interface FormData {
@@ -64,17 +65,42 @@ export const logOut = async () => {
   await supabase.auth.signOut();
 };
 
-// 현재 세션을 확인하는 함수
-export const getSession = async (setIsLogin: (value: boolean) => void) => {
-  try {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
+export const listenAuthState = () => {
+  const setUser = useAuthStore.getState().setUserData;
+  const setIsLogin = useAuthStore.getState().setIsLogin;
 
-    console.log('SESSION =>', session); // 로그인이 되어있는지 상태 확인용
-    setIsLogin(!!session);
-  } catch (error) {
-    console.error('세션 확인 중 오류 발생:', error);
-    setIsLogin(false);
-  }
+  supabase.auth.onAuthStateChange(async (_, session) => {
+    if (session) {
+      const userId = session.user.id;
+
+      const { data: userData, error } = await supabase
+        .from(TABLE.USERS)
+        .select()
+        .eq('id', userId)
+        .maybeSingle();
+
+      if (error) {
+        console.error('유저 정보 불러오기 실패:', error.message);
+        return;
+      }
+      console.log('🚀 ~ supabase.auth.onAuthStateChange ~ userData:', userData);
+
+      setUser({
+        email: session.user.user_metadata.email,
+        name: session.user.user_metadata.name,
+        phone: session.user.user_metadata.phone_number,
+        birth: session.user.user_metadata.birth,
+      });
+
+      setIsLogin(true);
+    } else {
+      setUser({
+        email: '',
+        name: '',
+        phone: '',
+        birth: '',
+      });
+      setIsLogin(false);
+    }
+  });
 };

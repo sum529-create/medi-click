@@ -1,13 +1,14 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { toast } from 'react-toastify';
 import { MODE } from '@/constants/authMode';
 import { PATH } from '@/constants/routerPath';
 import { cn } from '@/lib/utils';
-import { getSession, logIn, logOut, signUp } from '@/utils/api/auth';
+import { useAuthStore } from '@/store/useAuthStore';
+import { listenAuthState, logIn, logOut, signUp } from '@/utils/api/auth';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 
@@ -18,6 +19,11 @@ interface Props {
 const AuthForm = ({ mode }: Props) => {
   const router = useRouter();
 
+  const setIsLogin = useAuthStore((state) => state.setIsLogin);
+  const setUserData = useAuthStore((state) => state.setUserData);
+  const userData = useAuthStore((state) => state.userData);
+  console.log('🚀 ~ AuthForm ~ userData:', userData);
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -25,8 +31,6 @@ const AuthForm = ({ mode }: Props) => {
     phone: '',
     birth: '',
   });
-
-  const [isLogin, setIsLogin] = useState(false);
 
   // 사용자가 입력 필드 값을 변경할 때 호출되는 함수
   const handleAuthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,20 +56,20 @@ const AuthForm = ({ mode }: Props) => {
 
       router.push(PATH.LOGIN);
     } else {
-      const { error: loginError } = await logIn(formData);
+      const { data, error: loginError } = await logIn(formData);
+      console.log('🚀 ~ handleAuthSubmit ~ data:', data);
 
       if (loginError) {
         toast.error('아이디나 비밀번호가 틀렸습니다.');
         return;
       }
 
+      setIsLogin(true);
+      listenAuthState();
+
       router.push(PATH.HOME);
     }
   };
-
-  useEffect(() => {
-    getSession(setIsLogin);
-  }, []);
 
   const AuthInputTitle = {
     email: '이메일 형식이 올바르지 않습니다. 예시: example@domain.com',
