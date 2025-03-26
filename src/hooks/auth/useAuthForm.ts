@@ -12,7 +12,12 @@ import { useAuthStore } from '@/utils/zustand/useAuthStore';
 
 export const useAuthForm = (mode: string) => {
   const router = useRouter();
+
   const setIsLogin = useAuthStore((state) => state.setIsLogin);
+  const setIsHospitalAccount = useAccountStore(
+    (state) => state.setIsHospitalAccount,
+  );
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -20,10 +25,6 @@ export const useAuthForm = (mode: string) => {
     phone: '',
     birth: '',
   });
-
-  const setIsHospitalAccount = useAccountStore(
-    (state) => state.setIsHospitalAccount,
-  );
 
   // 사용자가 입력 필드 값을 변경할 때 호출되는 함수
   const handleAuthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
