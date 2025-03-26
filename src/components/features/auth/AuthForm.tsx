@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { MODE } from '@/constants/authMode';
 import { PATH } from '@/constants/routerPath';
 import { cn } from '@/lib/utils';
-import { logIn, logOut, signUp } from '@/utils/api/auth';
+import { logIn, signUp } from '@/utils/api/auth';
 import { listenAuthState } from '@/utils/api/authState';
 import { isHospitalAccount } from '@/utils/func/isHospitalAccount';
 import { useAccountStore } from '@/utils/zustand/useAccountStore';
@@ -52,11 +52,10 @@ const AuthForm = ({ mode }: Props) => {
         return;
       }
 
+      setIsLogin(true);
+      listenAuthState();
       toast.success('회원가입이 완료되었습니다.');
-
-      logOut();
-
-      router.push(PATH.LOGIN);
+      router.push(PATH.HOME);
     } else {
       const { error: loginError } = await logIn(formData);
 
