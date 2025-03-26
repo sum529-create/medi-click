@@ -22,6 +22,13 @@ const EventMarkerContainer = ({
     <MapMarker
       position={{ lat, lng }}
       onClick={() => setActiveMarkerId(isOverlayOpen ? null : id)}
+      image={{
+        src: '/img/map_marker.svg',
+        size: {
+          width: 30,
+          height: 40,
+        },
+      }}
     >
       {isOverlayOpen && <CustomOverlay name={name} id={id} />}
     </MapMarker>
