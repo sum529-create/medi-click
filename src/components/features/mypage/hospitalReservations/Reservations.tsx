@@ -1,8 +1,12 @@
 'use client';
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import { QUERY_KEY } from '@/constants/queryKey';
+import { getHospitalReservationList } from '@/utils/api/hospitalReservationList';
 import {
   formatDate,
   formatShortDate,
+  formatToDateString,
   getNextDay,
   getPreviousDay,
 } from '@/utils/func/formatDate';
@@ -11,9 +15,16 @@ import ReservationBanner from './ReservationBanner';
 import ReservationTable from './ReservationTable';
 
 const ReservationsPage = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState<Date>(new Date());
 
-  // 예약 데이터 (실제로는 API에서 가져올 것)
+  const { data, isPending, isError, error } = useQuery({
+    queryKey: [QUERY_KEY.HOSPITAL_RESERVATION_LIST],
+    queryFn: () =>
+      getHospitalReservationList({
+        date: formatToDateString(currentDate),
+        name: '아이세상소아청소년과의원',
+      }),
+  });
   const reservations = [
     {
       time: '09:00',
