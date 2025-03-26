@@ -1,52 +1,7 @@
-import Text from '@/components/ui/Text';
-import Title from '@/components/ui/Title';
-import { PATH } from '@/constants/routerPath';
-import { getUserProfile } from '@/utils/api/userProfile';
-import { createClient } from '@/utils/supabase/supabaseServer';
-import ProfileImage from '../../ProfileImage';
-import ProfileContainer from './ProfileContainer';
-import UserMenuItem from './UserMenuItem';
+import SideBarClient from './SideBar.client';
 
-const SideBar = async () => {
-  const supabase = createClient();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  const { avatar_path, name, email } = await getUserProfile(session?.user.id);
-
-  const menuItems = [
-    { label: '내 예약 캘린더', path: PATH.MYPAGE },
-    { label: '내 예약 목록', path: PATH.RESERVATIONS },
-    {
-      label: '개인 정보 수정',
-      path: PATH.PROFILE,
-    },
-  ];
-
-  return (
-    <aside className='flex flex-col gap-8'>
-      <ProfileContainer>
-        <ProfileImage src={avatar_path ? avatar_path : ''} size='108px' />
-        <Title tag='h2' size='md'>
-          {name}님
-        </Title>
-        <Text isBold size='lg'>
-          {email}
-        </Text>
-      </ProfileContainer>
-      <nav className='h-[276px] w-[264px] overflow-hidden rounded-[16px] bg-sub'>
-        <div className='flex h-[66px] w-[264px] items-center justify-center rounded-t-[16px] bg-main text-2xl font-bold text-white'>
-          USER MENU
-        </div>
-        {menuItems.map((item, index) => (
-          <UserMenuItem key={index} href={item.path}>
-            {item.label}
-          </UserMenuItem>
-        ))}
-      </nav>
-    </aside>
-  );
+const SideBar = () => {
+  return <SideBarClient />;
 };
 
 export default SideBar;
