@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { COLUMN, TABLE } from '@/constants/supabaseTables';
 import { ReservationProps } from '@/types/components/mypage/reservation.type';
 import { Tables } from '@/types/supabase';
@@ -48,7 +49,7 @@ export const deleteReservation = async (id: number): Promise<void> => {
     .from(TABLE.RESERVATIONS)
     .delete()
     .eq(COLUMN.ID, id);
-  if (error) throw new Error('예약 삭제에 실패했습니다.');
+  if (error) toast.error('예약 삭제에 실패했습니다.');
 };
 
 /**
@@ -69,7 +70,7 @@ export const updateReservation = async (
     .update({ date, time, memo })
     .eq('id', id);
 
-  if (error) throw new Error('예약 정보 수정에 실패했습니다.');
+  if (error) toast.error('예약 수정에 실패했습니다.');
 };
 
 export const insertReservationInfo = async (info: Tables<'reservations'>) => {
