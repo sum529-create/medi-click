@@ -42,7 +42,6 @@ const ReservationsPage = () => {
   }
 
   return (
-    // formatDate
     <div className='container mx-auto px-4 py-8'>
       <ReservationBanner
         hospitalName={name}
@@ -60,7 +59,9 @@ const ReservationsPage = () => {
           onNextClick={() => setCurrentDate(getNextDay(currentDate))}
         />
       </div>
-
+      <p className='my-2 text-red'>
+        * 해당 환자의 예약을 확정하려면 &apos;대기 중&apos; 버튼을 클릭하세요
+      </p>
       <ReservationTable reservations={data || []} />
     </div>
   );
