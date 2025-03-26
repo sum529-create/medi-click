@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { Button } from '@/components/ui/button';
 import Text from '@/components/ui/Text';
@@ -11,18 +12,23 @@ import { PATH } from '@/constants/routerPath';
 import { ReservationProps } from '@/types/components/mypage/reservation.type';
 import { deleteReservation } from '@/utils/api/reservation';
 import { getReservationTime } from '@/utils/func/getCalendarDate';
-import {
-  reservationStore,
-  showEditModalStore,
-} from '@/utils/zustand/useMypageStore';
+import reservationStore from '@/utils/zustand/useReservationStore';
 import BannerContainer from './BannerContainer';
-import EditReservationModal from './EditReservation/EditReservationModal';
+import LoadingBanner from './LoadingBanner';
 
 const Banner = ({ reservation }: ReservationProps) => {
   const router = useRouter();
-  const { hospital_id, time, status, id, date, hospitals } = reservation;
-  const { isShowModal, toggleModal } = showEditModalStore();
-  const { setReservation } = reservationStore();
+  const { initReservation, setReservation } = reservationStore();
+
+  useEffect(() => {
+    if (!initReservation) {
+      setReservation(reservation);
+    }
+  }, [reservation, initReservation, setReservation]);
+
+  if (!initReservation) return <LoadingBanner />;
+
+  const { hospital_id, time, status, id, date, hospitals } = initReservation;
 
   const formattingTime = getReservationTime(time);
 
@@ -32,14 +38,8 @@ const Banner = ({ reservation }: ReservationProps) => {
     router.push(PATH.RESERVATIONS);
   };
 
-  const handleShowUpdateModal = () => {
-    setReservation(reservation);
-    toggleModal();
-  };
-
   return (
     <BannerContainer>
-      {isShowModal && <EditReservationModal />}
       <Title tag='h1' size='lg' align='left' color='deep-blue'>
         {hospitals.name}
       </Title>
@@ -53,10 +53,10 @@ const Banner = ({ reservation }: ReservationProps) => {
       </Text>
       <div className='absolute bottom-8 right-8 flex gap-10'>
         <Button
+          asChild
           className='h-[44px] w-[146px] rounded-[10px] bg-deep-blue font-bold'
-          onClick={handleShowUpdateModal}
         >
-          예약 변경
+          <Link href={`${PATH.UPDATE}/${id}`}>예약 변경</Link>
         </Button>
         <Button
           className='h-[44px] w-[146px] rounded-[10px] font-bold'
