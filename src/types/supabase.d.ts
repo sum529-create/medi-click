@@ -53,14 +53,14 @@ export type Database = {
       };
       reservations: {
         Row: {
-          created_at: string;
+          created_at?: string;
           date: string;
           hospital_id: string;
-          id: number;
+          id?: number;
           memo: string | null;
           status: Database['public']['Enums']['reservation_status'];
           time: string;
-          updated_at: string;
+          updated_at?: string;
           user_id: string;
         };
         Insert: {
@@ -191,7 +191,7 @@ export type Database = {
         | '진료 대기가 없어요'
         | '시설이 좋고 청결해요'
         | '전문적이에요';
-      reservation_status: 'ok' | 'cancel' | 'waiting;';
+      reservation_status: 'ok' | 'cancel' | 'waiting';
     };
     CompositeTypes: {
       [_ in never]: never;

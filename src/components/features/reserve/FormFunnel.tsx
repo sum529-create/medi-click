@@ -11,6 +11,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import Text from '@/components/ui/Text';
 import { Textarea } from '@/components/ui/textarea';
 import { PATH } from '@/constants/routerPath';
+import { Tables } from '@/types/supabase';
 import { insertReservationInfo } from '@/utils/api/reservation';
 import {
   getCalendarDate,
@@ -53,9 +54,9 @@ const FormFunnel = ({ name, id, onPrev }: Props) => {
 
   const handleSubmit = async () => {
     // 임시 데이터(zustand store에서 받아올 예정입니다)
-    const reservationInfo = {
+    const reservationInfo: Tables<'reservations'> = {
       time: time,
-      status: 'waiting' as const,
+      status: 'waiting',
       user_id: '1ca622a0-68e5-49f2-b98c-5dcbd167b4cd',
       date: date,
       memo: value,
