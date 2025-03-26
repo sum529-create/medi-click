@@ -8,6 +8,8 @@ import { MODE } from '@/constants/authMode';
 import { PATH } from '@/constants/routerPath';
 import { cn } from '@/lib/utils';
 import { getSession, logIn, logOut, signUp } from '@/utils/api/auth';
+import { isHospitalAccount } from '@/utils/func/isHospitalAccount';
+import { useAccountStore } from '@/utils/zustand/useAccountStore';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 
@@ -27,6 +29,10 @@ const AuthForm = ({ mode }: Props) => {
   });
 
   const [isLogin, setIsLogin] = useState(false);
+
+  const setIsHospitalAccount = useAccountStore(
+    (state) => state.setIsHospitalAccount,
+  );
 
   // 사용자가 입력 필드 값을 변경할 때 호출되는 함수
   const handleAuthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,6 +65,7 @@ const AuthForm = ({ mode }: Props) => {
         return;
       }
 
+      if (isHospitalAccount(formData.email)) setIsHospitalAccount(true);
       router.push(PATH.HOME);
     }
   };

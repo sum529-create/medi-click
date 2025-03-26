@@ -3,13 +3,19 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { PATH } from '@/constants/routerPath';
+import { useAccountStore } from '@/utils/zustand/useAccountStore';
 import { Button } from '../ui/button';
 
 const Nav = () => {
   // 조건부 렌더링을 위해 임시로 추가해둔 로그인 상태
   const [isLogin, setIsLogin] = useState(true);
 
+  const setIsHospitalAccount = useAccountStore(
+    (state) => state.setIsHospitalAccount,
+  );
+
   const handleLogout = () => {
+    setIsHospitalAccount(false);
     setIsLogin(false);
   };
 
