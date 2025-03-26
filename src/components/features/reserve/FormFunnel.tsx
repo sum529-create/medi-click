@@ -14,6 +14,7 @@ import { PATH } from '@/constants/routerPath';
 import { Tables } from '@/types/supabase';
 import { insertReservationInfo } from '@/utils/api/reservation';
 import {
+  getBirthday,
   getCalendarDate,
   getReservationTime,
 } from '@/utils/func/getCalendarDate';
@@ -39,7 +40,7 @@ const FormFunnel = ({ name, id, onPrev }: Props) => {
   // 임시 데이터
   const reservationInfo = [
     { title: '성함', value: `${userName}` },
-    { title: '생년월일', value: `${birth}` },
+    { title: '생년월일', value: `${getBirthday(birth)}` },
     { title: '예약 병원', value: `${name}` },
     {
       title: '예약 날짜',

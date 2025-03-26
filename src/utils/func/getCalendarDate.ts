@@ -50,3 +50,15 @@ export const getReservationTime = (time: string) => {
     return `오후 ${hour - 12}시 ${minute}분`;
   }
 };
+
+/**
+ * 생년월일 포맷 변경 함수
+ *
+ * @param birth 생년월일 (0000-00-00 형식)
+ * @returns 0000년 00월 00일 형식으로 변환한 문자열
+ */
+
+export const getBirthday = (birth: string) => {
+  const [year, month, day] = birth.split('-');
+  return `${year}년 ${month}월 ${day}일`;
+};
