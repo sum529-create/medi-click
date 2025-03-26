@@ -1,8 +1,5 @@
-import MainContentsContainer from '@/components/features/mypage/MainContentsContainer';
-import MainContentsTitleBox from '@/components/features/mypage/MainContentsTitleBox';
-import ReservationList from '@/components/features/mypage/myReservations/ReservationList';
-
 import { createClient } from '@/utils/supabase/supabaseServer';
+import ReserveListClientPage from './page.client';
 
 const ReserveListPage = async () => {
   const supabase = createClient();
@@ -10,12 +7,7 @@ const ReserveListPage = async () => {
     data: { session },
   } = await supabase.auth.getSession();
 
-  return (
-    <MainContentsContainer>
-      <MainContentsTitleBox title='내 예약 목록' />
-      <ReservationList userId={session?.user.id} />
-    </MainContentsContainer>
-  );
+  return <ReserveListClientPage userId={session?.user.id} />;
 };
 
 export default ReserveListPage;

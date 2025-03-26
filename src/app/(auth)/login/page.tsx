@@ -1,10 +1,17 @@
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import AuthBox from '@/components/features/auth/AuthBox';
 import AuthForm from '@/components/features/auth/AuthForm';
 import AuthWhether from '@/components/features/auth/AuthWhether';
 import { PATH } from '@/constants/routerPath';
+import { checkAuthServer } from '@/utils/access/protectedRouteServer';
 
-const LoginPage = () => {
+const LoginPage = async () => {
+  const isCheckAuth = await checkAuthServer();
+  if (isCheckAuth) {
+    redirect(PATH.HOME);
+  }
+
   return (
     <AuthBox title='로그인'>
       <AuthForm mode='login' />
