@@ -38,7 +38,10 @@ const SideBar = () => {
   return (
     <aside className='flex flex-col gap-8'>
       <ProfileContainer>
-        <ProfileImage src={profile.avatar_path} size='108px' />
+        <ProfileImage
+          src={profile.avatar_path ? profile.avatar_path : ''}
+          size='108px'
+        />
         <Title tag='h2' size='md'>
           {profile.name}님
         </Title>

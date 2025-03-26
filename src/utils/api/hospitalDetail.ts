@@ -18,7 +18,7 @@ export const getHospitalApiUrl = (id: string) => {
       ? `https://${process.env.VERCEL_URL}`
       : 'http://localhost:3000';
 
-    return `${baseUrl}/api/hospitalDetail?id=${id}`;
+    return `/api/hospitalDetail?id=${id}`;
   }
 };
 
