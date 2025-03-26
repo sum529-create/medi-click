@@ -1,20 +1,13 @@
 'use client';
 
 import { create } from 'zustand';
-
-interface UserData {
-  id: string;
-  email: string;
-  name: string;
-  phone: string;
-  birth: string;
-}
+import { Tables } from '@/types/supabase';
 
 interface AuthStore {
-  userData: UserData;
+  userData: Tables<'users'>;
   isLogin: boolean;
 
-  setUserData: (userData: UserData) => void;
+  setUserData: (userData: Tables<'users'>) => void;
   setIsLogin: (isLogin: boolean) => void;
 }
 
