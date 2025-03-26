@@ -1,5 +1,6 @@
 import { COLUMN, TABLE } from '@/constants/supabaseTables';
 import { Reservation } from '@/types/components/mypage/reservation.type';
+import { Tables } from '@/types/supabase';
 import { supabase } from '../supabase/supabaseClient';
 
 const testId: string = '0d6511b9-926b-443f-9828-39e5f302e1e4'; // zustand 또는 로그인 세션에서 받아올 현재 로그인 된 유저 아이디 값
@@ -19,7 +20,6 @@ export const getReservationList = async (): Promise<Reservation[]> => {
 
   return data;
 };
-
 
 /**
  * supabase에서 선택한 예약의 상세정보를 가져오는 api 함수입니다.

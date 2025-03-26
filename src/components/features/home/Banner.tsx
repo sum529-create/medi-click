@@ -7,9 +7,10 @@ const Banner = () => {
   return (
     <BannerContainer>
       <Image
-        src='/img/bannerImg.jpg'
+        src='/img/bannerImg.jpeg'
         fill
         className='object-cover'
+        priority
         alt='병원 진료 이미지'
       />
       <div className='absolute inset-0 bg-black opacity-60'></div>

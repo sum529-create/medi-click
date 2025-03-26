@@ -58,6 +58,7 @@ const FormFunnel = ({ name, id, onPrev }: Props) => {
       time: time,
       status: 'waiting',
       user_id: '1ca622a0-68e5-49f2-b98c-5dcbd167b4cd',
+      updated_at: null,
       date: date,
       memo: value,
       hospital_id: id,

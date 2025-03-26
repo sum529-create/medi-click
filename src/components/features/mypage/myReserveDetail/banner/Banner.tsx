@@ -20,7 +20,7 @@ const Banner = ({ reservation }: ReservationProps) => {
   const formattingTime = getReservationTime(time);
 
   const handleDeleteReservation = async () => {
-    await deleteReservation(id);
+    await deleteReservation(id as number);
     toast.success('삭제 완료되었습니다.');
     router.push(PATH.RESERVATIONS);
   };

@@ -23,14 +23,8 @@ const Nav = () => {
   }, []);
 
   const navList = isLogin
-
-    ? [
-        { path: PATH.MYPAGE, name: `${userData.name}님` },
-      ]
-    : [
-        { path: PATH.LOGIN, name: '로그인' },
-      ];
-
+    ? [{ path: PATH.MYPAGE, name: `${userData.name}님` }]
+    : [{ path: PATH.LOGIN, name: '로그인' }];
 
   return (
     <nav className='flex items-center gap-4'>
