@@ -1,4 +1,6 @@
-const ScheduleContainer = ({ children }: { children: React.ReactNode }) => {
+import type { Children } from '@/types/children';
+
+const ScheduleContainer = ({ children }: Children) => {
   return (
     <div className='w-full rounded-[15px] border-2 border-gray03'>
       {children}
