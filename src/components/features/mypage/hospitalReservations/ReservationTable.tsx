@@ -4,11 +4,12 @@ import StatusBadge from './StatusBadge';
 interface Reservation {
   time: string;
   memo: string;
+  id: number;
   users: {
     name: string;
     phone_number: string;
   };
-  status: 'waiting' | 'confirmed';
+  status: 'waiting' | 'ok' | 'cancel';
 }
 
 interface ReservationTableProps {
@@ -17,6 +18,7 @@ interface ReservationTableProps {
 
 const ReservationTable = ({ reservations }: ReservationTableProps) => {
   const thData = ['시간', '환자명', '연락처', '증상', '상태'];
+
   return (
     <div className={APPOINTMENT_STYLES.container}>
       <table className='min-h-40 w-full border-collapse'>
@@ -44,7 +46,10 @@ const ReservationTable = ({ reservations }: ReservationTableProps) => {
                 </td>
                 <td className={`px-6 py-6`}>{appointment.memo}</td>
                 <td className={APPOINTMENT_STYLES.tableCell}>
-                  <StatusBadge status={appointment.status} />
+                  <StatusBadge
+                    status={appointment.status}
+                    regId={appointment.id}
+                  />
                 </td>
               </tr>
             ))
