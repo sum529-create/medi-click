@@ -11,7 +11,6 @@ const ProfileEditPage = async () => {
   } = await supabase.auth.getSession();
 
   const user = await getUserProfile(session?.user.id);
-  console.log('user', user);
 
   return (
     <MainContentsContainer>
