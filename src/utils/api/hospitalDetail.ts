@@ -15,10 +15,10 @@ export const getHospitalApiUrl = (id: string) => {
   } else {
     // 서버에서는 절대 URL 사용
     const baseUrl = process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
+      ? process.env.NEXT_PUBLIC_SITE_URL || `https://${process.env.VERCEL_URL}`
       : 'http://localhost:3000';
 
-    return `/api/hospitalDetail?id=${id}`;
+    return `${baseUrl}/api/hospitalDetail?id=${id}`;
   }
 };
 

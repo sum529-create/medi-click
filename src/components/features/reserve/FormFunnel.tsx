@@ -14,6 +14,7 @@ import { PATH } from '@/constants/routerPath';
 import { Tables } from '@/types/supabase';
 import { insertReservationInfo } from '@/utils/api/reservation';
 import {
+  getBirthday,
   getCalendarDate,
   getReservationTime,
 } from '@/utils/func/getCalendarDate';
@@ -21,6 +22,7 @@ import {
   getLocalStorage,
   updateLocalStorage,
 } from '@/utils/func/getLocalStorage';
+import { useAuthStore } from '@/utils/zustand/useAuthStore';
 
 interface Props {
   name: string;
@@ -31,12 +33,14 @@ interface Props {
 const FormFunnel = ({ name, id, onPrev }: Props) => {
   const { date, time, reason } = getLocalStorage();
   const [value, setValue] = useState(reason || '');
+  const userData = useAuthStore((state) => state.userData);
+  const { name: userName, birth } = userData;
   const router = useRouter();
 
   // 임시 데이터
   const reservationInfo = [
-    { title: '성함', value: '이지은' },
-    { title: '생년월일', value: '1900년 3월 20일' },
+    { title: '성함', value: `${userName}` },
+    { title: '생년월일', value: `${getBirthday(birth)}` },
     { title: '예약 병원', value: `${name}` },
     {
       title: '예약 날짜',
