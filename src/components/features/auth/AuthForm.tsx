@@ -2,13 +2,13 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-
 import { toast } from 'react-toastify';
 import { MODE } from '@/constants/authMode';
 import { PATH } from '@/constants/routerPath';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/store/useAuthStore';
-import { listenAuthState, logIn, logOut, signUp } from '@/utils/api/auth';
+import { logIn, logOut, signUp } from '@/utils/api/auth';
+import { listenAuthState } from '@/utils/api/authState';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 
@@ -18,12 +18,7 @@ interface Props {
 
 const AuthForm = ({ mode }: Props) => {
   const router = useRouter();
-
   const setIsLogin = useAuthStore((state) => state.setIsLogin);
-  const setUserData = useAuthStore((state) => state.setUserData);
-  const userData = useAuthStore((state) => state.userData);
-  console.log('🚀 ~ AuthForm ~ userData:', userData);
-
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -51,13 +46,10 @@ const AuthForm = ({ mode }: Props) => {
       }
 
       toast.success('회원가입이 완료되었습니다.');
-
       logOut();
-
       router.push(PATH.LOGIN);
     } else {
-      const { data, error: loginError } = await logIn(formData);
-      console.log('🚀 ~ handleAuthSubmit ~ data:', data);
+      const { error: loginError } = await logIn(formData);
 
       if (loginError) {
         toast.error('아이디나 비밀번호가 틀렸습니다.');
@@ -66,7 +58,6 @@ const AuthForm = ({ mode }: Props) => {
 
       setIsLogin(true);
       listenAuthState();
-
       router.push(PATH.HOME);
     }
   };
