@@ -1,11 +1,29 @@
 'use client';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { buttonVariants } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
+import { PATH } from '@/constants/routerPath';
 import { cn } from '@/lib/utils';
+import { useAccountStore } from '@/utils/zustand/useAccountStore';
 import MainContentsContainer from '../../MainContentsContainer';
 import MainContentsTitleBox from '../../MainContentsTitleBox';
 
 const MyCalendar = () => {
+  const router = useRouter();
+  const isHospitalAccount = useAccountStore((state) => state.isHospitalAccount);
+
+  // 병원 계정이면 바로 예약목록 페이지로 이동
+  useEffect(() => {
+    if (isHospitalAccount) {
+      router.push(`${PATH.MYPAGE}/reservations`);
+    }
+  }, [isHospitalAccount, router]);
+
+  if (isHospitalAccount) {
+    return null;
+  }
+
   return (
     <MainContentsContainer>
       <MainContentsTitleBox title='내 예약 캘린더' />

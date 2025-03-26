@@ -2,13 +2,14 @@
 
 import { debounce } from 'lodash-es';
 import { useEffect, useMemo, useState } from 'react';
-import { Map } from 'react-kakao-maps-sdk';
+import { Map, MarkerClusterer } from 'react-kakao-maps-sdk';
 import Loading from '@/components/common/Loading';
 import Text from '@/components/ui/Text';
 import { useAllHospitalLocation } from '@/hooks/map/useAllHospitalLocation';
 import { useCurrentLocation } from '@/hooks/map/useCurrentLocation';
 import { useKakaoLoad } from '@/hooks/map/useKakaoLoad';
 import { useMapZoom } from '@/hooks/map/useMapZoom';
+import { filterHospitalLocationByZoomLevel } from '@/utils/func/filterHospitalLocationByZoomLevel';
 import { useHospitalStore } from '@/utils/zustand/useHospitalStore';
 import KakaoMapContainer from './layout/KakaoMapContainer';
 import CurrentLocationButton from './map/CurrentLocationButton';
@@ -21,8 +22,8 @@ const KaKaoMap = () => {
 
   /** custom hook */
   const currentLocation = useCurrentLocation();
-  const hospitalLocationList = useAllHospitalLocation();
   const { mapRef, zoomIn, zoomOut } = useMapZoom();
+  const hospitalLocationList = useAllHospitalLocation();
 
   /** state */
   const [loading, error] = useKakaoLoad();
@@ -79,15 +80,20 @@ const KaKaoMap = () => {
         onCenterChanged={updateCenterWhenMapMoved}
         className='relative h-[300px] md:h-[750px]'
       >
-        {/** 마커 */}
-        {hospitalLocationList.map((position) => (
-          <EventMarkerContainer
-            key={position.id}
-            position={position}
-            activeMarkerId={activeMarkerId}
-            setActiveMarkerId={setActiveMarkerId}
-          />
-        ))}
+        <MarkerClusterer averageCenter={true} minLevel={4}>
+          {/** 마커 */}
+          {filterHospitalLocationByZoomLevel(
+            mapLevel,
+            hospitalLocationList,
+          ).map((position) => (
+            <EventMarkerContainer
+              key={position.id}
+              position={position}
+              activeMarkerId={activeMarkerId}
+              setActiveMarkerId={setActiveMarkerId}
+            />
+          ))}
+        </MarkerClusterer>
         {/** 줌 인/아웃 버튼 + 현재 위치 버튼 */}
         <div className='absolute right-4 top-4 z-10 flex flex-col gap-4'>
           <ZoomButton zoomControls={{ zoomIn, zoomOut }} />

@@ -8,6 +8,17 @@ interface Input {
   disabled?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   errorMessage?: string | null;
+  type?: React.HTMLInputTypeAttribute | undefined;
+  textSize:
+    | 'sm'
+    | 'lg'
+    | 'xs'
+    | 'md'
+    | 'xl'
+    | '2xl'
+    | '3xl'
+    | '4xl'
+    | undefined;
 }
 
 const EditFormInput = ({
@@ -17,10 +28,12 @@ const EditFormInput = ({
   disabled,
   onChange,
   errorMessage,
+  type,
+  textSize,
 }: Input) => {
   return (
     <div className={`flex w-full flex-col gap-3 ${className}`}>
-      <Text size='xl' color='black02' align='left'>
+      <Text size={textSize} color='black02' align='left'>
         {label} <span className='m-5 text-sm text-red'>{errorMessage}</span>
       </Text>
 
@@ -29,6 +42,7 @@ const EditFormInput = ({
         disabled={disabled}
         value={inputValue}
         onChange={onChange}
+        type={type}
       />
     </div>
   );

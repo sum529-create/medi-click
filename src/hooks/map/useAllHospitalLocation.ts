@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Location } from '@/types/map';
+import type { Location } from '@/types/map';
 import { getAllHospitalLocation } from '@/utils/api/hospitals';
 
 /**

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Location } from '@/types/map';
+import type { Location } from '@/types/map';
 
 /**
  * 사용자의 현재 위치(위도, 경도)를 반환하는 훅

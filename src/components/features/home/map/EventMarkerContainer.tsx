@@ -1,7 +1,7 @@
 'use client';
 
 import { MapMarker } from 'react-kakao-maps-sdk';
-import { Location } from '@/types/map';
+import type { Location } from '@/types/map';
 import CustomOverlay from './CustomOverlay';
 
 interface EventMarkerContainerProps {
@@ -21,6 +21,17 @@ const EventMarkerContainer = ({
   return (
     <MapMarker
       position={{ lat, lng }}
+      image={{
+        src: '/img/map_marker.svg',
+        size: {
+          width: 30,
+          height: 40,
+        },
+        options: {
+          alt: `${name}`,
+        },
+      }}
+      clickable={true}
       onClick={() => setActiveMarkerId(isOverlayOpen ? null : id)}
     >
       {isOverlayOpen && <CustomOverlay name={name} id={id} />}
