@@ -16,7 +16,9 @@ const StatusBadge = ({ status, regId }: StatusBadgeProps) => {
   const badgeStyle =
     status === 'waiting'
       ? APPOINTMENT_STYLES.statusWaiting
-      : APPOINTMENT_STYLES.statusConfirmed;
+      : status === 'cancel'
+        ? APPOINTMENT_STYLES.statusCancel
+        : APPOINTMENT_STYLES.statusConfirmed;
 
   const handleToggleStatus = async () => {
     if (status !== 'waiting') return false;
@@ -39,6 +41,8 @@ const StatusBadge = ({ status, regId }: StatusBadgeProps) => {
         <span className={badgeStyle} onClick={handleToggleStatus}>
           대기중
         </span>
+      ) : status === 'cancel' ? (
+        <span className={badgeStyle}>취소</span>
       ) : (
         <span className={badgeStyle}>확정</span>
       )}
