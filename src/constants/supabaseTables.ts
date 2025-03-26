@@ -16,4 +16,6 @@ export const COLUMN = {
   USER_ID: 'user_id',
   DATE: 'date',
   HOSPITAL_ID: 'hospital_id',
+  NAME: 'name',
+  TIME: 'time',
 };
