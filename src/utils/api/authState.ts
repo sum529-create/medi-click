@@ -39,7 +39,14 @@ export const listenAuthState = () => {
         setIsLogin(true);
       }
     } else {
-      setUserData({ id: '', email: '', name: '', phone: '', birth: '' });
+      setUserData({
+        id: '',
+        email: '',
+        name: '',
+        phone_number: '',
+        birth: '',
+        avatar_path: '',
+      });
       setIsLogin(false);
     }
   });

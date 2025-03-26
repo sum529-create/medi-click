@@ -4,10 +4,10 @@ import { create } from 'zustand';
 import { Tables } from '@/types/supabase';
 
 interface AuthStore {
-  userData: Tables<'users'>;
+  userData: Omit<Tables<'users'>, 'created_at'>;
   isLogin: boolean;
 
-  setUserData: (userData: Tables<'users'>) => void;
+  setUserData: (userData: Omit<Tables<'users'>, 'created_at'>) => void;
   setIsLogin: (isLogin: boolean) => void;
 }
 
@@ -16,7 +16,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
     id: '',
     email: '',
     name: '',
-    phone: '',
+    phone_number: '',
+    avatar_path: '',
     birth: '',
   },
   isLogin: false,
