@@ -54,7 +54,9 @@ const ReservationTable = ({ reservations }: ReservationTableProps) => {
               </tr>
             ))
           ) : (
-            <td colSpan={5}>해당 날짜에 예약된 일정이 없습니다.</td>
+            <tr>
+              <td colSpan={5}>해당 날짜에 예약된 일정이 없습니다.</td>
+            </tr>
           )}
         </tbody>
       </table>
