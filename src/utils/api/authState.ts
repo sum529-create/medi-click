@@ -2,7 +2,7 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { supabase } from '../supabase/supabaseClient';
 import { fetchUserData } from './auth';
 
-// 현재 로그인 세션 가져오기
+// 새로고침 했을 때 현재 로그인 세션 가져오기
 export const getSession = async () => {
   const { setUserData, setIsLogin } = useAuthStore.getState();
 
@@ -27,7 +27,7 @@ export const getSession = async () => {
   }
 };
 
-// 인증 상태 감지
+// 로그인 했을 때 인증 상태 감지
 export const listenAuthState = () => {
   const { setUserData, setIsLogin } = useAuthStore.getState();
 

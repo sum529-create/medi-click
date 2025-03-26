@@ -60,6 +60,7 @@ export const fetchUserData = async (userId: string) => {
     .eq('id', userId)
     .maybeSingle();
 
-  if (error) return null;
+  if (error)
+    return console.error('데이터를 가져오는 중 오류 발생', error.message);
   return user;
 };

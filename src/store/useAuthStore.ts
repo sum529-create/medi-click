@@ -13,6 +13,7 @@ interface UserData {
 interface AuthStore {
   userData: UserData;
   isLogin: boolean;
+
   setUserData: (userData: UserData) => void;
   setIsLogin: (isLogin: boolean) => void;
 }
