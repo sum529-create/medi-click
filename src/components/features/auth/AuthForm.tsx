@@ -1,7 +1,7 @@
 'use client';
 
 import { MODE } from '@/constants/authMode';
-import { useAuthForm } from '@/hooks/auth/useAuthForm';
+import { useAuthForm } from '@/hooks/auth/useAuthFormHook';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 
