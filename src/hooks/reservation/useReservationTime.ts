@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { TABLE } from '@/constants/supabaseTables';
 import { fetchReservationDate } from '@/utils/api/reservation';
 import { deleteTimeSecond } from '@/utils/func/convertToTimeFormat';
 import { supabase } from '@/utils/supabase/supabaseClient';
@@ -28,7 +29,7 @@ export const useReservationTimeMap = (id: string, date: string) => {
         {
           event: 'INSERT',
           schema: 'public',
-          table: 'reservations',
+          table: TABLE.RESERVATIONS,
         },
         (payload) => {
           if (payload.new.date !== date || payload.new.hospital_id !== id)
