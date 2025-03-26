@@ -1,53 +1,54 @@
 'use client';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import Loading from '@/components/common/Loading';
 import { QUERY_KEY } from '@/constants/queryKey';
 import { getHospitalReservationList } from '@/utils/api/hospitalReservationList';
 import {
-  formatDate,
   formatShortDate,
   formatToDateString,
   getNextDay,
   getPreviousDay,
 } from '@/utils/func/formatDate';
+import { useAuthStore } from '@/utils/zustand/useAuthStore';
 import DateNavigation from './DateNavigation';
 import ReservationBanner from './ReservationBanner';
 import ReservationTable from './ReservationTable';
 
 const ReservationsPage = () => {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
+  const { name } = useAuthStore((state) => state.userData);
 
   const { data, isPending, isError, error } = useQuery({
-    queryKey: [QUERY_KEY.HOSPITAL_RESERVATION_LIST],
+    queryKey: [QUERY_KEY.HOSPITAL_RESERVATION_LIST, currentDate],
     queryFn: () =>
       getHospitalReservationList({
-        date: formatToDateString(currentDate),
-        name: '아이세상소아청소년과의원',
+        date: formatToDateString(getNextDay(currentDate)),
+        name: name,
       }),
+    enabled: !!currentDate,
   });
-  const reservations = [
-    {
-      time: '09:00',
-      name: '김땡땡',
-      phone: '010-1234-5678',
-      symptoms: '발열, 두통',
-      status: 'waiting' as const,
-    },
-    {
-      time: '10:30',
-      name: '이땡땡',
-      phone: '010-0000-0000',
-      symptoms: '소화불량',
-      status: 'confirmed' as const,
-    },
-  ];
+
+  if (isPending) {
+    <div>
+      <Loading size={100} />
+    </div>;
+  }
+
+  if (isError) {
+    <div>
+      <p>데이터를 불러오는 것을 실패하였습니다:{error.message}</p>
+    </div>;
+  }
 
   return (
+    // formatDate
     <div className='container mx-auto px-4 py-8'>
       <ReservationBanner
-        hospitalName='서울통정형외과의원 잠실점'
-        patientCount={reservations.length}
-        currentDate={formatDate(currentDate)}
+        hospitalName={name}
+        patientCount={data?.length || 0}
+        currentDate={currentDate}
+        onChangeDate={setCurrentDate}
       />
 
       <div className='my-6'>
@@ -60,7 +61,7 @@ const ReservationsPage = () => {
         />
       </div>
 
-      <ReservationTable reservations={reservations} />
+      <ReservationTable reservations={data || []} />
     </div>
   );
 };

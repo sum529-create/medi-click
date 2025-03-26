@@ -7,7 +7,6 @@ import { useAccountStore } from '@/utils/zustand/useAccountStore';
 
 const ReserveListClientPage = () => {
   const isHospitalAccount = useAccountStore((state) => state.isHospitalAccount);
-  console.log(isHospitalAccount);
 
   return (
     <>

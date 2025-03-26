@@ -3,9 +3,11 @@ import StatusBadge from './StatusBadge';
 
 interface Reservation {
   time: string;
-  name: string;
-  phone: string;
-  symptoms: string;
+  memo: string;
+  users: {
+    name: string;
+    phone_number: string;
+  };
   status: 'waiting' | 'confirmed';
 }
 
@@ -17,7 +19,7 @@ const ReservationTable = ({ reservations }: ReservationTableProps) => {
   const thData = ['시간', '환자명', '연락처', '증상', '상태'];
   return (
     <div className={APPOINTMENT_STYLES.container}>
-      <table className='w-full border-collapse'>
+      <table className='min-h-40 w-full border-collapse'>
         <thead className={APPOINTMENT_STYLES.tableHeader}>
           <tr>
             {thData.map((th, i) => (
@@ -28,23 +30,27 @@ const ReservationTable = ({ reservations }: ReservationTableProps) => {
           </tr>
         </thead>
         <tbody className='divide-y divide-[#cccbc8] text-center'>
-          {reservations.map((appointment, index) => (
-            <tr key={index} className={APPOINTMENT_STYLES.tableRow}>
-              <td className={APPOINTMENT_STYLES.tableCell}>
-                {appointment.time}
-              </td>
-              <td className={APPOINTMENT_STYLES.tableCell}>
-                {appointment.name}
-              </td>
-              <td className={APPOINTMENT_STYLES.tableCell}>
-                {appointment.phone}
-              </td>
-              <td className={`px-6 py-6`}>{appointment.symptoms}</td>
-              <td className={APPOINTMENT_STYLES.tableCell}>
-                <StatusBadge status={appointment.status} />
-              </td>
-            </tr>
-          ))}
+          {reservations.length > 0 ? (
+            reservations.map((appointment, index) => (
+              <tr key={index} className={APPOINTMENT_STYLES.tableRow}>
+                <td className={APPOINTMENT_STYLES.tableCell}>
+                  {appointment.time}
+                </td>
+                <td className={APPOINTMENT_STYLES.tableCell}>
+                  {appointment.users.name}
+                </td>
+                <td className={APPOINTMENT_STYLES.tableCell}>
+                  {appointment.users.phone_number}
+                </td>
+                <td className={`px-6 py-6`}>{appointment.memo}</td>
+                <td className={APPOINTMENT_STYLES.tableCell}>
+                  <StatusBadge status={appointment.status} />
+                </td>
+              </tr>
+            ))
+          ) : (
+            <td colSpan={5}>해당 날짜에 예약된 일정이 없습니다.</td>
+          )}
         </tbody>
       </table>
     </div>

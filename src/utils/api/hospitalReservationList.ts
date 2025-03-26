@@ -16,9 +16,9 @@ export const getHospitalReservationList = async ({ date, name }: Props) => {
 
     const { data, error } = await supabase
       .from(TABLE.RESERVATIONS)
-      .select(`* , ${TABLE.USERS}(name, phone_number')`)
+      .select(`* , ${TABLE.USERS}(name, phone_number)`)
       .eq(COLUMN.DATE, date)
-      .eq(COLUMN.ID, hospitalData?.id)
+      .eq(COLUMN.HOSPITAL_ID, hospitalData?.id)
       .order('date', { ascending: true })
       .order('time', { ascending: true });
 
