@@ -26,7 +26,6 @@ const ScheduleBox = ({ userId }: { userId: string | null }) => {
     <ScheduleContainer>
       <ScheduleTitleBox />
       <ScheduleDetail reservation={reservationList[0]} />
-      {/*임시로 넣어둔 데이터*/}
     </ScheduleContainer>
   );
 };
