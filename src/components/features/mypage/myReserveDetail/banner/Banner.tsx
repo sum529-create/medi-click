@@ -8,10 +8,13 @@ import Text from '@/components/ui/Text';
 import Title from '@/components/ui/Title';
 import { STATUS_MESSAGE } from '@/constants/reservationStatus';
 import { PATH } from '@/constants/routerPath';
-import { reservationStore, showEditModalStore } from '@/store/mypageStore';
 import { ReservationProps } from '@/types/components/mypage/reservation.type';
 import { deleteReservation } from '@/utils/api/reservation';
 import { getReservationTime } from '@/utils/func/getCalendarDate';
+import {
+  reservationStore,
+  showEditModalStore,
+} from '@/utils/zustand/useMypageStore';
 import BannerContainer from './BannerContainer';
 import EditReservationModal from './EditReservation/EditReservationModal';
 

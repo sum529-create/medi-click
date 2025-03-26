@@ -8,8 +8,11 @@ import Text from '@/components/ui/Text';
 import { Textarea } from '@/components/ui/textarea';
 import Title from '@/components/ui/Title';
 import { QUERY_KEY } from '@/constants/queryKey';
-import { reservationStore, showEditModalStore } from '@/store/mypageStore';
 import { updateReservation } from '@/utils/api/reservation';
+import {
+  reservationStore,
+  showEditModalStore,
+} from '@/utils/zustand/useMypageStore';
 import EditFormInput from '../../../editProfile/EditFormInput';
 import ModalContainer from './ModalContainer';
 
