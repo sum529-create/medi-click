@@ -3,12 +3,12 @@ import Title from '@/components/ui/Title';
 
 interface DetailContents {
   title: string;
-  text: string;
+  text: string | null;
 }
 
 const InfoDetailContents = ({ title, text }: DetailContents) => {
   return (
-    <div className='flex flex-col gap-3'>
+    <div className='flex flex-col gap-3 break-words'>
       <Title tag='h3' size='md' align='left' color='black02'>
         {title}
       </Title>

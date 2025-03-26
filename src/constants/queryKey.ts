@@ -5,5 +5,6 @@ export const QUERY_KEY = {
   HOSPITAL_REVIEW: 'hospitalReview',
   HOSPITAL: 'hospitals',
   USER: 'user',
+  RESERVATIONS: 'reservations',
   RESERVATION: 'reservation',
 };

@@ -1,22 +1,11 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { STATUS_MESSAGE } from '@/constants/reservationStatus';
 import { PATH } from '@/constants/routerPath';
-import { Tables } from '@/types/supabase';
+import { ReservationProps } from '@/types/components/mypage/reservation.type';
 
-interface Reservation {
-  reservation: Tables<'reservations'> & {
-    hospitals: Tables<'hospitals'>;
-  };
-}
-
-const ScheduleDetail = ({ reservation }: Reservation) => {
+const ScheduleDetail = ({ reservation }: ReservationProps) => {
   const { hospitals, date, status, id } = reservation;
-
-  const reservationStatusMessage: { [key: string]: string } = {
-    ok: ' 확정',
-    cancel: ' 취소',
-    waiting: ' 대기중',
-  };
 
   return (
     <div className='relative m-8 h-[140px] rounded-[15px] border-2 border-main bg-white p-4'>
@@ -28,7 +17,7 @@ const ScheduleDetail = ({ reservation }: Reservation) => {
           <p className='text-xl font-medium text-black01'>{date}</p>
         </div>
         <p className='text-lg font-medium text-black01'>
-          상태: 예약{reservationStatusMessage[status]}
+          상태: 예약{STATUS_MESSAGE[status]}
         </p>
       </div>
       <Button
