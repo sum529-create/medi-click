@@ -3,27 +3,18 @@
 import Link from 'next/link';
 import { PATH } from '@/constants/routerPath';
 import { Tables } from '@/types/supabase';
-import { useHospitalStore } from '@/utils/zustand/useHospitalStore';
-import { Button } from '../ui/button';
-import Text from '../ui/Text';
-import Title from '../ui/Title';
+import { Button } from '../../ui/button';
+import Text from '../../ui/Text';
+import Title from '../../ui/Title';
+import HospitalCardContainer from './layout/HospitalCardContainer';
 
 interface HospitalCardProps {
   hospital: Tables<'hospitals'>;
 }
 
 const HospitalCard = ({ hospital }: HospitalCardProps) => {
-  const setSelectedHospital = useHospitalStore(
-    (state) => state.setSelectedHospital,
-  );
-
   return (
-    <div
-      className='flex flex-col gap-2 rounded-xl border-2 border-main bg-white p-6 hover:bg-gray02'
-      onClick={() =>
-        setSelectedHospital({ lat: hospital.lat, lng: hospital.lng })
-      }
-    >
+    <HospitalCardContainer hospital={hospital}>
       <div className='flex flex-col gap-1'>
         <Title>{hospital.name}</Title>
         <Text>{hospital.department}</Text>
@@ -38,7 +29,7 @@ const HospitalCard = ({ hospital }: HospitalCardProps) => {
           </Link>
         </Button>
       </div>
-    </div>
+    </HospitalCardContainer>
   );
 };
 

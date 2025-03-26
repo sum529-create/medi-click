@@ -1,15 +1,17 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { toast } from 'react-toastify';
 import { MODE } from '@/constants/authMode';
 import { PATH } from '@/constants/routerPath';
 import { cn } from '@/lib/utils';
-import { getSession, logIn, logOut, signUp } from '@/utils/api/auth';
+import { logIn, logOut, signUp } from '@/utils/api/auth';
+import { listenAuthState } from '@/utils/api/authState';
 import { isHospitalAccount } from '@/utils/func/isHospitalAccount';
 import { useAccountStore } from '@/utils/zustand/useAccountStore';
+import { useAuthStore } from '@/utils/zustand/useAuthStore';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 
@@ -19,7 +21,7 @@ interface Props {
 
 const AuthForm = ({ mode }: Props) => {
   const router = useRouter();
-
+  const setIsLogin = useAuthStore((state) => state.setIsLogin);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -27,8 +29,6 @@ const AuthForm = ({ mode }: Props) => {
     phone: '',
     birth: '',
   });
-
-  const [isLogin, setIsLogin] = useState(false);
 
   const setIsHospitalAccount = useAccountStore(
     (state) => state.setIsHospitalAccount,
@@ -66,13 +66,11 @@ const AuthForm = ({ mode }: Props) => {
       }
 
       if (isHospitalAccount(formData.email)) setIsHospitalAccount(true);
+      setIsLogin(true);
+      listenAuthState();
       router.push(PATH.HOME);
     }
   };
-
-  useEffect(() => {
-    getSession(setIsLogin);
-  }, []);
 
   const AuthInputTitle = {
     email: '이메일 형식이 올바르지 않습니다. 예시: example@domain.com',

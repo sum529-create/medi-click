@@ -46,6 +46,7 @@ const Text = ({
     gray04: 'text-gray04',
     red: 'text-red',
     'deep-blue': 'text-deep-blue',
+    white: 'text-white',
   };
 
   const alignStyles: string = `text-${align}`;

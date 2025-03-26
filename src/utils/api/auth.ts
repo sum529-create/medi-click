@@ -9,7 +9,7 @@ interface FormData {
   birth: string;
 }
 
-// 회원가입을 처리하는 함수
+// 회원가입 함수
 export const signUp = async ({
   email,
   password,
@@ -21,15 +21,9 @@ export const signUp = async ({
     const {
       data: { user },
       error,
-    } = await supabase.auth.signUp({
-      email,
-      password,
-    });
+    } = await supabase.auth.signUp({ email, password });
 
-    if (error) {
-      console.error('회원가입 중 오류 발생:', error.message);
-      return error.message;
-    }
+    if (error) return console.error('회원가입 중 오류 발생:', error.message);
 
     const { error: dbError } = await supabase.from(TABLE.USERS).insert({
       id: user?.id,
@@ -39,42 +33,34 @@ export const signUp = async ({
       birth,
     });
 
-    if (dbError) {
-      console.error('데이터베이스에 저장 중 오류 발생', dbError.message);
-      return dbError.message;
-    }
+    if (dbError)
+      return console.error('데이터베이스에 저장 중 오류 발생', dbError.message);
 
-    return error;
+    return null;
   } catch (error) {
-    console.error('회원가입 중 오류 발생:', error);
-    return;
+    return console.error('회원가입 오류:', error);
   }
 };
 
-// 로그인을 처리하는 함수
+// 로그인 함수
 export const logIn = async ({ email, password }: FormData) => {
-  return await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+  return await supabase.auth.signInWithPassword({ email, password });
 };
 
-// 로그아웃을 처리하는 함수
+// 로그아웃 함수
 export const logOut = async () => {
   await supabase.auth.signOut();
 };
 
-// 현재 세션을 확인하는 함수
-export const getSession = async (setIsLogin: (value: boolean) => void) => {
-  try {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
+// 유저 데이터 가져오기
+export const fetchUserData = async (userId: string) => {
+  const { data: user, error } = await supabase
+    .from(TABLE.USERS)
+    .select('*')
+    .eq('id', userId)
+    .maybeSingle();
 
-    console.log('SESSION =>', session); // 로그인이 되어있는지 상태 확인용
-    setIsLogin(!!session);
-  } catch (error) {
-    console.error('세션 확인 중 오류 발생:', error);
-    setIsLogin(false);
-  }
+  if (error)
+    return console.error('데이터를 가져오는 중 오류 발생', error.message);
+  return user;
 };

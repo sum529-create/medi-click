@@ -55,7 +55,10 @@ const EditProfileForm = () => {
     >
       <div className='flex gap-20'>
         <div className='flex flex-col items-center gap-8'>
-          <ProfileImage src={profile.avatar_path} size='166px' />
+          <ProfileImage
+            src={profile.avatar_path ? profile.avatar_path : ''}
+            size='166px'
+          />
           <Button className='h-[44px] w-[144px] rounded-[10px] text-lg'>
             이미지 변경
           </Button>

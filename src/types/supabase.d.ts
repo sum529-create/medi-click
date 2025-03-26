@@ -20,6 +20,7 @@ export type Database = {
           lat: number;
           lng: number;
           name: string;
+          normalized_name: string | null;
           operation_time: Json | null;
           tel: string | null;
         };
@@ -33,6 +34,7 @@ export type Database = {
           lat: number;
           lng: number;
           name: string;
+          normalized_name?: string | null;
           operation_time?: Json | null;
           tel?: string | null;
         };
@@ -46,6 +48,7 @@ export type Database = {
           lat?: number;
           lng?: number;
           name?: string;
+          normalized_name?: string | null;
           operation_time?: Json | null;
           tel?: string | null;
         };
@@ -53,14 +56,14 @@ export type Database = {
       };
       reservations: {
         Row: {
-          created_at: string;
+          created_at?: string;
           date: string;
           hospital_id: string;
-          id: number;
+          id?: number;
           memo: string | null;
           status: Database['public']['Enums']['reservation_status'];
           time: string;
-          updated_at: string;
+          updated_at: string | null;
           user_id: string;
         };
         Insert: {
@@ -71,7 +74,7 @@ export type Database = {
           memo?: string | null;
           status: Database['public']['Enums']['reservation_status'];
           time: string;
-          updated_at?: string;
+          updated_at?: string | null;
           user_id?: string;
         };
         Update: {
@@ -82,7 +85,7 @@ export type Database = {
           memo?: string | null;
           status?: Database['public']['Enums']['reservation_status'];
           time?: string;
-          updated_at?: string;
+          updated_at?: string | null;
           user_id?: string;
         };
         Relationships: [
@@ -105,41 +108,31 @@ export type Database = {
       reviews: {
         Row: {
           created_at: string;
-          hostpital_id: string | null;
+          hospital_id: string;
           id: number;
-          reservation_id: number;
-          review: Database['public']['Enums']['review'] | null;
-          user_id: string | null;
+          review: Database['public']['Enums']['review'];
+          user_id: string;
         };
         Insert: {
           created_at?: string;
-          hostpital_id?: string | null;
+          hospital_id: string;
           id?: number;
-          reservation_id: number;
-          review?: Database['public']['Enums']['review'] | null;
-          user_id?: string | null;
+          review: Database['public']['Enums']['review'];
+          user_id?: string;
         };
         Update: {
           created_at?: string;
-          hostpital_id?: string | null;
+          hospital_id?: string;
           id?: number;
-          reservation_id?: number;
-          review?: Database['public']['Enums']['review'] | null;
-          user_id?: string | null;
+          review?: Database['public']['Enums']['review'];
+          user_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: 'reviews_hostpital_id_fkey';
-            columns: ['hostpital_id'];
+            foreignKeyName: 'reviews_hospital_id_fkey';
+            columns: ['hospital_id'];
             isOneToOne: false;
             referencedRelation: 'hospitals';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'reviews_reservation_id_fkey';
-            columns: ['reservation_id'];
-            isOneToOne: false;
-            referencedRelation: 'reservations';
             referencedColumns: ['id'];
           },
           {
@@ -153,28 +146,31 @@ export type Database = {
       };
       users: {
         Row: {
+          avatar_path: string | null;
           birth: string;
           created_at: string;
+          email: string;
           id: string;
           name: string;
           phone_number: string;
-          avatar_path?: string;
         };
         Insert: {
+          avatar_path?: string | null;
           birth: string;
           created_at?: string;
+          email: string;
           id?: string;
-          name?: string;
+          name: string;
           phone_number: string;
-          avatar_path?: string;
         };
         Update: {
+          avatar_path?: string | null;
           birth?: string;
           created_at?: string;
+          email?: string;
           id?: string;
           name?: string;
           phone_number?: string;
-          avatar_path?: string;
         };
         Relationships: [];
       };
@@ -186,12 +182,12 @@ export type Database = {
       [_ in never]: never;
     };
     Enums: {
+      reservation_status: 'ok' | 'cancel' | 'waiting';
       review:
         | '친절해요'
         | '진료 대기가 없어요'
         | '시설이 좋고 청결해요'
         | '전문적이에요';
-      reservation_status: 'ok' | 'cancel' | 'waiting;';
     };
     CompositeTypes: {
       [_ in never]: never;
