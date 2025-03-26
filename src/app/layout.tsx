@@ -1,10 +1,17 @@
 import type { Metadata } from 'next';
 
+import localFont from 'next/font/local';
 import { ToastContainer, Bounce } from 'react-toastify';
 import './globals.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import Header from '@/components/layout/Header';
 import TQProvider from '@/provider/TQProvider';
+
+const pretendard = localFont({
+  src: '../../public/font/PretendardVariable.woff2',
+  display: 'swap',
+  variable: '--font-pretendard',
+});
 
 export const metadata: Metadata = {
   title: 'MEDICLCIK',
@@ -18,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ko'>
-      <body>
+      <body className={pretendard.className}>
         <TQProvider>
           <Header />
           <main className='flex min-h-[cal(100vh-80px)] flex-col items-center'>
