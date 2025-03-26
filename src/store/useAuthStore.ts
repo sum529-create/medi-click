@@ -2,21 +2,24 @@
 
 import { create } from 'zustand';
 
-interface AuthStore {
-  userData: {
-    email: string;
-    name: string;
-    phone: string;
-    birth: string;
-  };
-  isLogin: boolean;
+interface UserData {
+  id: string;
+  email: string;
+  name: string;
+  phone: string;
+  birth: string;
+}
 
-  setUserData: (userData: AuthStore['userData']) => void;
+interface AuthStore {
+  userData: UserData;
+  isLogin: boolean;
+  setUserData: (userData: UserData) => void;
   setIsLogin: (isLogin: boolean) => void;
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
   userData: {
+    id: '',
     email: '',
     name: '',
     phone: '',
