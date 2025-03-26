@@ -27,6 +27,9 @@ const EventMarkerContainer = ({
           width: 30,
           height: 40,
         },
+        options: {
+          alt: `${name}`,
+        },
       }}
       clickable={true}
       onClick={() => setActiveMarkerId(isOverlayOpen ? null : id)}
