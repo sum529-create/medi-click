@@ -8,6 +8,13 @@ import ProfileContainer from './ProfileContainer';
 import UserMenuItem from './UserMenuItem';
 
 const SideBar = async () => {
+  const supabase = createClient();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  const { avatar_path, name, email } = await getUserProfile(session?.user.id);
+
   const menuItems = [
     { label: '내 예약 캘린더', path: PATH.MYPAGE },
     { label: '내 예약 목록', path: PATH.RESERVATIONS },
@@ -16,11 +23,6 @@ const SideBar = async () => {
       path: PATH.PROFILE,
     },
   ];
-  const { avatar_path, name } = await getUserProfile();
-
-  const supabase = createClient();
-  const data = await supabase.auth.getSession();
-  console.log('data', data);
 
   return (
     <aside className='flex flex-col gap-8'>
@@ -30,7 +32,7 @@ const SideBar = async () => {
           {name}님
         </Title>
         <Text isBold size='lg'>
-          rrrr6563@naver.com
+          {email}
         </Text>
       </ProfileContainer>
       <nav className='h-[276px] w-[264px] overflow-hidden rounded-[16px] bg-sub'>
