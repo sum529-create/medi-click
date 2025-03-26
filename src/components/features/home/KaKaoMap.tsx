@@ -9,6 +9,7 @@ import { useAllHospitalLocation } from '@/hooks/map/useAllHospitalLocation';
 import { useCurrentLocation } from '@/hooks/map/useCurrentLocation';
 import { useKakaoLoad } from '@/hooks/map/useKakaoLoad';
 import { useMapZoom } from '@/hooks/map/useMapZoom';
+import { filterHospitalLocationByZoomLevel } from '@/utils/func/filterHospitalLocationByZoomLevel';
 import { useHospitalStore } from '@/utils/zustand/useHospitalStore';
 import KakaoMapContainer from './layout/KakaoMapContainer';
 import CurrentLocationButton from './map/CurrentLocationButton';
@@ -81,7 +82,10 @@ const KaKaoMap = () => {
       >
         <MarkerClusterer averageCenter={true} minLevel={4}>
           {/** 마커 */}
-          {hospitalLocationList.map((position) => (
+          {filterHospitalLocationByZoomLevel(
+            mapLevel,
+            hospitalLocationList,
+          ).map((position) => (
             <EventMarkerContainer
               key={position.id}
               position={position}
