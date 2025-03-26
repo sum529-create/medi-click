@@ -12,3 +12,6 @@ export const APPOINTMENT_STYLES = {
     'flex min-h-20 flex-wrap justify-evenly rounded-[15px] border-2 border-gray03 p-5 leading-6',
   dateNavItem: 'flex items-center gap-4',
 };
+
+export const STATE_WRAPPER_STYLE =
+  'flex h-[calc(100vh-80px)] w-full items-center justify-center';
