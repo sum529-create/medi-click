@@ -13,16 +13,17 @@ const ReservationList = () => {
     isPending: isReservationsPending,
     error: getReservationsError,
     data: reservationList,
-  } = useMyPageDataQuery(QUERY_KEY.RESERVATION, getReservationList);
+  } = useMyPageDataQuery(QUERY_KEY.RESERVATIONS, getReservationList);
 
-  if (isReservationsError) throw getReservationsError;
   if (isReservationsPending)
     return (
       <div className='relative top-20'>
         <Loading size={50} />
       </div>
     );
+  if (isReservationsError) throw getReservationsError;
   if (!reservationList) return;
+
   if (reservationList.length === 0)
     return (
       <div className='mt-[100px] flex items-start justify-center justify-items-center'>
