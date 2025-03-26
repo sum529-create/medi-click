@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import Loading from '@/components/common/Loading';
 import ErrorState from '@/components/features/hospitalDetail/ErrorState';
 import HospitalSection from '@/components/features/hospitalDetail/HospitalSection';
+import { STATE_WRAPPER_STYLE } from '@/constants/styles';
 import hospitalDetail, {
   getAllHospitalDetailData,
 } from '@/utils/api/hospitalDetail';
@@ -38,8 +39,6 @@ export async function generateMetadata({
 }
 
 const HospitalDetailPage = async ({ params }: PageProps) => {
-  const STATE_WRAPPER_STYLE =
-    'flex h-[calc(100vh-80px)] w-full items-center justify-center';
   const hospitalId = params?.id[0];
   const { hospitalData, infoData, reviewData, error } =
     await getAllHospitalDetailData(hospitalId);

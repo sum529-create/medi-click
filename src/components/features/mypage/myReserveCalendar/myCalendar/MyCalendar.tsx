@@ -13,11 +13,16 @@ const MyCalendar = () => {
   const router = useRouter();
   const isHospitalAccount = useAccountStore((state) => state.isHospitalAccount);
 
+  // 병원 계정이면 바로 예약목록 페이지로 이동
   useEffect(() => {
     if (isHospitalAccount) {
       router.push(`${PATH.MYPAGE}/reservations`);
     }
   }, [isHospitalAccount, router]);
+
+  if (isHospitalAccount) {
+    return null;
+  }
 
   return (
     <MainContentsContainer>

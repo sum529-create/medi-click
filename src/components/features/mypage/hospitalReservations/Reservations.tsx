@@ -20,13 +20,13 @@ const ReservationsPage = () => {
   const { name } = useAuthStore((state) => state.userData);
 
   const { data, isPending, isError, error } = useQuery({
-    queryKey: [QUERY_KEY.HOSPITAL_RESERVATION_LIST, currentDate],
+    queryKey: [QUERY_KEY.HOSPITAL_RESERVATION_LIST, currentDate, name],
     queryFn: () =>
       getHospitalReservationList({
         date: formatToDateString(getNextDay(currentDate)),
         name: name,
       }),
-    enabled: !!currentDate,
+    enabled: !!currentDate && !!name,
   });
 
   if (isPending) {
