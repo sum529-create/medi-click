@@ -8,7 +8,7 @@ import Text from '@/components/ui/Text';
 import Title from '@/components/ui/Title';
 import { STATUS_MESSAGE } from '@/constants/reservationStatus';
 import { PATH } from '@/constants/routerPath';
-import { showEditModalStore } from '@/store/mypageStore';
+import { reservationStore, showEditModalStore } from '@/store/mypageStore';
 import { ReservationProps } from '@/types/components/mypage/reservation.type';
 import { deleteReservation } from '@/utils/api/reservation';
 import { getReservationTime } from '@/utils/func/getCalendarDate';
@@ -16,26 +16,27 @@ import BannerContainer from './BannerContainer';
 import EditReservationModal from './EditReservation/EditReservationModal';
 
 const Banner = ({ reservation }: ReservationProps) => {
+  const router = useRouter();
   const { hospital_id, time, status, id, date, hospitals } = reservation;
   const { isShowModal, toggleModal } = showEditModalStore();
-
-  const router = useRouter();
+  const { setReservation } = reservationStore();
 
   const formattingTime = getReservationTime(time);
 
   const handleDeleteReservation = async () => {
-    await deleteReservation(id);
-    toast.success('삭제 완료되었습니다.');
+    await deleteReservation(id!);
+    toast.success('예약 삭제가 완료되었습니다.');
     router.push(PATH.RESERVATIONS);
   };
 
   const handleShowUpdateModal = () => {
+    setReservation(reservation);
     toggleModal();
   };
 
   return (
     <BannerContainer>
-      {isShowModal && <EditReservationModal reservation={reservation} />}
+      {isShowModal && <EditReservationModal />}
       <Title tag='h1' size='lg' align='left' color='deep-blue'>
         {hospitals.name}
       </Title>
