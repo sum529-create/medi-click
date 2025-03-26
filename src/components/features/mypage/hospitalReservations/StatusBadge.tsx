@@ -39,7 +39,9 @@ const StatusBadge = ({ status, regId }: StatusBadgeProps) => {
     <>
       {status === 'waiting' ? (
         <span
-          className={clsx(`${badgeStyle} hover:bg-gray04 hover:text-white`)}
+          className={clsx(
+            `${badgeStyle} bg-gray03 hover:bg-gray04 hover:text-white`,
+          )}
           onClick={handleToggleStatus}
         >
           대기중
