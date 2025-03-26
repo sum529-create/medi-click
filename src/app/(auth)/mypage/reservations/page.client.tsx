@@ -8,7 +8,7 @@ import ReservationList from '@/components/features/mypage/myReservations/Reserva
 import { STATE_WRAPPER_STYLE } from '@/constants/styles';
 import { useAccountStore } from '@/utils/zustand/useAccountStore';
 
-const ReserveListClientPage = () => {
+const ReserveListClientPage = ({ userId }: { userId: string | undefined }) => {
   const isHospitalAccount = useAccountStore((state) => state.isHospitalAccount);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -31,7 +31,7 @@ const ReserveListClientPage = () => {
       {!isHospitalAccount ? (
         <MainContentsContainer>
           <MainContentsTitleBox title='내 예약 목록' />
-          <ReservationList />
+          <ReservationList userId={userId} />
         </MainContentsContainer>
       ) : (
         <ReservationsPage />
