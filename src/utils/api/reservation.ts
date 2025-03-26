@@ -20,6 +20,7 @@ export const getReservationList = async (): Promise<Reservation[]> => {
   return data;
 };
 
+
 /**
  * supabase에서 선택한 예약의 상세정보를 가져오는 api 함수입니다.
  * @param { number } pathId :
@@ -48,4 +49,19 @@ export const deleteReservation = async (id: number): Promise<void> => {
     .delete()
     .eq(COLUMN.ID, id);
   if (error) throw new Error('예약 삭제에 실패했습니다.');
+};
+
+export const insertReservationInfo = async (info: Tables<'reservations'>) => {
+  const { error } = await supabase.from(TABLE.RESERVATIONS).insert(info);
+  return error;
+};
+
+export const fetchReservationDate = async (id: string, date: string) => {
+  const { data } = await supabase
+    .from(TABLE.RESERVATIONS)
+    .select('time')
+    .eq('hospital_id', id)
+    .eq('date', date);
+
+  return data;
 };

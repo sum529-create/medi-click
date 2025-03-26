@@ -17,3 +17,7 @@ export const convertToTimeFormat = (timeStr: string) => {
   const minute = timeStr.slice(2, 4);
   return `${period} ${hour}:${minute}`;
 };
+
+export const deleteTimeSecond = (time: string) => {
+  return time.slice(0, 5);
+};
