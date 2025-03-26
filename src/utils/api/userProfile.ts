@@ -3,7 +3,7 @@ import { COLUMN, TABLE } from '@/constants/supabaseTables';
 import { Tables } from '@/types/supabase';
 import { supabase } from '../supabase/supabaseClient';
 
-interface ProfileData {
+export interface ProfileData {
   profile: Tables<'users'>;
 }
 
