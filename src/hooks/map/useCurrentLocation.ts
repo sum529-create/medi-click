@@ -14,16 +14,12 @@ export const useCurrentLocation = () => {
   });
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setCurrentLocation({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
+    navigator.geolocation.getCurrentPosition((position) => {
+      setCurrentLocation({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
       });
-    } else {
-      setCurrentLocation((prev) => ({ ...prev }));
-    }
+    });
   }, []);
 
   return currentLocation;

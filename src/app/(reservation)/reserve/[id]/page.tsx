@@ -7,7 +7,7 @@ import CalendarFunnel from '@/components/features/reserve/CalendarFunnel';
 import FormFunnel from '@/components/features/reserve/FormFunnel';
 import TimeFunnel from '@/components/features/reserve/TimeFunnel';
 import { STORAGE_KEY } from '@/constants/StorageKey';
-import { useHospitalName } from '@/hooks/map/useHospitalName';
+import { useHospitalName } from '@/hooks/reservation/useHospitalName';
 import { ReservationData } from '@/types/context';
 
 interface Params {
