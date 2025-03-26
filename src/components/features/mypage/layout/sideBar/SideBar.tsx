@@ -2,6 +2,7 @@ import Text from '@/components/ui/Text';
 import Title from '@/components/ui/Title';
 import { PATH } from '@/constants/routerPath';
 import { getUserProfile } from '@/utils/api/userProfile';
+import { createClient } from '@/utils/supabase/supabaseServer';
 import ProfileImage from '../../ProfileImage';
 import ProfileContainer from './ProfileContainer';
 import UserMenuItem from './UserMenuItem';
@@ -17,10 +18,14 @@ const SideBar = async () => {
   ];
   const { avatar_path, name } = await getUserProfile();
 
+  const supabase = createClient();
+  const data = await supabase.auth.getSession();
+  console.log('data', data);
+
   return (
     <aside className='flex flex-col gap-8'>
       <ProfileContainer>
-        <ProfileImage src={avatar_path} size='108px' />
+        <ProfileImage src={avatar_path ? avatar_path : ''} size='108px' />
         <Title tag='h2' size='md'>
           {name}님
         </Title>
