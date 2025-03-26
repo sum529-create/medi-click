@@ -56,7 +56,7 @@ export type Database = {
       };
       reservations: {
         Row: {
-          created_at?: string;
+          created_at: string;
           date: string;
           hospital_id: string;
           id: number;
