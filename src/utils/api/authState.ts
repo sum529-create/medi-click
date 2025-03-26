@@ -1,5 +1,5 @@
 import { useAuthStore } from '@/store/useAuthStore';
-import { supabase } from '../supabase/supabase';
+import { supabase } from '../supabase/supabaseClient';
 import { fetchUserData } from './auth';
 
 // 현재 로그인 세션 가져오기
