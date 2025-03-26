@@ -56,10 +56,10 @@ export type Database = {
       };
       reservations: {
         Row: {
-          created_at: string;
+          created_at?: string;
           date: string;
           hospital_id: string;
-          id: number;
+          id?: number;
           memo: string | null;
           status: Database['public']['Enums']['reservation_status'];
           time: string;
