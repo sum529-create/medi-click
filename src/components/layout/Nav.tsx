@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { PATH } from '@/constants/routerPath';
 import { logOut } from '@/utils/api/auth';
@@ -9,6 +10,7 @@ import { useAuthStore } from '@/utils/zustand/useAuthStore';
 import { Button } from '../ui/button';
 
 const Nav = () => {
+  const router = useRouter();
   const isLogin = useAuthStore((state) => state.isLogin);
   const userData = useAuthStore((state) => state.userData);
   const setIsLogin = useAuthStore.getState().setIsLogin;
@@ -16,6 +18,7 @@ const Nav = () => {
   const handleLogout = () => {
     logOut();
     setIsLogin(false);
+    router.push(PATH.LOGIN);
   };
 
   useEffect(() => {
