@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { MdOutlineMyLocation } from 'react-icons/md';
 import { Button } from '@/components/ui/button';
-import { Location } from '@/types/map';
+import type { Location } from '@/types/map';
 
 interface LocationButtonProps {
   currentLocation: Omit<Location, 'name' | 'id'>;

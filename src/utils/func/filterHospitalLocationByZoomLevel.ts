@@ -1,4 +1,4 @@
-import { Location } from '@/types/map';
+import type { Location } from '@/types/map';
 /**
  * 지도를 축소할 때 과도한 렌더링을 막아주는 함수 (Level of Detail 적용)
  * @param zoomLevel 지도 확대한 정도

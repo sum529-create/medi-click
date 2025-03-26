@@ -1,7 +1,7 @@
 'use client';
 
 import { MapMarker } from 'react-kakao-maps-sdk';
-import { Location } from '@/types/map';
+import type { Location } from '@/types/map';
 import CustomOverlay from './CustomOverlay';
 
 interface EventMarkerContainerProps {
