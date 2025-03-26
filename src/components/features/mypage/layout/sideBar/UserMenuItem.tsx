@@ -1,18 +1,22 @@
+'use client';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const UserMenuItem = ({
   children,
-  className,
   href,
 }: {
   children: React.ReactNode;
-  className?: string;
   href: string;
 }) => {
+  const pathName: string = usePathname();
+
+  const hoverStyle: string = href === pathName ? 'bg-sub-hover' : '';
+
   return (
     <Link
       href={href}
-      className={`${className} flex h-[70px] items-center justify-center text-xl font-bold text-black02 hover:cursor-pointer hover:bg-sub-hover`}
+      className={`${hoverStyle} flex h-[70px] items-center justify-center text-xl font-bold text-black02 hover:cursor-pointer hover:bg-sub-hover`}
     >
       {children}
     </Link>
