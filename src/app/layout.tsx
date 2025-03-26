@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 
 import { ToastContainer, Bounce } from 'react-toastify';
 import './globals.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import Header from '@/components/layout/Header';
 import TQProvider from '@/provider/TQProvider';
 

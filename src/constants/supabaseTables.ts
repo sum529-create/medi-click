@@ -14,4 +14,8 @@ export const TABLE = {
 export const COLUMN = {
   ID: 'id' as const,
   USER_ID: 'user_id',
+  DATE: 'date',
+  HOSPITAL_ID: 'hospital_id',
+  NAME: 'name',
+  TIME: 'time',
 };
