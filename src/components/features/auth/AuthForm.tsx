@@ -65,7 +65,7 @@ const AuthForm = ({ mode }: Props) => {
   const AuthInputTitle = {
     email: '이메일 형식이 올바르지 않습니다. 예시: example@domain.com',
     password: '영문과 숫자를 포함한 6글자 이상을 입력해주세요.',
-    name: '이름을 정확히 입력해주세요. (한글 2~30자)',
+    name: '이름을 정확히 입력해주세요. (한글 2~30)',
     phone: '전화번호를 정확히 입력해주세요. 예시: 010-1111-1111',
   };
 
