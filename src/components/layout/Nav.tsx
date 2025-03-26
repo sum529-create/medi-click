@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { PATH } from '@/constants/routerPath';
 import { logOut } from '@/utils/api/auth';
 import { getSession } from '@/utils/api/authState';
+import { useAccountStore } from '@/utils/zustand/useAccountStore';
 import { useAuthStore } from '@/utils/zustand/useAuthStore';
 import { Button } from '../ui/button';
 
@@ -15,7 +16,12 @@ const Nav = () => {
   const userData = useAuthStore((state) => state.userData);
   const setIsLogin = useAuthStore.getState().setIsLogin;
 
+  const setIsHospitalAccount = useAccountStore(
+    (state) => state.setIsHospitalAccount,
+  );
+
   const handleLogout = () => {
+    setIsHospitalAccount(false);
     logOut();
     setIsLogin(false);
     router.push(PATH.LOGIN);

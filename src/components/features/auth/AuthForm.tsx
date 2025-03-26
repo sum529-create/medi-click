@@ -2,12 +2,15 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+
 import { toast } from 'react-toastify';
 import { MODE } from '@/constants/authMode';
 import { PATH } from '@/constants/routerPath';
 import { cn } from '@/lib/utils';
 import { logIn, signUp } from '@/utils/api/auth';
 import { listenAuthState } from '@/utils/api/authState';
+import { isHospitalAccount } from '@/utils/func/isHospitalAccount';
+import { useAccountStore } from '@/utils/zustand/useAccountStore';
 import { useAuthStore } from '@/utils/zustand/useAuthStore';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
@@ -26,6 +29,10 @@ const AuthForm = ({ mode }: Props) => {
     phone: '',
     birth: '',
   });
+
+  const setIsHospitalAccount = useAccountStore(
+    (state) => state.setIsHospitalAccount,
+  );
 
   // 사용자가 입력 필드 값을 변경할 때 호출되는 함수
   const handleAuthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,6 +64,7 @@ const AuthForm = ({ mode }: Props) => {
         return;
       }
 
+      if (isHospitalAccount(formData.email)) setIsHospitalAccount(true);
       setIsLogin(true);
       listenAuthState();
       router.push(PATH.HOME);
