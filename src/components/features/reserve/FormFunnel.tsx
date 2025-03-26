@@ -65,7 +65,7 @@ const FormFunnel = ({ name, id, onPrev }: Props) => {
       toast.error('개인정보 약관에 동의해주세요!');
       return;
     }
-    const reservationInfo: Tables<'reservations'> = {
+    const reservationInfo: Omit<Tables<'reservations'>, 'id' | 'created_at'> = {
       time: time,
       status: 'waiting',
       user_id: userId,

@@ -73,7 +73,9 @@ export const updateReservation = async (
   if (error) toast.error('예약 수정에 실패했습니다.');
 };
 
-export const insertReservationInfo = async (info: Tables<'reservations'>) => {
+export const insertReservationInfo = async (
+  info: Omit<Tables<'reservations'>, 'id' | 'created_at'>,
+) => {
   const { error } = await supabase.from(TABLE.RESERVATIONS).insert(info);
   return error;
 };
