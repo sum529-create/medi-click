@@ -9,7 +9,12 @@
   ],
   "plugins": ["@typescript-eslint", "import", "unused-imports"],
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
     "import/order": [
       "error",
       {
@@ -21,8 +26,7 @@
           "sibling",
           "index"
         ],
-        "alphabetize": { "order": "asc", "caseInsensitive": true },
-        "newlines-between": "always"
+        "alphabetize": { "order": "asc", "caseInsensitive": true }
       }
     ],
     "import/no-duplicates": "error",
@@ -32,7 +36,12 @@
   },
   "settings": {
     "import/resolver": {
-      "typescript": {}
+      "typescript": {
+        "node": {
+          "paths": ["src"],
+          "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        }
+      }
     }
   }
 }
