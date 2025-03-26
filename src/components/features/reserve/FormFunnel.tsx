@@ -33,11 +33,11 @@ interface Props {
 const FormFunnel = ({ name, id, onPrev }: Props) => {
   const { date, time, reason } = getLocalStorage();
   const [value, setValue] = useState(reason || '');
+  const [checked, setChecked] = useState<string>('unchecked');
   const userData = useAuthStore((state) => state.userData);
-  const { name: userName, birth } = userData;
+  const { id: userId, name: userName, birth } = userData;
   const router = useRouter();
 
-  // 임시 데이터
   const reservationInfo = [
     { title: '성함', value: `${userName}` },
     { title: '생년월일', value: `${getBirthday(birth)}` },
@@ -56,12 +56,19 @@ const FormFunnel = ({ name, id, onPrev }: Props) => {
     setValue(e.target.value);
   };
 
+  const handleChecked = () => {
+    setChecked(checked === 'checked' ? 'unchecked' : 'checked');
+  };
+
   const handleSubmit = async () => {
-    // 임시 데이터(zustand store에서 받아올 예정입니다)
+    if (checked === 'unchecked') {
+      toast.error('개인정보 약관에 동의해주세요!');
+      return;
+    }
     const reservationInfo: Tables<'reservations'> = {
       time: time,
       status: 'waiting',
-      user_id: '1ca622a0-68e5-49f2-b98c-5dcbd167b4cd',
+      user_id: userId,
       updated_at: null,
       date: date,
       memo: value,
@@ -107,7 +114,7 @@ const FormFunnel = ({ name, id, onPrev }: Props) => {
           />
         </div>
         <div className='flex items-center space-x-2'>
-          <Checkbox id='terms' />
+          <Checkbox id='terms' value={checked} onClick={handleChecked} />
           <label
             htmlFor='terms'
             className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
