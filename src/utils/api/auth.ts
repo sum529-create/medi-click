@@ -58,7 +58,7 @@ export const fetchUserData = async (userId: string) => {
     .from(TABLE.USERS)
     .select('*')
     .eq('id', userId)
-    .maybeSingle();
+    .single();
 
   if (error)
     return console.error('데이터를 가져오는 중 오류 발생', error.message);
