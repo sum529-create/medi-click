@@ -13,7 +13,7 @@ import ProfileImage from '../../ProfileImage';
 import ProfileContainer from './ProfileContainer';
 import UserMenuItem from './UserMenuItem';
 
-const SideBarClient = () => {
+const SideBarClient = ({ userId }: { userId: string | undefined }) => {
   const isHospitalAccount = useAccountStore((state) => state.isHospitalAccount);
   const pathName = usePathname();
   const menuItems = [
@@ -30,7 +30,7 @@ const SideBarClient = () => {
     isPending: isProfilePending,
     error: getProfileError,
     data: profile,
-  } = useMyPageDataQuery(QUERY_KEY.USER, getUserProfile);
+  } = useMyPageDataQuery(QUERY_KEY.USER, () => getUserProfile(userId));
 
   if (isProfileError) throw getProfileError;
   if (isProfilePending) return <Loading size={30} />;
@@ -47,29 +47,20 @@ const SideBarClient = () => {
           {profile.name}님
         </Title>
         <Text isBold size='lg'>
-          rrrr6563@naver.com
+          {profile.email}
         </Text>
       </ProfileContainer>
       <nav
-        className={`${!isHospitalAccount ? 'h-[276px]' : 'h-[206px]'} w-[264px] rounded-[16px] bg-sub`}
+        className={`${!isHospitalAccount ? 'h-[276px]' : 'h-[206px]'} w-[264px] overflow-hidden rounded-[16px] bg-sub`}
       >
         <div className='flex h-[66px] w-[264px] items-center justify-center rounded-t-[16px] bg-main text-2xl font-bold text-white'>
           USER MENU
         </div>
         {!isHospitalAccount && (
-          <UserMenuItem
-            className={`${pathName === PATH.MYPAGE && 'bg-sub-hover'}`}
-            href={PATH.MYPAGE}
-          >
-            내 예약 캘린더
-          </UserMenuItem>
+          <UserMenuItem href={PATH.MYPAGE}>내 예약 캘린더</UserMenuItem>
         )}
         {menuItems.map((item, index) => (
-          <UserMenuItem
-            key={index}
-            className={`${item.className} ${pathName === item.path && `bg-sub-hover`}`}
-            href={item.path}
-          >
+          <UserMenuItem key={index} href={item.path}>
             {item.label}
           </UserMenuItem>
         ))}

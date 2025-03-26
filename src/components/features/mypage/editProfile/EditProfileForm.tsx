@@ -1,53 +1,43 @@
 'use client';
 
 import { useState } from 'react';
-import Loading from '@/components/common/Loading';
 import EditFormInput from '@/components/features/mypage/editProfile/EditFormInput';
 import ProfileImage from '@/components/features/mypage/ProfileImage';
 import { Button } from '@/components/ui/button';
-import { QUERY_KEY } from '@/constants/queryKey';
-import { useMyPageDataQuery } from '@/hooks/tanstackQuery/useMyPageDataQuery';
 import { useUpdateProfileMutate } from '@/hooks/tanstackQuery/useUpdateProfileMutate';
-import { getUserProfile } from '@/utils/api/userProfile';
+import { ProfileData } from '@/utils/api/userProfile';
 import { validatePhoneNumber } from '@/utils/func/validatePhoneNumber';
 
-const EditProfileForm = () => {
-  const {
-    isError: isProfileError,
-    isPending: isProfilePending,
-    error: getProfileError,
-    data: profile,
-  } = useMyPageDataQuery(QUERY_KEY.USER, getUserProfile);
+const EditProfileForm = ({ profile }: ProfileData) => {
+  const { id, phone_number, birth, avatar_path, name } = profile;
 
-  const updateProfile = useUpdateProfileMutate();
-  const [phoneNumber, setPhoneNumber] = useState<string>(
-    profile?.phone_number || '',
-  );
+  const [phoneNumberValue, setPhoneNumberValue] =
+    useState<string>(phone_number);
   const [errorText, setErrorText] = useState<string | null>(null);
 
-  if (isProfileError) throw getProfileError;
-  if (isProfilePending)
-    return (
-      <div className='relative top-20'>
-        <Loading size={50} />
-      </div>
-    );
-  if (!profile) return; // profile 값 보장
+  const updateProfile = useUpdateProfileMutate(phoneNumberValue, id);
 
   const { changeCheck, formatCheck, errorMessage } = validatePhoneNumber(
-    profile.phone_number,
-    phoneNumber,
+    phone_number,
+    phoneNumberValue,
   );
+
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('phoneNumber', phoneNumberValue);
+    setPhoneNumberValue(e.target.value);
+  };
 
   const handleEditProfile = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (changeCheck && formatCheck) {
-      updateProfile(phoneNumber);
+      updateProfile();
       setErrorText(null);
     } else {
       setErrorText(errorMessage);
     }
   };
+
   return (
     <form
       className='relative px-20 py-10 font-bold'
@@ -55,24 +45,32 @@ const EditProfileForm = () => {
     >
       <div className='flex gap-20'>
         <div className='flex flex-col items-center gap-8'>
-          <ProfileImage
-            src={profile.avatar_path ? profile.avatar_path : ''}
-            size='166px'
-          />
+          <ProfileImage src={avatar_path ? avatar_path : ''} size='166px' />
           <Button className='h-[44px] w-[144px] rounded-[10px] text-lg'>
             이미지 변경
           </Button>
         </div>
         <div className='flex w-full flex-col gap-10'>
-          <EditFormInput label='이름' inputValue={profile.name} disabled />
-          <EditFormInput label='생년월일' inputValue={profile.birth} disabled />
+          <EditFormInput
+            textSize='xl'
+            label='이름'
+            inputValue={name}
+            disabled
+          />
+          <EditFormInput
+            textSize='xl'
+            label='생년월일'
+            inputValue={birth}
+            disabled
+          />
         </div>
       </div>
       <EditFormInput
+        textSize='xl'
         label='연락처'
-        inputValue={phoneNumber}
+        inputValue={phoneNumberValue}
         className='my-10'
-        onChange={(e) => setPhoneNumber(e.target.value)}
+        onChange={handleOnChange}
         errorMessage={errorText}
       />
       <div className='flex justify-end'>

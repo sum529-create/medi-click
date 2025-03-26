@@ -12,12 +12,14 @@ import { updateUserProfile } from '@/utils/api/userProfile';
  *
  * @returns { mutate: updateProfile }
  */
-export const useUpdateProfileMutate = () => {
+export const useUpdateProfileMutate = (
+  updatedPhoneNumber: string,
+  id: string,
+) => {
   const queryClient = useQueryClient();
 
   const { mutate: updateProfile } = useMutation({
-    mutationFn: (updatedPhoneNumber: string) =>
-      updateUserProfile(updatedPhoneNumber),
+    mutationFn: () => updateUserProfile(updatedPhoneNumber, id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.USER],

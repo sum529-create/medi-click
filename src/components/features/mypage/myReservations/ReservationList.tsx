@@ -7,13 +7,15 @@ import { useMyPageDataQuery } from '@/hooks/tanstackQuery/useMyPageDataQuery';
 import { getReservationList } from '@/utils/api/reservation';
 import ScheduleDetail from '../ScheduleDetail';
 
-const ReservationList = () => {
+const ReservationList = ({ userId }: { userId: string | undefined }) => {
   const {
     isError: isReservationsError,
     isPending: isReservationsPending,
     error: getReservationsError,
     data: reservationList,
-  } = useMyPageDataQuery(QUERY_KEY.RESERVATIONS, getReservationList);
+  } = useMyPageDataQuery(QUERY_KEY.RESERVATIONS, () =>
+    getReservationList(userId),
+  );
 
   if (isReservationsPending)
     return (
@@ -21,6 +23,7 @@ const ReservationList = () => {
         <Loading size={50} />
       </div>
     );
+
   if (isReservationsError) throw getReservationsError;
   if (!reservationList) return;
 
