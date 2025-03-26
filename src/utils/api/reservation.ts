@@ -1,5 +1,6 @@
 import { COLUMN, TABLE } from '@/constants/supabaseTables';
-import { Reservation } from '@/types/components/mypage/reservation.type';
+import { ReservationProps } from '@/types/components/mypage/reservation.type';
+import { Tables } from '@/types/supabase';
 import { supabase } from '../supabase/supabaseClient';
 
 const testId: string = '833a3cf8-fceb-455d-87f0-4d7aa341213c'; // zustand 또는 로그인 세션에서 받아올 현재 로그인 된 유저 아이디 값
@@ -9,7 +10,9 @@ const testId: string = '833a3cf8-fceb-455d-87f0-4d7aa341213c'; // zustand 또는
  * id는 주스탠드나 로그인 세션에 있을 값을 가져오는 것으로 수정 예정입니다.
  * @returns { data } 현재 로그인 된 유저의 모든 예약 리스트
  */
-export const getReservationList = async (): Promise<Reservation[]> => {
+export const getReservationList = async (): Promise<
+  ReservationProps['reservation'][]
+> => {
   const { data, error } = await supabase
     .from(TABLE.RESERVATIONS)
     .select(`* , ${TABLE.HOSPITALS}(*)`)
@@ -27,7 +30,7 @@ export const getReservationList = async (): Promise<Reservation[]> => {
  */
 export const getReservationDetail = async (
   pathId: string,
-): Promise<Reservation> => {
+): Promise<ReservationProps['reservation']> => {
   const { data, error } = await supabase
     .from(TABLE.RESERVATIONS)
     .select(`* , ${TABLE.HOSPITALS}(*)`)
@@ -65,4 +68,19 @@ export const updateReservation = async (
     .eq('id', id);
 
   if (error) throw new Error('예약 정보 수정에 실패했습니다.');
+};
+
+export const insertReservationInfo = async (info: Tables<'reservations'>) => {
+  const { error } = await supabase.from(TABLE.RESERVATIONS).insert(info);
+  return error;
+};
+
+export const fetchReservationDate = async (id: string, date: string) => {
+  const { data } = await supabase
+    .from(TABLE.RESERVATIONS)
+    .select('time')
+    .eq('hospital_id', id)
+    .eq('date', date);
+
+  return data;
 };

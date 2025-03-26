@@ -1,27 +1,30 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { PATH } from '@/constants/routerPath';
+import { logOut } from '@/utils/api/auth';
+import { getSession } from '@/utils/api/authState';
+import { useAuthStore } from '@/utils/zustand/useAuthStore';
 import { Button } from '../ui/button';
 
 const Nav = () => {
-  // 조건부 렌더링을 위해 임시로 추가해둔 로그인 상태
-  const [isLogin, setIsLogin] = useState(true);
+  const isLogin = useAuthStore((state) => state.isLogin);
+  const userData = useAuthStore((state) => state.userData);
+  const setIsLogin = useAuthStore.getState().setIsLogin;
 
   const handleLogout = () => {
+    logOut();
     setIsLogin(false);
   };
 
+  useEffect(() => {
+    getSession();
+  }, []);
+
   const navList = isLogin
-    ? [
-        { path: PATH.MYPAGE, name: '수임님' },
-        { path: PATH.HOSPITAL, name: '병원 목록' },
-      ]
-    : [
-        { path: PATH.HOSPITAL, name: '병원 목록' },
-        { path: PATH.LOGIN, name: '로그인' },
-      ];
+    ? [{ path: PATH.MYPAGE, name: `${userData.name}님` }]
+    : [{ path: PATH.LOGIN, name: '로그인' }];
 
   return (
     <nav className='flex items-center gap-4'>

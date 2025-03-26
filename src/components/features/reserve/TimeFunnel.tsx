@@ -1,18 +1,19 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import CardContainer from '@/components/layout/CardContainer';
 import CardHeaderContainer from '@/components/layout/CardHeaderContainer';
 import TimeButtonContainer from '@/components/layout/TimeButtonContainer';
 import { Button } from '@/components/ui/button';
 import { CardContent, CardFooter } from '@/components/ui/card';
+import { useReservationTimeMap } from '@/hooks/reservation/useReservationTime';
 import { generateTimeSlots } from '@/utils/func/generateTimeSlots';
 import {
   getLocalStorage,
   updateLocalStorage,
 } from '@/utils/func/getLocalStorage';
-import { supabase } from '@/utils/supabase/supabaseClient';
+import NoReservationPage from './NoReservationPage';
 
 interface Props {
   operationTime: { [key: string]: { open: string; close: string } };
@@ -34,65 +35,29 @@ const dayOfWeek: { [key: string]: string } = {
 const TimeFunnel = ({ operationTime, id, onNext, onPrev }: Props) => {
   const { date, time: storageTime } = getLocalStorage();
   const [time, setTime] = useState<string>(storageTime || '');
-  const [checkedTime, setCheckedTime] = useState([]);
+  const checkedTime = useReservationTimeMap(id, date);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await supabase
-        .from('reservations')
-        .select('time')
-        .eq('hospital_id', id)
-        .eq('date', date);
-    };
+  const day = dayOfWeek[new Date(date).toString().slice(0, 3)];
+  const equalDay = operationTime[day] || null;
 
-    fetchData();
-
-    const channel = supabase
-      .channel('realtime:reservations')
-      .on(
-        'postgres_changes',
-        {
-          event: 'insert',
-          schema: 'public',
-          table: 'reservations',
-        },
-        (payload) => {
-          console.log('실시간 예약 정보:', payload);
-        },
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-      console.log('구독 끊기');
-    };
-  }, []);
+  // 만약 영업날이 아닐 경우 얼리 리턴
+  if (!equalDay) {
+    return <NoReservationPage onPrev={onPrev} />;
+  }
+  const { morning, afternoon } = generateTimeSlots(equalDay);
 
   const handleTimeButton = (time: string) => {
     setTime(time);
     updateLocalStorage('time', time);
   };
 
-  const day = dayOfWeek[new Date(date).toString().slice(0, 3)];
-  const equalDay = operationTime[day];
-
-  // 만약 영업날이 아닐 경우 얼리 리턴
-  if (!equalDay) {
-    return (
-      <CardContainer>
-        <CardHeaderContainer>예약 가능한 시간이 없습니다</CardHeaderContainer>
-        <CardFooter className='absolute bottom-0 left-0 flex w-full justify-evenly gap-5 px-12'>
-          <Button onClick={() => onPrev()} size='move' variant='secondary'>
-            이전으로
-          </Button>
-        </CardFooter>
-      </CardContainer>
-    );
-  }
-  const { morning, afternoon } = generateTimeSlots(equalDay);
-
   const handleClick = () => {
     if (time) {
+      if ((checkedTime[time] ?? 0) >= 2) {
+        toast.error('이미 예약이 완료된 시간입니다.');
+        setTime('');
+        return;
+      }
       onNext();
     } else {
       toast.error('예약 시간을 선택해주세요.');
@@ -109,9 +74,10 @@ const TimeFunnel = ({ operationTime, id, onNext, onPrev }: Props) => {
           <TimeButtonContainer timeZone='오전'>
             {morning.map((morningTime) => (
               <Button
-                key={crypto.randomUUID()}
+                key={morningTime}
                 variant={time === morningTime ? 'default' : 'time'}
                 size='time'
+                disabled={(checkedTime[morningTime] ?? 0) >= 2}
                 onClick={() => handleTimeButton(morningTime)}
               >
                 {morningTime}
@@ -123,9 +89,10 @@ const TimeFunnel = ({ operationTime, id, onNext, onPrev }: Props) => {
           <TimeButtonContainer timeZone='오후'>
             {afternoon.map((afternoonTime) => (
               <Button
-                key={crypto.randomUUID()}
+                key={afternoonTime}
                 variant={time == afternoonTime ? 'default' : 'time'}
                 size='time'
+                disabled={(checkedTime[afternoonTime] ?? 0) >= 2}
                 onClick={() => handleTimeButton(afternoonTime)}
               >
                 {afternoonTime}
