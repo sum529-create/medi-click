@@ -22,3 +22,18 @@ export const getReservationList = async (): Promise<Reservation[] | null> => {
 
   return data;
 };
+
+export const insertReservationInfo = async (info: Tables<'reservations'>) => {
+  const { error } = await supabase.from(TABLE.RESERVATIONS).insert(info);
+  return error;
+};
+
+export const fetchReservationDate = async (id: string, date: string) => {
+  const { data } = await supabase
+    .from(TABLE.RESERVATIONS)
+    .select('time')
+    .eq('hospital_id', id)
+    .eq('date', date);
+
+  return data;
+};

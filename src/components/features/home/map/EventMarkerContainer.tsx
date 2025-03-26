@@ -16,14 +16,14 @@ const EventMarkerContainer = ({
   setActiveMarkerId,
 }: EventMarkerContainerProps) => {
   const { lat, lng, name, id } = position;
-  const isInfoOpen = activeMarkerId === id;
+  const isOverlayOpen = activeMarkerId === id;
 
   return (
     <MapMarker
       position={{ lat, lng }}
-      onClick={() => setActiveMarkerId(isInfoOpen ? null : id)}
+      onClick={() => setActiveMarkerId(isOverlayOpen ? null : id)}
     >
-      {isInfoOpen && <CustomOverlay name={name} id={id} />}
+      {isOverlayOpen && <CustomOverlay name={name} id={id} />}
     </MapMarker>
   );
 };
