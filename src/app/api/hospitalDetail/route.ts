@@ -62,5 +62,3 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error });
   }
 }
-
-export default GET;

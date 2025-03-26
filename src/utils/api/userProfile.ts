@@ -1,7 +1,7 @@
 // import { Session } from '@supabase/supabase-js';
 import { COLUMN, TABLE } from '@/constants/supabaseTables';
 import { Tables } from '@/types/supabase';
-import { supabase } from '../supabase/supabase';
+import { supabase } from '../supabase/supabaseClient';
 
 const testId: string = '0d6511b9-926b-443f-9828-39e5f302e1e4'; // zustand 또는 로그인 세션에서 받아올 현재 로그인 된 유저 아이디 값
 

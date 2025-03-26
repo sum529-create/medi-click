@@ -3,7 +3,8 @@ import { Location } from '@/types/map';
 import { getHospitalDetailLocation } from '@/utils/api/hospitalDetail';
 
 export const useDetailHospitalLocation = (id: string) => {
-  const [hospitalLocation, setHospitalLocation] = useState<Location>();
+  const [hospitalLocation, setHospitalLocation] =
+    useState<Omit<Location, 'id' | 'name'>>();
 
   useEffect(() => {
     const fetchDetailHospitalLocation = async () => {
@@ -17,7 +18,7 @@ export const useDetailHospitalLocation = (id: string) => {
       }
     };
     fetchDetailHospitalLocation();
-  }, []);
+  }, [id]);
 
   return hospitalLocation;
 };

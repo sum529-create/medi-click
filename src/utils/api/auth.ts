@@ -1,5 +1,5 @@
 import { TABLE } from '@/constants/supabaseTables';
-import { supabase } from '../supabase/supabase';
+import { supabase } from '../supabase/supabaseClient';
 
 interface FormData {
   email: string;
