@@ -1,5 +1,6 @@
 'use client';
 import { useQueryClient } from '@tanstack/react-query';
+import clsx from 'clsx';
 import { toast } from 'react-toastify';
 import { QUERY_KEY } from '@/constants/queryKey';
 import { APPOINTMENT_STYLES } from '@/constants/styles';
@@ -13,12 +14,11 @@ interface StatusBadgeProps {
 const StatusBadge = ({ status, regId }: StatusBadgeProps) => {
   const queryClient = useQueryClient();
 
-  const badgeStyle =
-    status === 'waiting'
-      ? APPOINTMENT_STYLES.statusWaiting
-      : status === 'cancel'
-        ? APPOINTMENT_STYLES.statusCancel
-        : APPOINTMENT_STYLES.statusConfirmed;
+  const badgeStyle = clsx({
+    [APPOINTMENT_STYLES.statusWaiting]: status === 'waiting',
+    [APPOINTMENT_STYLES.statusCancel]: status === 'cancel',
+    [APPOINTMENT_STYLES.statusConfirmed]: status === 'ok',
+  });
 
   const handleToggleStatus = async () => {
     if (status !== 'waiting') return false;
@@ -38,7 +38,12 @@ const StatusBadge = ({ status, regId }: StatusBadgeProps) => {
   return (
     <>
       {status === 'waiting' ? (
-        <span className={badgeStyle} onClick={handleToggleStatus}>
+        <span
+          className={clsx(
+            `${badgeStyle} bg-gray03 hover:bg-gray04 hover:text-white`,
+          )}
+          onClick={handleToggleStatus}
+        >
           대기중
         </span>
       ) : status === 'cancel' ? (
