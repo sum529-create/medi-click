@@ -5,7 +5,7 @@ export const APPOINTMENT_STYLES = {
   tableRow: 'hover:bg-gray-50',
   tableCell: 'whitespace-nowrap px-6 py-6',
   statusWaiting:
-    'inline-flex rounded-full bg-gray-300 px-10 py-2 text-xl font-medium text-black02 cursor-pointer',
+    'inline-flex rounded-full px-10 py-2 text-xl font-medium text-black02 cursor-pointer !bg-gray03',
   statusConfirmed:
     'inline-flex items-center justify-center rounded-full bg-main px-10 py-2 text-xl font-medium text-white',
   statusCancel:
