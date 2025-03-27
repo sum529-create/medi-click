@@ -7,7 +7,7 @@ const Banner = () => {
   return (
     <BannerContainer>
       <Image
-        src='/img/bannerImg.jpeg'
+        src='/img/bannerImg.webp'
         fill
         className='object-cover'
         priority
