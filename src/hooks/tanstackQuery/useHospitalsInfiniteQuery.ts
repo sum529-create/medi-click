@@ -1,4 +1,3 @@
-'use client';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { QUERY_KEY } from '@/constants/queryKey';
 import { getAllHospitalData } from '@/utils/api/hospitals';

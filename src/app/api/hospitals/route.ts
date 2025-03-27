@@ -1,16 +1,14 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { TABLE } from '@/constants/supabaseTables';
 import { createClient } from '@/utils/supabase/supabaseServer';
 
-export const dynamic = 'force-static';
-
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   const supabase = createClient();
 
   try {
-    const { searchParams } = new URL(request.url);
+    const searchParams = request.nextUrl.searchParams;
     const pageParam = Number(searchParams.get('page')) || 1;
-    const searchKeyword = searchParams.get('search') || '';
+    const searchKeyword = decodeURIComponent(searchParams.get('search') || '');
 
     const pageSize = 10;
     const start = (pageParam - 1) * pageSize;

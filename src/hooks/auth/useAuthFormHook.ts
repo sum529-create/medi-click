@@ -44,6 +44,7 @@ export const useAuthForm = (mode: string) => {
         return;
       }
 
+      if (isHospitalAccount(formData.email)) setIsHospitalAccount(true);
       setIsLogin(true);
       listenAuthState();
       toast.success('회원가입이 완료되었습니다.');
