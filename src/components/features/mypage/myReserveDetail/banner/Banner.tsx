@@ -35,7 +35,7 @@ const Banner = ({ reservation }: ReservationProps) => {
   const handleDeleteReservation = async () => {
     await deleteReservation(id!);
     toast.success('예약 삭제가 완료되었습니다.');
-    router.push(PATH.RESERVATIONS);
+    router.push(PATH.MYPAGE);
   };
 
   return (

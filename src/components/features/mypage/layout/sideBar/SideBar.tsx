@@ -16,7 +16,7 @@ const SideBar = async () => {
   const profile = await getUserProfile(session?.user.id);
 
   const menuItems = [
-    { label: '내 예약 목록', path: PATH.RESERVATIONS },
+    { label: '내 예약 목록', path: PATH.MYPAGE },
     {
       label: '개인 정보 수정',
       path: PATH.PROFILE,
