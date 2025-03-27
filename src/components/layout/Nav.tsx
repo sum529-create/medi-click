@@ -14,15 +14,15 @@ const Nav = () => {
   const router = useRouter();
   const isLogin = useAuthStore((state) => state.isLogin);
   const userData = useAuthStore((state) => state.userData);
-  const setIsLogin = useAuthStore.getState().setIsLogin;
+  const setIsLogin = useAuthStore((state) => state.setIsLogin);
 
   const setIsHospitalAccount = useAccountStore(
     (state) => state.setIsHospitalAccount,
   );
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await logOut();
     setIsHospitalAccount(false);
-    logOut();
     setIsLogin(false);
     router.push(PATH.LOGIN);
   };
