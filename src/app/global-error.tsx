@@ -1,22 +1,14 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { startTransition } from 'react';
-import Text from '@/components/ui/Text';
-import Title from '@/components/ui/Title';
+import { useTransition } from 'react';
+import Error from '@/components/features/mypage/layout/Error';
+import { Button } from '@/components/ui/button';
 
-const GlobalError = ({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) => {
-  const { refresh } = useRouter();
+const GlobalErrorPage = ({ reset }: { reset: () => void }) => {
+  const [isPending, startTransition] = useTransition();
 
-  const handleTryAgain = () => {
+  const handleReset = () => {
     startTransition(() => {
-      refresh();
       reset();
     });
   };
@@ -24,21 +16,17 @@ const GlobalError = ({
   return (
     <html>
       <body>
-        <div className='mt-10 flex flex-col items-center justify-center gap-4 px-8'>
-          <Title tag='h4' size='lg'>
-            에러가 발생하였습니다. 다시 한 번 시도해주세요.
-          </Title>
-          <Text>에러 메시지: {error.message}</Text>
-          <button
-            onClick={handleTryAgain}
-            className='bg-gold rounded-xl px-4 py-2'
+        <Error errorMessage='큰일이에요! 예기치 않은 오류가 발생했습니다.'>
+          <Button
+            onClick={handleReset}
+            className='w-32 font-semibold text-white'
+            disabled={isPending}
           >
-            다시 시도하기
-          </button>
-        </div>
+            {isPending ? '다시 시도하는 중...' : 'Try Again'}
+          </Button>
+        </Error>
       </body>
     </html>
   );
 };
-
-export default GlobalError;
+export default GlobalErrorPage;

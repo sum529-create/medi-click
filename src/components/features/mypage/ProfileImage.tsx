@@ -8,7 +8,7 @@ interface ImageProps {
 const ProfileImage = ({ src, size }: ImageProps) => {
   return (
     <Avatar style={{ width: size, height: size }}>
-      <AvatarImage src={src} />
+      <AvatarImage src='https://cdn-icons-png.flaticon.com/512/2184/2184899.png' />
       <AvatarFallback>
         <div
           style={{ width: size, height: size }}

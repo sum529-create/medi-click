@@ -1,6 +1,5 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
 import Loading from '@/components/common/Loading';
 import Text from '@/components/ui/Text';
 import Title from '@/components/ui/Title';
@@ -15,9 +14,7 @@ import UserMenuItem from './UserMenuItem';
 
 const SideBarClient = ({ userId }: { userId: string | undefined }) => {
   const isHospitalAccount = useAccountStore((state) => state.isHospitalAccount);
-  const pathName = usePathname();
   const menuItems = [
-    { label: '내 예약 목록', path: PATH.RESERVATIONS },
     {
       label: '개인 정보 수정',
       path: PATH.PROFILE,
@@ -50,9 +47,7 @@ const SideBarClient = ({ userId }: { userId: string | undefined }) => {
           {profile.email}
         </Text>
       </ProfileContainer>
-      <nav
-        className={`${!isHospitalAccount ? 'h-[276px]' : 'h-[206px]'} w-[264px] overflow-hidden rounded-[16px] bg-sub`}
-      >
+      <nav className='h-[206px] w-[264px] overflow-hidden rounded-[16px] bg-sub'>
         <div className='flex h-[66px] w-[264px] items-center justify-center rounded-t-[16px] bg-main text-2xl font-bold text-white'>
           USER MENU
         </div>
