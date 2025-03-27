@@ -1,7 +1,4 @@
-import {
-  NEXT_SERVER_HOSPITAL_LOCATION,
-  NEXT_SERVER_HOSPITALS,
-} from '@/constants/apiUrl';
+import { NEXT_SERVER_HOSPITAL_LOCATION } from '@/constants/apiUrl';
 import { TABLE } from '@/constants/supabaseTables';
 import { Tables } from '@/types/supabase';
 import { supabase } from '../supabase/supabaseClient';
@@ -35,15 +32,22 @@ export const getAllHospitalData = async (
   searchKeyword: string,
 ): Promise<Tables<'hospitals'>[]> => {
   try {
-    const response = await fetch(
-      `${NEXT_SERVER_HOSPITALS}?page=${pageParam}&search=${encodeURIComponent(searchKeyword)}`,
-    );
+    const pageSize = 10;
+    const start = (pageParam - 1) * pageSize;
+    const end = start + pageSize - 1;
 
-    if (!response.ok) {
-      throw new Error('병원 데이터를 불러오는데 실패하였습니다.');
+    let query = supabase.from(TABLE.HOSPITALS).select('*');
+
+    // 검색창에 키워드가 입력되면, 해당 키워드를 가진 병원 목록을 찾음
+    if (searchKeyword) {
+      query = query.ilike('normalized_name', `%${searchKeyword}%`);
     }
 
-    const hospitalData = await response.json();
+    // 검색창에 키워드가 없으면, 전체 병원 목록을 반환함
+    const { data: hospitalData, error } = await query.range(start, end);
+
+    if (error) throw error;
+
     return hospitalData;
   } catch (error) {
     console.error('병원 데이터 불러오기 오류', error);
