@@ -81,7 +81,7 @@ const FormFunnel = ({ name, id, onPrev }: Props) => {
         throw error;
       }
       toast.success('예약되었습니다!');
-      router.push(PATH.RESERVATIONS);
+      router.push(PATH.MYPAGE);
     } catch (error) {
       toast.error('예약 과정에서 오류가 발생했습니다.');
       console.error(error);

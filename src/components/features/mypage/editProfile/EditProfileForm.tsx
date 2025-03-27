@@ -9,7 +9,7 @@ import { ProfileData } from '@/utils/api/userProfile';
 import { validatePhoneNumber } from '@/utils/func/validatePhoneNumber';
 
 const EditProfileForm = ({ profile }: ProfileData) => {
-  const { id, phone_number, birth, avatar_path, name } = profile;
+  const { id, phone_number, birth, name } = profile;
 
   const [phoneNumberValue, setPhoneNumberValue] =
     useState<string>(phone_number);
@@ -44,12 +44,7 @@ const EditProfileForm = ({ profile }: ProfileData) => {
       onSubmit={handleEditProfile}
     >
       <div className='flex gap-20'>
-        <div className='flex flex-col items-center gap-8'>
-          <ProfileImage src={avatar_path ? avatar_path : ''} size='166px' />
-          <Button className='h-[44px] w-[144px] rounded-[10px] text-lg'>
-            이미지 변경
-          </Button>
-        </div>
+        <ProfileImage size='166px' />
         <div className='flex w-full flex-col gap-10'>
           <EditFormInput
             textSize='xl'

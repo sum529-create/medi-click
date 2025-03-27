@@ -16,7 +16,6 @@ export const createReview = async (
     .single();
 
   if (error) {
-    console.error('Create review error:', error);
     throw new Error(`Failed to create review: ${error.message}`);
   }
 

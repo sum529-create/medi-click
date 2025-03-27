@@ -1,20 +1,13 @@
-import { redirect } from 'next/navigation';
-import MyCalendar from '@/components/features/mypage/myReserveCalendar/myCalendar/MyCalendar';
-import { PATH } from '@/constants/routerPath';
-import { checkAuthServer } from '@/utils/access/protectedRouteServer';
+import { createClient } from '@/utils/supabase/supabaseServer';
+import ReserveListClientPage from './page.client';
 
-const MyPage = async () => {
-  const isCheckAuth = await checkAuthServer();
-  if (!isCheckAuth) {
-    redirect(PATH.LOGIN);
-  }
+const ReserveListPage = async () => {
+  const supabase = createClient();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-  return (
-    <>
-      <MyCalendar />
-      {/* <ScheduleBox /> */}
-    </>
-  );
+  return <ReserveListClientPage userId={session?.user.id} />;
 };
 
-export default MyPage;
+export default ReserveListPage;
