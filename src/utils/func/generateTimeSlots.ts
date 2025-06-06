@@ -49,9 +49,12 @@ const changeMinutesToString = (minutes: number) => {
  * @returns 영업시간을 30분 단위로 시간을 끊어 나열한 배열
  */
 
-export const generateTimeSlots = (obj: { open: string; close: string }) => {
-  const open = obj.open.padStart(4, '0');
-  const close = obj.close.padStart(4, '0');
+export const generateTimeSlots = (obj: {
+  open: string | number;
+  close: string | number;
+}) => {
+  const open = obj.open.toString().padStart(4, '0');
+  const close = obj.close.toString().padStart(4, '0');
 
   let totalMinutes = changeTimeToMinutes(open);
   const closeMinutes = changeTimeToMinutes(close);
