@@ -23,7 +23,7 @@ const ReservationsPage = () => {
     queryKey: [QUERY_KEY.HOSPITAL_RESERVATION_LIST, currentDate, name],
     queryFn: () =>
       getHospitalReservationList({
-        date: formatToDateString(getNextDay(currentDate)),
+        date: formatToDateString(currentDate),
         name: name,
       }),
     enabled: !!currentDate && !!name,
